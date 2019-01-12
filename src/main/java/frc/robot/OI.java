@@ -17,12 +17,10 @@ public class OI {
     public static final OI instance = new OI();
 
     DriveBase drives = DriveBase.getInstance();
-    private final Joystick leftStick;
-    private final Joystick rightStick;
+    private final Joystick leftStick  = new Joystick(Constants.LEFT_JOYSTICK_PORT);
+    private final Joystick rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
     
     private OI() {
-        leftStick  = new Joystick(Constants.LEFT_JOYSTICK_PORT);
-        rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
     }
 
     public static OI getInstance() {
