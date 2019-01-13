@@ -12,10 +12,10 @@ public abstract class Constants { // TODO go through all TODOs in file for
 	 */
 	public static final String RIO_FTP = "ftp://roboRIO-25-frc.local";
 	public static final String RIO_DIR = "/home/lvuser/autons/";
-	/*public static final File AUTON_DATA_LOCAL_DIRECTORY = new File(
+	/*public static final File LOCAL_DIRECTORY = new File(
 			"C:/Users/raiderrobotix/Desktop/Workspace/FRC-2018/autons/");
 	 */
-	public static final File AUTON_DATA_LOCAL_DIRECTORY = new File(
+	public static final File LOCAL_DIRECTORY = new File(
 			"/Users/arity/Downloads/autons/");
 	// Auto-Driving Constants
 	/** In Degrees */
@@ -46,8 +46,8 @@ public abstract class Constants { // TODO go through all TODOs in file for
 	public static final double LEFT_BRAKES_OFF = 0.20; 
 
 	// Digital Sensors TODO check all during season
-	//public static final int RIGHT_ENCODER_PWM_A = 0;
-	//public static final int RIGHT_ENCODER_PWM_B = 1;
+	public static final int RIGHT_ENCODER_PWM_A = 0;
+	public static final int RIGHT_ENCODER_PWM_B = 1;
 	public static final int LEFT_ENCODER_PWM_A = 8;
 	public static final int LEFT_ENCODER_PWM_B = 7;
 
@@ -57,9 +57,7 @@ public abstract class Constants { // TODO go through all TODOs in file for
 	// Auton Information
 	private static final double TIRE_CIRCUMFERENCE = 29.898; //TODO
 	private static final double COUNTS_PER_REVOLUTION = 128;
-	private static final double GEAR_RATIO = 0.0714286; // (Driver: Encoder
-														// Gear, Driven: Wheel
-														// Gear)
+	private static final double GEAR_RATIO = 0.0714286; // (Driver: Encoder Gear, Driven: Wheel Gear)
 	private static final double INCHES_PER_REVOLUTION = GEAR_RATIO * TIRE_CIRCUMFERENCE;
 	public static final double INCHES_PER_COUNT = INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
 	public static final double ELEVATOR_INCHES_PER_REVOLUTION = 14.3567;
