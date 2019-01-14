@@ -42,4 +42,6 @@ public class OI {
     public double getRightY() {
         return rightStick.getY();
     }
+    
+    //TODO Map operator buttons to specific heights
 }

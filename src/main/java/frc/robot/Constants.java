@@ -11,18 +11,17 @@ public abstract class Constants { // TODO go through all TODOs in file for
 	 * sure auton deployment still works
 	 */
 	public static final String RIO_FTP = "ftp://roboRIO-25-frc.local";
-	public static final String RIO_DIR = "/home/lvuser/autons/";
+	public static final File RIO_DIR = new File("/home/lvuser/autons/");
 	/*public static final File LOCAL_DIRECTORY = new File(
 			"C:/Users/raiderrobotix/Desktop/Workspace/FRC-2018/autons/");
 	 */
-	public static final File LOCAL_DIRECTORY = new File(
-			"/Users/arity/Downloads/autons/");
+	public static final String LOCAL_DIRECTORY = "/Users/arity/Downloads/autons/";
 	// Auto-Driving Constants
 	/** In Degrees */
 	public static final double TURN_TOLERANCE = 1.0;
 	public static final double VEER_TOLERANCE = 1.0;
-	public static final double DRIVE_SPEED_CORRECTION = 0.15;
-	public static final double DRIVE_STRAIGHT_DISTANCE_TOLERANCE = 1.0;
+	public static final double SPEED_CORRECTION = 0.15;
+	public static final double DRIVE_TOLERANCE = 1.0;
 	public static final double SLOW_SPEED_WEAK = 0.12;
 	public static final double SLOW_SPEED_STRONG = 0.18;
 	public static final double DRIVE_STRAIGHT_SLOW_RANGE = 12.0;
@@ -107,7 +106,7 @@ public abstract class Constants { // TODO go through all TODOs in file for
 
 	public static final double ELEVATOR_LOWER_LIMIT = 0.0;
 	public static final double ELEVATOR_UPPER_LIMIT = 100.0;
-	public static final double ALLOWED_ELEVATOR_DEVIATION = 1.0; // in inches
+	public static final double ELEV_TOLERNCE = 1.0; // in inches
 
 	public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.40;
 	public static final double ELEVATOR_MANUAL_UP_RATE = 0.75;

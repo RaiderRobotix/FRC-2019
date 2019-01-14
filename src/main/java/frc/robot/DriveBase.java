@@ -8,11 +8,11 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Encoder;
 import com.kauailabs.navx.frc.AHRS;
-
 
 /**
  * Add your docs here.
@@ -22,25 +22,19 @@ public class DriveBase {
 	public static final DriveBase instance = new DriveBase();
 
 	// TODO SET CAN ADDRESSES (int deviceID)
-	private final CANSparkMax leftFrontSpark = new CANSparkMax(1,
-			com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-	private final CANSparkMax rightFrontSpark = new CANSparkMax(2,
-			com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-	private final CANSparkMax leftBackSpark = new CANSparkMax(3,
-			com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
-	private final CANSparkMax rightBackSpark = new CANSparkMax(4,
-			com.revrobotics.CANSparkMaxLowLevel.MotorType.kBrushless);
+	private final CANSparkMax leftFrontSpark = new CANSparkMax(1, MotorType.kBrushless);
+	private final CANSparkMax rightFrontSpark = new CANSparkMax(2, MotorType.kBrushless);
+	private final CANSparkMax leftBackSpark = new CANSparkMax(3, MotorType.kBrushless);
+	private final CANSparkMax rightBackSpark = new CANSparkMax(4, MotorType.kBrushless);
 
 	private final Encoder leftEncoder = new Encoder(Constants.LEFT_ENCODER_PWM_A, Constants.LEFT_ENCODER_PWM_B,
-		Constants.LEFT_ENCODER_INVERTED);
+			Constants.LEFT_ENCODER_INVERTED);
 	private final Encoder rightEncoder = new Encoder(Constants.RIGHT_ENCODER_PWM_A, Constants.RIGHT_ENCODER_PWM_B,
 			Constants.RIGHT_ENCODER_INVERTED);
 
 	private boolean brake = false;
 	private boolean drivingStep = false;
 	private AHRS navx;
-
-	private double yaw;
 
 	private DriveBase() {
 		leftBackSpark.follow(leftFrontSpark);
@@ -99,35 +93,34 @@ public class DriveBase {
 			brake(false);
 			reset();
 			drivingStep = true;
-		} else {
-			speed = Math.copySign(speed, distance);
-			double leftSpeed = speed;
-			double rightSpeed = speed;
-			if (Math.abs(encoderDistance() - distance) <
-			// Keeping expected and observed values // within the same absolute value
-			// because if they differ in sign, that's more than acoding problem
-			Constants.DRIVE_STRAIGHT_DISTANCE_TOLERANCE) {
-				setSpeed(0.0);
-				drivingStep = false;
-			} else if (slowDown) { // If within slow range, set to slow speed
-				if (encoderDistance() >= distance - Constants.DRIVE_STRAIGHT_SLOW_RANGE)
-					slow(speed > 0.0);
-				else if (encoderDistance() >= distance + Constants.DRIVE_STRAIGHT_DISTANCE_TOLERANCE)
-					slow(speed < 0.0);
-			} else if (Math.abs(yaw()) > Constants.VEER_TOLERANCE) { // Adjust speeds for in case of veering
-				if (yaw() > 0) { // Too far clockwise
-					if (distance > 0)
-						leftSpeed -= Constants.DRIVE_SPEED_CORRECTION;
-					else
-						rightSpeed += Constants.DRIVE_SPEED_CORRECTION;
-				} else { // Too far anti-clockwise
-					if (distance > 0)
-						rightSpeed -= Constants.DRIVE_SPEED_CORRECTION;
-					else
-						leftSpeed += Constants.DRIVE_SPEED_CORRECTION;
-				}
-				setSpeed(leftSpeed, rightSpeed);
+		}
+		speed = Math.copySign(speed, distance);
+		double leftSpeed = speed;
+		double rightSpeed = speed;
+		if (Math.abs(encoderDistance() - distance) <=
+		// Keeping expected and observed values within the same absolute value
+		// because if they differ in sign, that's more than a coding problem
+		Constants.DRIVE_TOLERANCE) {
+			setSpeed(0.0);
+			return (drivingStep = false);
+		} else if (slowDown) { // If within slow range, set to slow speed
+			if (encoderDistance() >= distance - Constants.DRIVE_STRAIGHT_SLOW_RANGE)
+				slow(speed > 0.0);
+			else if (encoderDistance() >= distance + Constants.DRIVE_TOLERANCE)
+				slow(speed < 0.0);
+		} else if (Math.abs(yaw()) > Constants.VEER_TOLERANCE) { // Adjust speeds in case of veering
+			if (yaw() > 0) { // Too far clockwise
+				if (distance > 0)
+					leftSpeed -= Constants.SPEED_CORRECTION;
+				else
+					rightSpeed += Constants.SPEED_CORRECTION;
+			} else { // Too far anti-clockwise
+				if (distance > 0)
+					rightSpeed -= Constants.SPEED_CORRECTION;
+				else
+					leftSpeed += Constants.SPEED_CORRECTION;
 			}
+			setSpeed(leftSpeed, rightSpeed);
 		}
 		return (!drivingStep);
 	}
@@ -148,7 +141,7 @@ public class DriveBase {
 	 * @param speed - The speed at which you would like the robot to turn.
 	 * @return Whether the turn has completed
 	 */
-	
+
 	public boolean turn(double angle, double speed) {
 		if (!drivingStep) {
 			brake(false);
@@ -157,7 +150,7 @@ public class DriveBase {
 		} else {
 			speed = Math.copySign(speed, angle);
 			setSpeed(speed, -speed);
-			if (Math.abs(yaw() - angle) < Constants.TURN_TOLERANCE) {
+			if (Math.abs(yaw() - angle) <= Constants.TURN_TOLERANCE) {
 				drivingStep = false;
 				setSpeed(0.0);
 			}
@@ -165,20 +158,24 @@ public class DriveBase {
 
 		return (!drivingStep);
 	}
-	
-
-	
-	public void reset() { // Put all resets for sensors in the drivebase here. 
-		yaw = navx.getAngle();
+	/**
+	 * Resets drivebase sensors.
+	 */
+	private void reset() {
+		navx.zeroYaw();
+		leftEncoder.reset();
+		rightEncoder.reset();
 	}
 
-	public double yaw() {
-		return navx.getAngle();
+	private float yaw() {
+		return navx.getYaw();
 	}
 
-	public double encoderDistance() {
-		return (leftEncoder.get() + rightEncoder.get()) / 2.0;
+	private double encoderDistance() {
+		//double navxD = Math.hypot(navx.getDisplacementX(), navx.getDisplacementY()) / 39.3701;
+		//return (leftEncoder.getDistance() + rightEncoder.getDistance() + navxD) / 3.0;
+		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+		
 	}
-	 
 
 }

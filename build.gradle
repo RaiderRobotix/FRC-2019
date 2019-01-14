@@ -40,6 +40,7 @@ def includeDesktopSupport = false
 // Maven central needed for JUnit
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
