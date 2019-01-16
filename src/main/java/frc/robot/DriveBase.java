@@ -7,11 +7,12 @@
 
 package frc.robot;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SerialPort.Port;
+
 import com.kauailabs.navx.frc.AHRS;
 
 /**
@@ -27,14 +28,15 @@ public class DriveBase {
 	private final CANSparkMax leftBackSpark = new CANSparkMax(3, MotorType.kBrushless);
 	private final CANSparkMax rightBackSpark = new CANSparkMax(4, MotorType.kBrushless);
 
-	private final Encoder leftEncoder = new Encoder(Constants.LEFT_ENCODER_PWM_A, Constants.LEFT_ENCODER_PWM_B,
-			Constants.LEFT_ENCODER_INVERTED);
-	private final Encoder rightEncoder = new Encoder(Constants.RIGHT_ENCODER_PWM_A, Constants.RIGHT_ENCODER_PWM_B,
-			Constants.RIGHT_ENCODER_INVERTED);
+	private final CANEncoder leftFrontEncoder = leftFrontSpark.getEncoder();
+	private final CANEncoder rightFrontEncoder = leftFrontSpark.getEncoder();
+	private final CANEncoder leftBackEncoder = leftFrontSpark.getEncoder();
+	private final CANEncoder rightBackEncoder = leftFrontSpark.getEncoder();
 
 	private boolean brake = false;
 	private boolean drivingStep = false;
-	private AHRS navx;
+	private double offsetYaw = 0;
+	private final AHRS navx = new AHRS(Port.kMXP);
 
 	private DriveBase() {
 		leftBackSpark.follow(leftFrontSpark);
@@ -66,12 +68,12 @@ public class DriveBase {
 	 * 
 	 * @param doBrake Brake state
 	 */
-	public void brake(boolean doBrake) {
+	public void setBrake(boolean doBrake) {
 		brake = doBrake;
 		// leftbrake.set(brake ? Constants.LEFT_BRAKES_ON : Constants.LEFT_BRAKES_OFF);
 		// rightbrake.set(brake ? Constants.RIGHT_BRAKES_ON :
 		// Constants.RIGHT_BRAKES_OFF);
-		setSpeed(0);
+		setSpeed(0.0);
 	}
 
 	public boolean brake() {
@@ -90,8 +92,8 @@ public class DriveBase {
 
 	public boolean driveStraight(double distance, double speed, boolean slowDown) {
 		if (!drivingStep) {
-			brake(false);
-			reset();
+			setBrake(false);
+			resetSensors();
 			drivingStep = true;
 		}
 		speed = Math.copySign(speed, distance);
@@ -102,23 +104,23 @@ public class DriveBase {
 		// because if they differ in sign, that's more than a coding problem
 		Constants.DRIVE_TOLERANCE) {
 			setSpeed(0.0);
-			return (drivingStep = false);
+			return !(drivingStep = false);
 		} else if (slowDown) { // If within slow range, set to slow speed
 			if (encoderDistance() >= distance - Constants.DRIVE_STRAIGHT_SLOW_RANGE)
 				slow(speed > 0.0);
 			else if (encoderDistance() >= distance + Constants.DRIVE_TOLERANCE)
 				slow(speed < 0.0);
-		} else if (Math.abs(yaw()) > Constants.VEER_TOLERANCE) { // Adjust speeds in case of veering
-			if (yaw() > 0) { // Too far clockwise
+		} else if (Math.abs(getAngle()) > Constants.VEER_TOLERANCE) { // Adjust speeds in case of veering
+			if (getAngle() > 0) { // Too far clockwise
 				if (distance > 0)
-					leftSpeed -= Constants.SPEED_CORRECTION;
+					leftSpeed -= Constants.DRIVE_SPEED_CORRECTION;
 				else
-					rightSpeed += Constants.SPEED_CORRECTION;
+					rightSpeed += Constants.DRIVE_SPEED_CORRECTION;
 			} else { // Too far anti-clockwise
 				if (distance > 0)
-					rightSpeed -= Constants.SPEED_CORRECTION;
+					rightSpeed -= Constants.DRIVE_SPEED_CORRECTION;
 				else
-					leftSpeed += Constants.SPEED_CORRECTION;
+					leftSpeed += Constants.DRIVE_SPEED_CORRECTION;
 			}
 			setSpeed(leftSpeed, rightSpeed);
 		}
@@ -144,16 +146,15 @@ public class DriveBase {
 
 	public boolean turn(double angle, double speed) {
 		if (!drivingStep) {
-			brake(false);
-			reset();
+			setBrake(false);
+			resetSensors();
 			drivingStep = true;
-		} else {
-			speed = Math.copySign(speed, angle);
-			setSpeed(speed, -speed);
-			if (Math.abs(yaw() - angle) <= Constants.TURN_TOLERANCE) {
-				drivingStep = false;
-				setSpeed(0.0);
-			}
+		}
+		speed = Math.copySign(speed, angle);
+		setSpeed(speed, -speed);
+		if (Math.abs(getAngle() - angle) <= Constants.TURN_TOLERANCE) {
+			drivingStep = false;
+			setSpeed(0.0);
 		}
 
 		return (!drivingStep);
@@ -161,20 +162,23 @@ public class DriveBase {
 	/**
 	 * Resets drivebase sensors.
 	 */
-	private void reset() {
+	private void resetSensors() {
 		navx.zeroYaw();
-		leftEncoder.reset();
-		rightEncoder.reset();
 	}
 
-	private float yaw() {
-		return navx.getYaw();
+	private double getAngle() {
+		return navx.getYaw() - offsetYaw;
 	}
 
 	private double encoderDistance() {
 		//double navxD = Math.hypot(navx.getDisplacementX(), navx.getDisplacementY()) / 39.3701;
-		//return (leftEncoder.getDistance() + rightEncoder.getDistance() + navxD) / 3.0;
-		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+		return (
+				leftFrontEncoder.getPosition() 
+				+ rightFrontEncoder.getPosition()
+				+ leftBackEncoder.getPosition() // Are these extra Encoder
+				+rightBackEncoder.getPosition() // checks necessary?
+				) 
+				/ 4.0;
 		
 	}
 
