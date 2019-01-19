@@ -46,6 +46,9 @@ public class OperatorInterface {
     return m_instance;
   }
 
+  /**
+   * Maps driver/operator joystick inputs to robot functions.
+   */
   public void teleop() {
     // =========== DRIVES ===========
     this.drives.setSpeed(this.getLeftY(), this.getRightY());

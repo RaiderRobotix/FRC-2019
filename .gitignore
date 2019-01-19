@@ -3,6 +3,7 @@
 /bin/*
 /build/*
 /dist/*
+/.gradle/*
 
 #Eclipse specific
 .project
@@ -58,4 +59,3 @@ $RECYCLE.BIN/
 **/Temporary Items
 **/.apdisk
 /.gradle/
-/.settings/
