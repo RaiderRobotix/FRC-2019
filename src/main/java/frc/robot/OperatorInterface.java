@@ -32,7 +32,7 @@ public class OperatorInterface {
 
     this.leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
     this.rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
-    this.operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT)
+    this.operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT);
   }
 
   /**
