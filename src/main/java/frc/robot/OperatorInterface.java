@@ -23,8 +23,8 @@ public class OperatorInterface {
   private final Joystick operatorStick;
 
   // State Variables
-  private boolean elevatorPresetDone = true;
-  private double elevatorPresetHeight;
+  // private boolean elevatorPresetDone = true;
+  // private double elevatorPresetHeight;
 
   private OperatorInterface() {
     this.drives = DriveBase.getInstance();
