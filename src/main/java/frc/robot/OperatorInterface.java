@@ -15,14 +15,20 @@ public class OperatorInterface {
 
   // Robot Subsystems
   private DriveBase drives;
-  
+  private Elevator elevator;
+
   // Joysticks
   private final Joystick leftStick;
   private final Joystick rightStick;
   private final Joystick operatorStick;
 
+  // State Variables
+  private boolean elevatorPresetDone = true;
+  private double elevatorPresetHeight;
+
   private OperatorInterface() {
     this.drives = DriveBase.getInstance();
+    this.elevator = Elevator.getInstance();
 
     this.leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
     this.rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
@@ -43,6 +49,43 @@ public class OperatorInterface {
   public void teleop() {
     // =========== DRIVES ===========
     this.drives.setSpeed(this.getLeftY(), this.getRightY());
+
+    // =========== ELEVATOR ==========
+
+    // Temporary Manual Control for testing until encoder values can be retrieved
+    // so we can use the commented out logic below.
+    if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND) {
+      this.elevator.setSpeed(this.getOperatorY());
+    } else if (this.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND) {
+      this.elevator.setSpeed(this.getOperatorY());
+    } else {
+      this.elevator.setSpeed(0.0);
+    }
+
+    // if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND 
+    //     && (this.elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
+    //       || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
+    //   elevatorPresetDone = true;
+    //   this.elevator.setSpeed(this.getOperatorY() * Constants.ELEVATOR_MANUAL_DOWN_RATE * -1.0);
+    // } else if (this.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND
+    //     && (this.elevator.getHeight() < Constants.ELEVATOR_UPPER_LIMIT
+    //         || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
+    //   elevatorPresetDone = true;
+    //   this.elevator.setSpeed(this.getOperatorY() * Constants.ELEVATOR_MANUAL_UP_RATE * -1.0);
+    // } else if (getOperatorButton(12)) { // Lower Rocket Height
+    //   elevatorPresetDone = false;
+    //   elevatorPresetHeight = Constants.ELEVATOR_LOW_PRESET;
+    // } else if (getOperatorButton(10)) { // Middle Rocket Height
+    //   elevatorPresetDone = false;
+    //   elevatorPresetHeight = Constants.ELEVATOR_MIDDLE_PRESET;
+    // } else if (getOperatorButton(8)) { // Top Rocket Height
+    //   elevatorPresetDone = false;
+    //   elevatorPresetHeight = Constants.ELEVATOR_HIGH_PRESET;
+    // } else if (!elevatorPresetDone) { // Moving Automatically
+    //   elevatorPresetDone = this.elevator.goToHeight(elevatorPresetHeight);
+    // } else {
+    //   this.elevator.setSpeed(0.0);
+    // }
   }
 
   public double getLeftY() {
@@ -51,5 +94,13 @@ public class OperatorInterface {
 
   public double getRightY() {
     return this.rightStick.getY();
+  }
+
+  public double getOperatorY() {
+    return this.operatorStick.getY();
+  }
+
+  public boolean getOperatorButton(int button) {
+    return this.operatorStick.getRawButton(button);
   }
 }
