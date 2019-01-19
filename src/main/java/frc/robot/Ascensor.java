@@ -31,11 +31,11 @@ public class Ascensor {
 	 */
 	public void setSpeed(double speed) {
 		double currentHeight = getHeight();
-		if ((speed < 0 && currentHeight <= Constants.ELEVATOR_BOTTOM)
-				|| (speed > 0 && currentHeight >= Constants.ELEVATOR_TOP)) {
+		if ((speed < 0 && currentHeight <= Constants.ELEVATOR_LOWER_LIMIT)
+				|| (speed > 0 && currentHeight >= Constants.ELEVATOR_UPPER_LIMIT)) {
 			speed = 0.0;
 		}
-		if (currentHeight <= Constants.ELEVATOR_BOTTOM) reset();
+		if (currentHeight <= Constants.ELEVATOR_LOWER_LIMIT) reset();
 		left.set(speed);
 		right.set(speed);
 	}
@@ -50,9 +50,9 @@ public class Ascensor {
 	public boolean toHeight(double height) {
 		double delta = height - getHeight(); //Which way?
 		double speed = 0; //Default
-		elevStep = Math.abs(delta) <= Constants.ELEVATOR_TOLERANCE; //Are we there yet?
+		elevStep = Math.abs(delta) <= Constants.ALLOWED_ELEVATOR_DEVIATION; //Are we there yet?
 		if (!elevStep) {
-			speed = delta / Constants.ELEVATOR_TOP; 
+			speed = delta / Constants.ELEVATOR_UPPER_LIMIT; 
 		//Calculus, similar to Newton's Law of Cooling. Integrate this. 
 		}
 
