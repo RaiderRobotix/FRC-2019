@@ -3,6 +3,17 @@ package frc.robot;
 final class Constants {
 
   /**
+   * CAN IDs.
+   */
+  public static final int LEFT_FRONT_DRIVE_CAN_ID = 1;
+  public static final int LEFT_BACK_DRIVE_CAN_ID = 2;
+  public static final int RIGHT_FRONT_DRIVE_CAN_ID = 3;
+  public static final int RIGHT_BACK_DRIVE_CAN_ID = 4;
+
+  public static final int RIGHT_ELEVATOR_CAN = 5;
+  public static final int LEFT_ELEVATOR_CAN = 6;
+
+  /**
    * OPERATOR INTERFACE.
    */
   public static final int LEFT_JOYSTICK_PORT = 0;
@@ -16,6 +27,9 @@ final class Constants {
   /**
    * DRIVEBASE.
    */
+  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = false;
+  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = true;
+  
   // Auto-Driving Constants (in degrees)
   public static final double TURN_TOLERANCE = 1.0;
   public static final double VEER_TOLERANCE = 1.0;
@@ -42,9 +56,6 @@ final class Constants {
   /**
    * ELEVATOR.
    */
-  public static final int RIGHT_ELEVATOR_CAN = 2;
-  public static final int LEFT_ELEVATOR_CAN = 9;
-
   public static final boolean LEFT_ELEVATOR_INVERTED = true;
   public static final boolean RIGHT_ELEVATOR_INVERTED = true;
 
