@@ -8,16 +8,16 @@ public class Elevator {
 
   private static Elevator m_instance;
 
-  private final CANSparkMax leftMotor;
-  private final CANSparkMax rightMotor;
+  // private final CANSparkMax leftMotor;
+  // private final CANSparkMax rightMotor;
 
-  private final CANEncoder encoder;
+  // private final CANEncoder encoder;
 
   private Elevator() {
-    this.leftMotor = new CANSparkMax(Constants.LEFT_ELEVATOR_CAN, MotorType.kBrushless);
-    this.rightMotor = new CANSparkMax(Constants.RIGHT_ELEVATOR_CAN, MotorType.kBrushless);
+    //this.leftMotor = new CANSparkMax(Constants.LEFT_ELEVATOR_CAN, MotorType.kBrushless);
+    //this.rightMotor = new CANSparkMax(Constants.RIGHT_ELEVATOR_CAN, MotorType.kBrushless);
 
-    this.encoder = this.leftMotor.getEncoder();
+    //this.encoder = this.leftMotor.getEncoder();
   }
 
   /**
@@ -32,8 +32,8 @@ public class Elevator {
   }
 
   public void setSpeed(double speed) {
-    this.leftMotor.set(speed * (Constants.LEFT_ELEVATOR_INVERTED ? -1.0 : 1.0));
-    this.rightMotor.set(speed * (Constants.RIGHT_ELEVATOR_INVERTED ? -1.0 : 1.0));
+    // this.leftMotor.set(speed * (Constants.LEFT_ELEVATOR_INVERTED ? -1.0 : 1.0));
+    // this.rightMotor.set(speed * (Constants.RIGHT_ELEVATOR_INVERTED ? -1.0 : 1.0));
   }
 
   /**
@@ -41,8 +41,8 @@ public class Elevator {
     for the trolley section on the last stage.
    */
   public double getHeight() {
-    return this.encoder.getPosition();
-    
+    // return this.encoder.getPosition();
+    return 0.0;
     // TODO: Update constants for new trolley position and use the below logic.
     // return this.encoder.getPosition() > Constants.ELEVATOR_DOUBLE_HEIGHT_THRESHOLD
     //     ? 2 * this.encoder.getPosition() - Constants.ELEVATOR_DOUBLE_HEIGHT_THRESHOLD
