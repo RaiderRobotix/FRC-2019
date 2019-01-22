@@ -27,8 +27,8 @@ final class Constants {
   /**
    * DRIVEBASE.
    */
-  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = false;
-  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = true;
+  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = true;
+  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = false;
   
   // Auto-Driving Constants (in degrees)
   public static final double TURN_TOLERANCE = 1.0;
