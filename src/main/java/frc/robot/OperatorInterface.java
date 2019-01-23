@@ -57,14 +57,13 @@ public class OperatorInterface {
 
     // Temporary Manual Control for testing until encoder values can be retrieved
     // so we can use the commented out logic below.
-    if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND) {
-      this.elevator.setSpeed(this.getOperatorY());
-    } else if (this.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND) {
-      this.elevator.setSpeed(this.getOperatorY());
+    double operatorY = this.getOperatorY();
+    if (Math.abs(operatorY) > Constants.JOYSTICK_DEADBAND) {
+      this.elevator.setSpeed(operatorY);
     } else {
       this.elevator.setSpeed(0.0);
     }
-
+    
     // if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND 
     //     && (this.elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
     //       || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
