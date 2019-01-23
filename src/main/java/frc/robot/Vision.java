@@ -55,7 +55,7 @@ public class Vision {
     cam.setResolution(320, 240);
     cam.setFPS(20);
     imgupdate.start();
-    visio.start();
+    //visio.start();
   }
 
   /**
