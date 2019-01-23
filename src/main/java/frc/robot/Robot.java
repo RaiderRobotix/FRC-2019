@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class Robot extends TimedRobot {
 
   private final OperatorInterface oi;
+  private final Vision v = Vision.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+	  System.out.println("Right Elevator Inversion: " + Constants.RIGHT_ELEVATOR_INVERTED);
   }
 
   /**
