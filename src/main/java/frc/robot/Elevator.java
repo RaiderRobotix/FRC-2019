@@ -32,14 +32,14 @@ public class Elevator {
   }
 
   /**
-   * @param speed Elevator speed
-   * 
+   * elevator speed
+   * @param speed 
    */
 
   public void setSpeed(double speed) {
-
     this.leftMotor.set(speed * (Constants.LEFT_ELEVATOR_INVERTED ? -1.0 : 1.0));
     this.rightMotor.set(speed * (Constants.RIGHT_ELEVATOR_INVERTED ? -1.0 : 1.0));
+    System.out.println("Right: " + rightMotor.get() + " Left" + leftMotor.get());
   }
 
   /**
