@@ -16,6 +16,7 @@ public class Elevator {
   private Elevator() {
     this.leftMotor = new CANSparkMax(Constants.LEFT_ELEVATOR_CAN, MotorType.kBrushless);
     this.rightMotor = new CANSparkMax(Constants.RIGHT_ELEVATOR_CAN, MotorType.kBrushless);
+    leftMotor.follow(rightMotor,true);
 
     // this.encoder = this.leftMotor.getEncoder();
   }
