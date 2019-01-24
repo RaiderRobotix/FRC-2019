@@ -21,7 +21,7 @@ final class Constants {
   public static final int OPERATOR_JOYSTICK_PORT = 2;
   public static final int SWITCH_BOX_PORT = 3;
 
-  public static final double JOYSTICK_DEADBAND = 0.2;
+  public static final double JOYSTICK_DEADBAND = 0.1;
   public static final int OPERATOR_OVERRIDE_BUTTON = 7;
 
   /**
@@ -56,8 +56,8 @@ final class Constants {
   /**
    * ELEVATOR.
    */
-  public static final boolean LEFT_ELEVATOR_INVERTED = true;
-  public static final boolean RIGHT_ELEVATOR_INVERTED = false;
+  public static boolean LEFT_ELEVATOR_INVERTED = false;
+  public static boolean RIGHT_ELEVATOR_INVERTED = true;
 
   // Elevator range and tolerance constants
   public static final double ELEVATOR_UP_SCALED_RANGE_START = 24.0;
