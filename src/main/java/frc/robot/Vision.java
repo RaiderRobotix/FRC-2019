@@ -38,7 +38,7 @@ public class Vision {
    */
   private Thread imgupdate = new Thread(() -> {
     CvSink cvSink = camserv.getVideo();
-    CvSource outputStream = camserv.putVideo("VideoStream", 320, 240);
+    CvSource outputStream = camserv.putVideo("VideoStream", 540, 360);
     Mat source = new Mat();
     Mat output = new Mat();
     while (!Thread.interrupted()) {
@@ -50,12 +50,11 @@ public class Vision {
 
   private Vision() {
     contours.addEntryListener((table, key, entry, value, huh) -> {
-
     }, 0);
     cam.setResolution(320, 240);
     cam.setFPS(20);
     imgupdate.start();
-    visio.start();
+    //visio.start();
   }
 
   /**
