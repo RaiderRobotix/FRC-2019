@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionThread;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 public class Vision {
@@ -26,10 +27,8 @@ public class Vision {
    */
   VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
     if (!pipeline.filterContoursOutput().isEmpty()) {
-      /*
-       * Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-       * synchonized() {}
-       */
+      CvSource outputStream = camserv.putVideo("VideoStream", 540, 360);
+       Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
     }
   });
 
@@ -43,7 +42,6 @@ public class Vision {
     Mat output = new Mat();
     while (!Thread.interrupted()) {
       cvSink.grabFrame(source);
-      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
       outputStream.putFrame(output);
     }
   });
