@@ -3,7 +3,7 @@ package frc.robot;
 final class Constants {
 
   /**
-   * CAN IDs.
+   * CAN IDs & PWM ports.
    */
   public static final int LEFT_FRONT_DRIVE_CAN_ID = 2;
   public static final int LEFT_BACK_DRIVE_CAN_ID = 1;

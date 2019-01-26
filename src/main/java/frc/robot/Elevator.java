@@ -1,6 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
+// import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Elevator {
@@ -9,10 +9,11 @@ public class Elevator {
 
   private final Spark leftMotor;
   private final Spark rightMotor;
-/*
-  private final Encoder encoder = new Encoder(Constants.ELEVATOR_ENCODER_PWM_A, Constants.ELEVATOR_ENCODER_PWM_B,
-  Constants.ELEVATOR_ENCODER_INVERTED);
-  */
+
+  // private final Encoder encoder = new Encoder(
+  //     Constants.ELEVATOR_ENCODER_PWM_A, 
+  //     Constants.ELEVATOR_ENCODER_PWM_B, 
+  //     Constants.ELEVATOR_ENCODER_INVERTED);
 
   private Elevator() {
     this.leftMotor = new Spark(Constants.LEFT_ELEVATOR_PWM);
@@ -34,15 +35,9 @@ public class Elevator {
     return m_instance;
   }
 
-  /**
-   * elevator speed
-   * @param speed 
-   */
-
   public void setSpeed(double speed) {
     this.leftMotor.set(speed);
     this.rightMotor.set(speed);
-    System.out.println("Right: " + rightMotor.get() + " Left" + leftMotor.get());
   }
 
   /**

@@ -14,9 +14,10 @@ public class BallArm {
     topRoller = new Spark(Constants.TOP_ROLLER_PWM);
     bottomRoller = new Spark(Constants.BOTTOM_ROLLER_PWM);
   }
+
   /**
    * 
-   * @return The BallArm singleton
+   * @return The BallArm singleton.
    */
   public static BallArm getInstance() {
     if (instance == null) {

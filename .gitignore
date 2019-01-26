@@ -59,3 +59,4 @@ $RECYCLE.BIN/
 **/Temporary Items
 **/.apdisk
 /.gradle/
+/build/
