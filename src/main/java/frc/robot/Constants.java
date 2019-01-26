@@ -10,8 +10,11 @@ final class Constants {
   public static final int RIGHT_FRONT_DRIVE_CAN_ID = 3;
   public static final int RIGHT_BACK_DRIVE_CAN_ID = 4;
 
-  public static final int RIGHT_ELEVATOR_CAN = 5;
-  public static final int LEFT_ELEVATOR_CAN = 6;
+  public static final int RIGHT_ELEVATOR_PWM = 0;
+  public static final int LEFT_ELEVATOR_PWM = 1;
+
+  public static final int TOP_ROLLER_PWM = 7;
+  public static final int BOTTOM_ROLLER_PWM = 8;
 
   /**
    * OPERATOR INTERFACE.
@@ -57,7 +60,7 @@ final class Constants {
    * ELEVATOR.
    */
   public static boolean LEFT_ELEVATOR_INVERTED = false;
-  public static boolean RIGHT_ELEVATOR_INVERTED = true;
+  public static boolean RIGHT_ELEVATOR_INVERTED = !LEFT_ELEVATOR_INVERTED;
 
   // Elevator range and tolerance constants
   public static final double ELEVATOR_UP_SCALED_RANGE_START = 24.0;
@@ -79,5 +82,5 @@ final class Constants {
   // ELEVATOR PRESET HEIGHT POSITIONS
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
   public static final double ELEVATOR_MIDDLE_PRESET = 50.0; // TODO
-  public static final double ELEVATOR_HIGH_PRESET = 100.0; // TODO
+  public static final double ELEVATOR_HIGH_PRESET = 100.0; // TODOs
 }
