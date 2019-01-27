@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 /**
@@ -19,7 +20,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 public class Robot extends TimedRobot {
 
   private final OperatorInterface oi;
-  // private final Vision vision = Vision.getInstance();
+  private final Compressor compressor;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -28,6 +29,9 @@ public class Robot extends TimedRobot {
 
   Robot() {
     this.oi = OperatorInterface.getInstance();
+
+    this.compressor = new Compressor(Constants.PCM_CAN_ADDRESS);
+    this.compressor.setClosedLoopControl(true);
   }
 
   @Override

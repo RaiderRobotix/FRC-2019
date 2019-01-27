@@ -10,6 +10,8 @@ final class Constants {
   public static final int RIGHT_FRONT_DRIVE_CAN_ID = 3;
   public static final int RIGHT_BACK_DRIVE_CAN_ID = 4;
 
+  public static final int PCM_CAN_ADDRESS = 0;
+
   public static final int RIGHT_ELEVATOR_PWM = 0;
   public static final int LEFT_ELEVATOR_PWM = 1;
 
