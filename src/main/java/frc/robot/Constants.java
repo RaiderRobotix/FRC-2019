@@ -15,8 +15,12 @@ final class Constants {
   public static final int RIGHT_ELEVATOR_PWM = 0;
   public static final int LEFT_ELEVATOR_PWM = 1;
 
-  public static final int TOP_ROLLER_PWM = 7;
-  public static final int BOTTOM_ROLLER_PWM = 8;
+  public static final int TOP_ROLLER_PWM = 2;
+  public static final int BOTTOM_ROLLER_PWM = 3;
+
+  // Pneumatic Solenoid Ports
+  public static final int ELEVATOR_TILT_SOLENOID = 0;
+  public static final int HATCH_GRABBER_SOLENOID = 7;
 
   /**
    * OPERATOR INTERFACE.
@@ -26,7 +30,7 @@ final class Constants {
   public static final int OPERATOR_JOYSTICK_PORT = 2;
   public static final int SWITCH_BOX_PORT = 3;
 
-  public static final double JOYSTICK_DEADBAND = 0.1;
+  public static final double JOYSTICK_DEADBAND = 0.15;
   public static final int OPERATOR_OVERRIDE_BUTTON = 7;
 
   /**

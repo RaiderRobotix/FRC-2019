@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -48,7 +49,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    System.out.println("Right Elevator Inversion: " + Constants.RIGHT_ELEVATOR_INVERTED);
+    Timer.delay(0.002);
   }
 
   /**

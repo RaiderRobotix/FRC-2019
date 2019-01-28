@@ -9,7 +9,6 @@ public class BallArm {
   private final Spark topRoller;
   private final Spark bottomRoller;
 
-
   private BallArm() {
     topRoller = new Spark(Constants.TOP_ROLLER_PWM);
     bottomRoller = new Spark(Constants.BOTTOM_ROLLER_PWM);
@@ -27,14 +26,14 @@ public class BallArm {
     return instance;
   }
 
-  public void intake(double speed) {
-    topRoller.set(speed);
-    bottomRoller.set(-speed);
+  public void intake(double topSpeed, double bottomSpeed) {
+    topRoller.set(topSpeed);
+    bottomRoller.set(-bottomSpeed);
   }
 
-  public void outtake(double speed) {
-    topRoller.set(-speed);
-    bottomRoller.set(speed);
+  public void outtake(double topSpeed, double bottomSpeed) {
+    topRoller.set(-topSpeed);
+    bottomRoller.set(bottomSpeed);
   }
 
 }
