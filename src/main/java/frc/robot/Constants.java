@@ -30,7 +30,7 @@ final class Constants {
   public static final int OPERATOR_JOYSTICK_PORT = 2;
   public static final int SWITCH_BOX_PORT = 3;
 
-  public static final double JOYSTICK_DEADBAND = 0.15;
+  public static final double JOYSTICK_DEADBAND = 0.2;
   public static final int OPERATOR_OVERRIDE_BUTTON = 7;
 
   /**
@@ -84,6 +84,11 @@ final class Constants {
   
   public static final double ELEVATOR_DOUBLE_HEIGHT_THRESHOLD = 52.0; // TODO: update for trolley
   public static final double ELEVATOR_DOWN_PRESET = 1.0;
+
+  public static final int ELEVATOR_ENCODER_PWM_A = 4;
+  public static final int ELEVATOR_ENCODER_PWM_B = 5;
+  public static boolean ELEVATOR_ENCODER_INVERTED = false;
+
 
   // ELEVATOR PRESET HEIGHT POSITIONS
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO

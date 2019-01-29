@@ -28,7 +28,7 @@ public class Vision {
   VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
     if (!pipeline.filterContoursOutput().isEmpty()) {
       CvSource outputStream = camserv.putVideo("VideoStream", 540, 360);
-       Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+      Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
     }
   });
 

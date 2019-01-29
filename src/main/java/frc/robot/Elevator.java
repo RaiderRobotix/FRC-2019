@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
 // import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
@@ -8,16 +9,20 @@ public class Elevator {
 
   private static Elevator m_instance;
 
+  private boolean 
+    mastForward = false,
+    grabberOpen = false;
+
   private final Spark leftMotor;
   private final Spark rightMotor;
 
-  // private final Encoder encoder = new Encoder(
-  //     Constants.ELEVATOR_ENCODER_PWM_A, 
-  //     Constants.ELEVATOR_ENCODER_PWM_B, 
-  //     Constants.ELEVATOR_ENCODER_INVERTED);
+  private final Encoder encoder = new Encoder(
+       Constants.ELEVATOR_ENCODER_PWM_A, 
+       Constants.ELEVATOR_ENCODER_PWM_B, 
+       Constants.ELEVATOR_ENCODER_INVERTED);
 
-  private final Solenoid tiltSolenoid;
-  private final Solenoid grabberSolenoid;
+  private Solenoid tiltSolenoid;
+  private Solenoid grabberSolenoid;
 
   private Elevator() {
     this.leftMotor = new Spark(Constants.LEFT_ELEVATOR_PWM);
@@ -64,19 +69,29 @@ public class Elevator {
     // : this.encoder.getPosition();
   }
 
-  public void tiltUp() {
-    this.tiltSolenoid.set(true);
+  /**
+   * Tilts the mast.
+   * 
+   * @param state True, if forward, False if backward
+   */
+  public void tilt(boolean state) {
+    this.tiltSolenoid.set(this.mastForward = state);
   }
 
-  public void tiltBack() {
-    this.tiltSolenoid.set(false);
+  public void tilt() {
+    tilt(!this.mastForward);
   }
 
-  public void closeGrabber() {
-    this.grabberSolenoid.set(false);
+  /**
+   * Opens/closes claw
+   * 
+   * @param state True, if open, false if closed
+   */
+  public void grab(boolean state) {
+    this.grabberSolenoid.set(this.grabberOpen = state);
   }
 
-  public void openGrabber() {
-    this.grabberSolenoid.set(true);
+  public void grab() {
+    grab(!this.grabberOpen);
   }
 }
