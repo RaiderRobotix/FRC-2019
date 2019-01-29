@@ -55,6 +55,15 @@ public class OperatorInterface {
     // =========== DRIVES ===========
     this.drives.setSpeed(this.getLeftY(), this.getRightY());
 
+    if (getOperatorButton(1)) {
+      elevator.grab();
+    }
+
+    if (getOperatorButton(2)) {
+      elevator.tilt();
+    }
+    
+
     // =========== ELEVATOR ==========
 
     // Temporary Manual Control for testing until encoder values can be retrieved
@@ -97,11 +106,15 @@ public class OperatorInterface {
   }
 
   public double getLeftY() {
-    return this.leftStick.getY();
+    double ret = leftStick.getY();
+    if (ret > Constants.JOYSTICK_DEADBAND) return ret;
+    return 0;
   }
 
   public double getRightY() {
-    return this.rightStick.getY();
+    double ret = rightStick.getY();
+    if (ret > Constants.JOYSTICK_DEADBAND) return ret;
+    return 0;
   }
 
   public double getOperatorY() {
