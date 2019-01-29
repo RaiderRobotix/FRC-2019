@@ -8,8 +8,8 @@ public final class AutonController {
   private AutonController m_instance;
 
   private int m_step;
-	private final DriveBase drives;
-	private final Elevator elevator;
+  private final DriveBase drives;
+  private final Elevator elevator;
 	//private final GripPipeline grippipeline;
 	private final Timer timer;
 	private final Joystick switchBox;
