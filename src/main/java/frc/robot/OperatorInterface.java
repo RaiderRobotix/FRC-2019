@@ -14,7 +14,7 @@ public class OperatorInterface {
   private static OperatorInterface m_instance;
 
   // Robot Subsystems
-  // private BallArm ballArm;
+  private BallArm ballArm;
   private DriveBase drives;
   private Elevator elevator;
 
@@ -28,7 +28,7 @@ public class OperatorInterface {
   // private double elevatorPresetHeight;
 
   private OperatorInterface() {
-    // this.ballArm = BallArm.getInstance();
+    this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
 
@@ -58,11 +58,20 @@ public class OperatorInterface {
     if (getOperatorButton(1)) {
       elevator.grab();
     }
-
-    if (getOperatorButton(2)) {
+    if (rightStick.getRawButtonPressed(9)) {
       elevator.tilt();
     }
-    
+
+    if (getOperatorButton(3)) {
+      ballArm.intake(0.5, -0.5);
+      System.out.println("Outtake");
+    } else if (getOperatorButton(4)) {
+      ballArm.outtake(0.5, -0.5);
+      System.out.println("Intake");
+    } else if (getOperatorButton(6)) {
+      ballArm.stop();
+      System.out.println("Stopping");
+    }
 
     // =========== ELEVATOR ==========
 
@@ -107,13 +116,13 @@ public class OperatorInterface {
 
   public double getLeftY() {
     double ret = leftStick.getY();
-    if (ret > Constants.JOYSTICK_DEADBAND) return ret;
+    if (Math.abs(ret) > Constants.JOYSTICK_DEADBAND) return ret;
     return 0;
   }
 
   public double getRightY() {
     double ret = rightStick.getY();
-    if (ret > Constants.JOYSTICK_DEADBAND) return ret;
+    if (Math.abs(ret) > Constants.JOYSTICK_DEADBAND) return ret;
     return 0;
   }
 
