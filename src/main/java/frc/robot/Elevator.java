@@ -1,9 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
-// import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 public class Elevator {
 
@@ -19,7 +19,8 @@ public class Elevator {
   private final Encoder encoder = new Encoder(
        Constants.ELEVATOR_ENCODER_PWM_A, 
        Constants.ELEVATOR_ENCODER_PWM_B, 
-       Constants.ELEVATOR_ENCODER_INVERTED);
+       Constants.ELEVATOR_ENCODER_INVERTED,
+       EncodingType.k2X);
 
   private Solenoid tiltSolenoid;
   private Solenoid grabberSolenoid;
@@ -37,6 +38,8 @@ public class Elevator {
     this.grabberSolenoid = 
       new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.HATCH_GRABBER_SOLENOID);
     this.grabberSolenoid.set(false);
+
+    encoder.setDistancePerPulse(Constants.ELEVATOR_INCHES_PER_COUNT);
   }
 
   /**
@@ -60,8 +63,8 @@ public class Elevator {
    *         account for the trolley section on the last stage.
    */
   public double getHeight() {
-    // return this.encoder.getPosition();
-    return 0.0;
+    return this.encoder.getDistance();
+    // return 0.0;
     // TODO: Update constants for new trolley position and use the below logic.
     // return this.encoder.getPosition() >
     // Constants.ELEVATOR_DOUBLE_HEIGHT_THRESHOLD
@@ -70,16 +73,11 @@ public class Elevator {
   }
 
   /**
-   * Tilts the mast.
-   * 
-   * @param state True, if forward, False if backward
+   * Tilts the mast FORWARD.
    */
-  public void tilt(boolean state) {
-    this.tiltSolenoid.set(this.mastForward = state);
-  }
-
   public void tilt() {
-    tilt(!this.mastForward);
+    tiltSolenoid.set(true);
+    System.out.println("Tilting");
   }
 
   /**
