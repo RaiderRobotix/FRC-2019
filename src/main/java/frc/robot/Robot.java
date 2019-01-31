@@ -49,7 +49,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    Timer.delay(0.002);
+  }
+
+  @Override
+  public void disabledPeriodic() {
+    compressor.start();
   }
 
   /**

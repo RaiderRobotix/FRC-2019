@@ -94,4 +94,11 @@ final class Constants {
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
   public static final double ELEVATOR_MIDDLE_PRESET = 50.0; // TODO
   public static final double ELEVATOR_HIGH_PRESET = 100.0; // TODOs
+
+   /**
+   * BALLARM
+   */
+  public static boolean TOP_ROLLER_INVERTED = false;
+  public static boolean BOTTOM_ROLLER_INVERTED = !TOP_ROLLER_INVERTED;
+
 }

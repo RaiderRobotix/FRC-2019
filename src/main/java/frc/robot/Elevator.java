@@ -33,7 +33,6 @@ public class Elevator {
     rightMotor.setInverted(Constants.RIGHT_ELEVATOR_INVERTED);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
-    this.tiltSolenoid.set(false);
 
     this.grabberSolenoid = 
       new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.HATCH_GRABBER_SOLENOID);
@@ -75,21 +74,20 @@ public class Elevator {
   /**
    * Tilts the mast FORWARD.
    */
-  public void tilt() {
-    tiltSolenoid.set(true);
-    System.out.println("Tilting");
+  public void tiltSolenoid(boolean forward) {
+    tiltSolenoid.set(forward);
+    
   }
 
   /**
-   * Opens/closes claw
+   * Opens claw
    * 
-   * @param state True, if open, false if closed
    */
-  public void grab(boolean state) {
-    this.grabberSolenoid.set(this.grabberOpen = state);
+  public void release() {
+    this.grabberSolenoid.set(false);
   }
 
   public void grab() {
-    grab(!this.grabberOpen);
+    this.grabberSolenoid.set(true);
   }
 }

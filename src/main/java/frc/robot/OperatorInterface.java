@@ -55,13 +55,38 @@ public class OperatorInterface {
     // =========== DRIVES ===========
     this.drives.setSpeed(this.getLeftY(), this.getRightY());
 
-    if (getOperatorButton(1)) {
-      elevator.grab();
+    if (rightStick.getRawButton(10)) {
+      elevator.grab(); 
     }
-    if (rightStick.getRawButtonPressed(9)) {
-      elevator.tilt();
+    else if (rightStick.getRawButton(10)) {
+      elevator.release();
+    }
+    if (getOperatorButton(5)) {
+      elevator.tiltSolenoid(true);
+    } 
+    else if (getOperatorButton(3)) {
+      elevator.tiltSolenoid(false);
+    }
+    if (getOperatorButton(9)) {
+      ballArm.mastExtend(true); 
+    }
+    else if (getOperatorButton(10)) {
+      ballArm.mastExtend(false);
+    }
+    if (getOperatorButton(11)) {
+      ballArm.mastTilt(true);
+    }
+    else if (getOperatorButton(12)) {
+      ballArm.mastTilt(false);
+    }
+    if (getOperatorButton(4)) {
+      ballArm.wristTilt(true);
+    }
+    else if (getOperatorButton(6)) {
+      ballArm.wristTilt(false); 
     }
 
+    /*
     if (getOperatorButton(3)) {
       ballArm.intake(0.5, -0.5);
       System.out.println("Outtake");
@@ -72,17 +97,13 @@ public class OperatorInterface {
       ballArm.stop();
       System.out.println("Stopping");
     }
+    */
 
     // =========== ELEVATOR ==========
 
     // Temporary Manual Control for testing until encoder values can be retrieved
     // so we can use the commented out logic below.
-    double operatorY = this.getOperatorY();
-    if (Math.abs(operatorY) > Constants.JOYSTICK_DEADBAND) {
-      this.elevator.setSpeed(operatorY);
-    } else {
-      this.elevator.setSpeed(0.0);
-    }
+    this.elevator.setSpeed(getOperatorY());
     
     // if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND 
     //     && (this.elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
