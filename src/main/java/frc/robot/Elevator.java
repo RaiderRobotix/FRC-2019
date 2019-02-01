@@ -33,6 +33,7 @@ public class Elevator {
     rightMotor.setInverted(Constants.RIGHT_ELEVATOR_INVERTED);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
+    this.tiltSolenoid.set(false);
 
     this.grabberSolenoid = 
       new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.HATCH_GRABBER_SOLENOID);
