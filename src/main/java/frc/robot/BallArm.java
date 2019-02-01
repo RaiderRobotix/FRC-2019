@@ -13,12 +13,9 @@ public class BallArm {
   private final Spark topRoller;
   private final Spark bottomRoller;
 
-
   private DoubleSolenoid wrist = new DoubleSolenoid(1, 2);
   private DoubleSolenoid mastTilt = new DoubleSolenoid(3, 4);
   private DoubleSolenoid mastExtend = new DoubleSolenoid(5,6);
-
-
 
   private BallArm() {
     topRoller = new Spark(Constants.TOP_ROLLER_PWM);
@@ -40,18 +37,13 @@ public class BallArm {
     return instance;
   }
 
-  public void intake(double topSpeed, double bottomSpeed) {
+  public void io(double topSpeed, double bottomSpeed) {
     topRoller.set(topSpeed);
-    bottomRoller.set(-bottomSpeed);
-  }
-
-  public void outtake(double topSpeed, double bottomSpeed) {
-    topRoller.set(-topSpeed);
     bottomRoller.set(bottomSpeed);
   }
 
   public void stop() {
-    intake(0, 0);
+    io(0, 0);
   }
 
   public void wristTilt(boolean tiltUp) {
