@@ -67,13 +67,6 @@ public class OperatorInterface {
     }
 
     // =========== BALL ARM =========== 
-    if (getOperatorButton(5)) {
-      elevator.tiltForward();
-    } 
-    else if (getOperatorButton(3)) {
-      elevator.tiltBack();
-    }
-
     if (getOperatorButton(9)) {
       ballArm.extend();; 
     }
@@ -96,12 +89,20 @@ public class OperatorInterface {
     }
 
     if (getOperatorTrigger()) {
-      ballArm.intake(0.25);
+      ballArm.intake(0.5);
+    } else if (getOperatorButton(2)) {
+      ballArm.eject(1.0);
     } else {
       ballArm.stop();
     }
 
     // =========== ELEVATOR ==========
+    if (getOperatorButton(5)) {
+      elevator.tiltForward();
+    } 
+    else if (getOperatorButton(3)) {
+      elevator.tiltBack();
+    }
 
     // Temporary Manual Control for testing until encoder values can be retrieved
     // so we can use the commented out logic below.
@@ -152,7 +153,12 @@ public class OperatorInterface {
     return 0.0;
   }
 
+  /**
+   * Down on Joystick is positive, up is negative
+   * @return
+   */
   public double getOperatorY() {
+    
     return this.operatorStick.getY();
   }
 

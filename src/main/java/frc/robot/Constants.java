@@ -12,11 +12,11 @@ final class Constants {
 
   public static final int PCM_CAN_ADDRESS = 0;
 
-  public static final int RIGHT_ELEVATOR_PWM = 0;
-  public static final int LEFT_ELEVATOR_PWM = 1;
+  public static final int LEFT_ELEVATOR_CAN_ID = 5;
+  public static final int RIGHT_ELEVATOR_CAN_ID = 6;
 
-  public static final int TOP_ROLLER_CAN_ID = 5;
-  public static final int BOTTOM_ROLLER_CAN_ID = 6;
+  public static final int BOTTOM_ROLLER_CAN_ID = 7;
+  public static final int TOP_ROLLER_CAN_ID = 8;
 
   // Pneumatic Solenoid Ports
   public static final int ELEVATOR_TILT_SOLENOID = 0;

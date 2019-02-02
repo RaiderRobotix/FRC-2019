@@ -1,15 +1,17 @@
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
 
 public class Elevator {
 
   private static Elevator m_instance;
 
-  private final Spark leftMotor;
-  private final Spark rightMotor;
+  private final CANSparkMax leftMotor;
+  private final CANSparkMax rightMotor;
 
   private final Encoder encoder = new Encoder(
        Constants.ELEVATOR_ENCODER_PWM_A, 
@@ -20,8 +22,9 @@ public class Elevator {
   private Solenoid tiltSolenoid;
 
   private Elevator() {
-    this.leftMotor = new Spark(Constants.LEFT_ELEVATOR_PWM);
-    this.rightMotor = new Spark(Constants.RIGHT_ELEVATOR_PWM);
+    this.leftMotor = new CANSparkMax(Constants.LEFT_ELEVATOR_CAN_ID, MotorType.kBrushless);
+    this.rightMotor = new CANSparkMax(Constants.RIGHT_ELEVATOR_CAN_ID, MotorType.kBrushless);
+    // positive is clockwise for right motor
 
     leftMotor.setInverted(Constants.LEFT_ELEVATOR_INVERTED);
     rightMotor.setInverted(Constants.RIGHT_ELEVATOR_INVERTED);

@@ -9,7 +9,7 @@ public class BallArm {
 
   private static BallArm instance;
 
-  // private final CANSparkMax topRoller;
+  private final CANSparkMax topRoller;
   private final CANSparkMax bottomRoller;
 
   private DoubleSolenoid wrist = new DoubleSolenoid(1, 2);
@@ -17,7 +17,7 @@ public class BallArm {
   private DoubleSolenoid mastExtend = new DoubleSolenoid(5,6);
 
   private BallArm() {
-    // topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
+    topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
     bottomRoller = new CANSparkMax(Constants.BOTTOM_ROLLER_CAN_ID, MotorType.kBrushless);
 
     // topRoller.setInverted(Constants.TOP_ROLLER_INVERTED);
@@ -37,12 +37,17 @@ public class BallArm {
   }
 
   public void intake(double speed) {
-    //topRoller.set(speed);
+    topRoller.set(speed);
+    bottomRoller.set(-speed);
+  }
+
+  public void eject(double speed) {
+    topRoller.set(-speed);
     bottomRoller.set(speed);
   }
 
   public void stop() {
-    // topRoller.set(0.0);
+    topRoller.set(0.0);
     bottomRoller.set(0.0);
   }
 
