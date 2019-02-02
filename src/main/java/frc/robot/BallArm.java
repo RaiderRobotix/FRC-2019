@@ -1,28 +1,27 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class BallArm {
 
   private static BallArm instance;
 
-  private final Spark topRoller;
-  private final Spark bottomRoller;
+  // private final CANSparkMax topRoller;
+  private final CANSparkMax bottomRoller;
 
   private DoubleSolenoid wrist = new DoubleSolenoid(1, 2);
   private DoubleSolenoid mastTilt = new DoubleSolenoid(3, 4);
   private DoubleSolenoid mastExtend = new DoubleSolenoid(5,6);
 
   private BallArm() {
-    topRoller = new Spark(Constants.TOP_ROLLER_PWM);
-    bottomRoller = new Spark(Constants.BOTTOM_ROLLER_PWM);
+    // topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
+    bottomRoller = new CANSparkMax(Constants.BOTTOM_ROLLER_CAN_ID, MotorType.kBrushless);
 
-    topRoller.setInverted(Constants.TOP_ROLLER_INVERTED);
-    bottomRoller.setInverted(Constants.BOTTOM_ROLLER_INVERTED);
+    // topRoller.setInverted(Constants.TOP_ROLLER_INVERTED);
+    // bottomRoller.setInverted(Constants.BOTTOM_ROLLER_INVERTED);
   }
 
   /**
@@ -37,25 +36,37 @@ public class BallArm {
     return instance;
   }
 
-  public void io(double topSpeed, double bottomSpeed) {
-    topRoller.set(topSpeed);
-    bottomRoller.set(bottomSpeed);
+  public void intake(double speed) {
+    //topRoller.set(speed);
+    bottomRoller.set(speed);
   }
 
   public void stop() {
-    io(0, 0);
+    // topRoller.set(0.0);
+    bottomRoller.set(0.0);
   }
 
-  public void wristTilt(boolean tiltUp) {
-    wrist.set( tiltUp ? Value.kForward : Value.kReverse);
+  public void wristUp() {
+    wrist.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void mastExtend(boolean extended) {
-    mastExtend.set( extended ? Value.kForward : Value.kReverse);
+  public void wristDown() {
+    wrist.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void mastTilt(boolean forward) {
-    mastTilt.set(forward ? Value.kForward : Value.kReverse);
-    
+  public void extend() {
+    mastExtend.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void contract() {
+    mastExtend.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void tiltUp() {
+    mastTilt.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void tiltDown() {
+    mastTilt.set(DoubleSolenoid.Value.kForward);
   }
 }

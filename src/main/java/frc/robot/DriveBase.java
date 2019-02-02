@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -19,6 +20,8 @@ public class DriveBase {
   private final CANSparkMax rightFrontSpark;
   private final CANSparkMax rightBackSpark;
 
+  private final CANEncoder leftEncoder;
+
   private DriveBase() {
     this.leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_DRIVE_CAN_ID, MotorType.kBrushless);
     this.leftBackSpark = new CANSparkMax(Constants.LEFT_BACK_DRIVE_CAN_ID, MotorType.kBrushless);
@@ -28,6 +31,8 @@ public class DriveBase {
 
     leftBackSpark.follow(leftFrontSpark);
     rightBackSpark.follow(rightFrontSpark);
+
+    leftEncoder = leftFrontSpark.getEncoder();
   }
 
   /**
@@ -48,5 +53,9 @@ public class DriveBase {
   public void setSpeed(double leftSpeed, double rightSpeed) {
     this.leftFrontSpark.set(leftSpeed * (Constants.RIGHT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
     this.rightFrontSpark.set(rightSpeed * (Constants.LEFT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
+  }
+
+  public double getDistance() {
+    return this.leftEncoder.getPosition();
   }
 }

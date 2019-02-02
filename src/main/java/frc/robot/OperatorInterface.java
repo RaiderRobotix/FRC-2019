@@ -17,6 +17,7 @@ public class OperatorInterface {
   private BallArm ballArm;
   private DriveBase drives;
   private Elevator elevator;
+  private HatchGrabber grabber;
 
   // Joysticks
   private final Joystick leftStick;
@@ -31,6 +32,7 @@ public class OperatorInterface {
     this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
+    this.grabber = HatchGrabber.getInstance();
 
     this.leftStick = new Joystick(Constants.LEFT_JOYSTICK_PORT);
     this.rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
@@ -55,49 +57,49 @@ public class OperatorInterface {
     // =========== DRIVES ===========
     this.drives.setSpeed(this.getLeftY(), this.getRightY());
 
+
+    // =========== HATCH GRABBER ===========    
     if (rightStick.getRawButton(10)) {
-      elevator.grab(); 
+      grabber.grab(); 
     }
-    else if (rightStick.getRawButton(10)) {
-      elevator.release();
-    }
-    if (getOperatorButton(5)) {
-      elevator.tiltSolenoid(true);
-    } 
-    else if (getOperatorButton(3)) {
-      elevator.tiltSolenoid(false);
-    }
-    if (getOperatorButton(9)) {
-      ballArm.mastExtend(true); 
-    }
-    else if (getOperatorButton(10)) {
-      ballArm.mastExtend(false);
-    }
-    if (getOperatorButton(11)) {
-      ballArm.mastTilt(true);
-    }
-    else if (getOperatorButton(12)) {
-      ballArm.mastTilt(false);
-    }
-    if (getOperatorButton(4)) {
-      ballArm.wristTilt(true);
-    }
-    else if (getOperatorButton(6)) {
-      ballArm.wristTilt(false); 
+    else if (rightStick.getRawButton(11)) {
+      grabber.release();
     }
 
-    /*
-    if (getOperatorButton(3)) {
-      ballArm.intake(0.5, -0.5);
-      System.out.println("Outtake");
-    } else if (getOperatorButton(4)) {
-      ballArm.outtake(0.5, -0.5);
-      System.out.println("Intake");
-    } else if (getOperatorButton(6)) {
-      ballArm.stop();
-      System.out.println("Stopping");
+    // =========== BALL ARM =========== 
+    if (getOperatorButton(5)) {
+      elevator.tiltForward();
+    } 
+    else if (getOperatorButton(3)) {
+      elevator.tiltBack();
     }
-    */
+
+    if (getOperatorButton(9)) {
+      ballArm.extend();; 
+    }
+    else if (getOperatorButton(10)) {
+      ballArm.contract();;
+    }
+
+    if (getOperatorButton(11)) {
+      ballArm.tiltDown();;
+    }
+    else if (getOperatorButton(12)) {
+      ballArm.tiltUp();;
+    }
+
+    if (getOperatorButton(4)) {
+      ballArm.wristDown();;
+    }
+    else if (getOperatorButton(6)) {
+      ballArm.wristUp();; 
+    }
+
+    if (getOperatorTrigger()) {
+      ballArm.intake(0.25);
+    } else {
+      ballArm.stop();
+    }
 
     // =========== ELEVATOR ==========
 
@@ -129,22 +131,25 @@ public class OperatorInterface {
     // } else {
     //   this.elevator.setSpeed(0.0);
     // }
-
-    // if (getOperatorButton(8)) {
-    //   this.ballArm.intake(0.5, 0.5);
-    // }
   }
 
   public double getLeftY() {
     double ret = leftStick.getY();
-    if (Math.abs(ret) > Constants.JOYSTICK_DEADBAND) return ret;
-    return 0;
+    if (Math.abs(ret) > Constants.JOYSTICK_DEADBAND) {
+      return ret;
+    }
+
+    return 0.0;
   }
 
   public double getRightY() {
     double ret = rightStick.getY();
-    if (Math.abs(ret) > Constants.JOYSTICK_DEADBAND) return ret;
-    return 0;
+    if (Math.abs(ret) > Constants.JOYSTICK_DEADBAND) 
+    {
+      return ret;
+    }
+
+    return 0.0;
   }
 
   public double getOperatorY() {

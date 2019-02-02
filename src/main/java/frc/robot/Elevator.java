@@ -3,15 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 public class Elevator {
 
   private static Elevator m_instance;
-
-  private boolean 
-    mastForward = false,
-    grabberOpen = false;
 
   private final Spark leftMotor;
   private final Spark rightMotor;
@@ -19,11 +14,10 @@ public class Elevator {
   private final Encoder encoder = new Encoder(
        Constants.ELEVATOR_ENCODER_PWM_A, 
        Constants.ELEVATOR_ENCODER_PWM_B, 
-       Constants.ELEVATOR_ENCODER_INVERTED,
-       EncodingType.k2X);
+       Constants.ELEVATOR_ENCODER_INVERTED
+       );
 
   private Solenoid tiltSolenoid;
-  private Solenoid grabberSolenoid;
 
   private Elevator() {
     this.leftMotor = new Spark(Constants.LEFT_ELEVATOR_PWM);
@@ -34,10 +28,6 @@ public class Elevator {
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
     this.tiltSolenoid.set(false);
-
-    this.grabberSolenoid = 
-      new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.HATCH_GRABBER_SOLENOID);
-    this.grabberSolenoid.set(false);
 
     encoder.setDistancePerPulse(Constants.ELEVATOR_INCHES_PER_COUNT);
   }
@@ -72,23 +62,11 @@ public class Elevator {
     // : this.encoder.getPosition();
   }
 
-  /**
-   * Tilts the mast FORWARD.
-   */
-  public void tiltSolenoid(boolean forward) {
-    tiltSolenoid.set(forward);
-    
+  public void tiltForward() {
+    this.tiltSolenoid.set(true);   
   }
 
-  /**
-   * Opens claw
-   * 
-   */
-  public void release() {
-    this.grabberSolenoid.set(false);
-  }
-
-  public void grab() {
-    this.grabberSolenoid.set(true);
+  public void tiltBack() {
+    this.tiltSolenoid.set(false);
   }
 }

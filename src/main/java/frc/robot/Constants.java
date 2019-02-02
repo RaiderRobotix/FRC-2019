@@ -15,8 +15,8 @@ final class Constants {
   public static final int RIGHT_ELEVATOR_PWM = 0;
   public static final int LEFT_ELEVATOR_PWM = 1;
 
-  public static final int TOP_ROLLER_PWM = 2;
-  public static final int BOTTOM_ROLLER_PWM = 3;
+  public static final int TOP_ROLLER_CAN_ID = 5;
+  public static final int BOTTOM_ROLLER_CAN_ID = 6;
 
   // Pneumatic Solenoid Ports
   public static final int ELEVATOR_TILT_SOLENOID = 0;
