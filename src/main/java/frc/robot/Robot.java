@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private final OperatorInterface oi;
   private final Compressor compressor;
 
-  private final BallArm ballArm;
+  // private final BallArm ballArm;
   private final DriveBase drives;
   private final Elevator elevator;
 
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     this.compressor = new Compressor(Constants.PCM_CAN_ADDRESS);
     this.compressor.setClosedLoopControl(true);
 
-    this.ballArm = BallArm.getInstance();
+    //this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
   }
@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     ArrayList<ArrayList<String[]>> subsystemCanIdFirmwarePairs = new ArrayList<ArrayList<String[]>>();
     subsystemCanIdFirmwarePairs.add(this.drives.getCanIdFirmwarePairs());
     subsystemCanIdFirmwarePairs.add(this.elevator.getCanIdFirmwarePairs());
-    subsystemCanIdFirmwarePairs.add(this.ballArm.getCanIdFirmwarePairs());
+    // subsystemCanIdFirmwarePairs.add(this.ballArm.getCanIdFirmwarePairs());
     
     for (ArrayList<String[]> subsytem : subsystemCanIdFirmwarePairs) {
       for (String[] pair : subsytem) {

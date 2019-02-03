@@ -14,7 +14,7 @@ public class OperatorInterface {
   private static OperatorInterface m_instance;
 
   // Robot Subsystems
-  private BallArm ballArm;
+  // private BallArm ballArm;
   private DriveBase drives;
   private Elevator elevator;
   private HatchGrabber grabber;
@@ -25,11 +25,11 @@ public class OperatorInterface {
   private final Joystick operatorStick;
 
   // State Variables
-  // private boolean elevatorPresetDone = true;
-  // private double elevatorPresetHeight;
+  private boolean elevatorPresetDone = true;
+  private double elevatorPresetHeight;
 
   private OperatorInterface() {
-    this.ballArm = BallArm.getInstance();
+    // this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
     this.grabber = HatchGrabber.getInstance();
@@ -67,34 +67,34 @@ public class OperatorInterface {
     }
 
     // =========== BALL ARM =========== 
-    if (getOperatorButton(9)) {
-      ballArm.extend();; 
-    }
-    else if (getOperatorButton(10)) {
-      ballArm.contract();;
-    }
+    // if (getOperatorButton(4)) {
+    //   ballArm.extend();
+    // }
+    // else if (getOperatorButton(6)) {
+    //   ballArm.contract();
+    // }
 
-    if (getOperatorButton(11)) {
-      ballArm.tiltDown();;
-    }
-    else if (getOperatorButton(12)) {
-      ballArm.tiltUp();;
-    }
+    // if (getOperatorTrigger(10)) {
+    //   ballArm.tiltDown();
+    // }
+    // else if (getOperatorButton(2)) {
+    //   ballArm.tiltUp();
+    // }
 
-    if (getOperatorButton(4)) {
-      ballArm.wristDown();;
-    }
-    else if (getOperatorButton(6)) {
-      ballArm.wristUp();; 
-    }
+    // if (getOperatorButton(4)) {
+    //   ballArm.wristDown();
+    // }
+    // else if (getOperatorButton(6)) {
+    //   ballArm.wristUp();
+    // }
 
-    if (getOperatorTrigger()) {
-      ballArm.intake(0.20);
-    } else if (getOperatorButton(2)) {
-      ballArm.eject(1.0);
-    } else {
-      ballArm.stop();
-    }
+    // if (getLeftButton(7)) {
+    //   ballArm.intake(0.20);
+    // } else if (getLeftButton(6)) {
+    //   ballArm.eject(1.0);
+    // } else {
+    //   ballArm.stop();
+    // }
 
     // =========== ELEVATOR ==========
     if (getOperatorButton(5)) {
@@ -104,38 +104,35 @@ public class OperatorInterface {
       elevator.tiltBack();
     }
 
-    // Temporary Manual Control for testing until encoder values can be retrieved
-    // so we can use the commented out logic below.
-    this.elevator.setSpeed(getOperatorY());
-
     if (rightStick.getRawButton(8)) {
       this.elevator.resetEncoder();
     }
     
-    // if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND 
-    //     && (this.elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
-    //       || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-    //   elevatorPresetDone = true;
-    //   this.elevator.setSpeed(this.getOperatorY() * Constants.ELEVATOR_MANUAL_DOWN_RATE * -1.0);
-    // } else if (this.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND
-    //     && (this.elevator.getHeight() < Constants.ELEVATOR_UPPER_LIMIT
-    //         || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-    //   elevatorPresetDone = true;
-    //   this.elevator.setSpeed(this.getOperatorY() * Constants.ELEVATOR_MANUAL_UP_RATE * -1.0);
-    // } else if (getOperatorButton(11)) { // Lower Rocket Height
-    //   elevatorPresetDone = false;
-    //   elevatorPresetHeight = Constants.ELEVATOR_LOW_PRESET;
-    // } else if (getOperatorButton(9)) { // Middle Rocket Height
-    //   elevatorPresetDone = false;
-    //   elevatorPresetHeight = Constants.ELEVATOR_MIDDLE_PRESET;
-    // } else if (getOperatorButton(7)) { // Top Rocket Height
-    //   elevatorPresetDone = false;
-    //   elevatorPresetHeight = Constants.ELEVATOR_HIGH_PRESET;
-    // } else if (!elevatorPresetDone) { // Moving Automatically
-    //   elevatorPresetDone = this.elevator.goToHeight(elevatorPresetHeight);
-    // } else {
-    //   this.elevator.setSpeed(0.0);
-    // }
+    if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND 
+        && (this.elevator.getHeight() <= Constants.ELEVATOR_UPPER_LIMIT
+          || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
+      elevatorPresetDone = true;
+      this.elevator.setSpeed(this.getOperatorY()); // manual up
+    } else if (this.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND
+        && (this.elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
+            || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
+      elevatorPresetDone = true;
+      this.elevator.setSpeed(this.getOperatorY() * Constants.ELEVATOR_MANUAL_DOWN_RATE); // manual down
+    } else if (getOperatorButton(11)) { // Lower Rocket Height
+      elevatorPresetDone = false;
+      elevatorPresetHeight = Constants.ELEVATOR_LOW_PRESET;
+    } else if (getOperatorButton(9)) { // Middle Rocket Height
+      elevatorPresetDone = false;
+      elevatorPresetHeight = Constants.ELEVATOR_MIDDLE_PRESET;
+    } else if (getOperatorButton(7)) { // Top Rocket Height
+      elevatorPresetDone = false;
+      elevatorPresetHeight = Constants.ELEVATOR_HIGH_PRESET;
+    }
+    else if (!elevatorPresetDone) { // Moving Automatically
+      elevatorPresetDone = this.elevator.goToHeight(elevatorPresetHeight);
+    } else {
+      this.elevator.setSpeed(0.0);
+    }
   }
 
   public double getLeftY() {
@@ -163,6 +160,10 @@ public class OperatorInterface {
    */
   public double getOperatorY() {
     return this.operatorStick.getY();
+  }
+
+  public boolean getLeft(int button) {
+    return this.leftStick.getRawButton(button);
   }
 
   public boolean getRightButton(int button) {
