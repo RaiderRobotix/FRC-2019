@@ -21,6 +21,7 @@ public class DriveBase {
   private final CANSparkMax rightBackSpark;
 
   private final CANEncoder leftEncoder;
+  private final CANEncoder rightEncoder;
 
   private DriveBase() {
     this.leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_DRIVE_CAN_ID, MotorType.kBrushless);
@@ -33,6 +34,7 @@ public class DriveBase {
     rightBackSpark.follow(rightFrontSpark);
 
     leftEncoder = leftFrontSpark.getEncoder();
+    rightEncoder = rightFrontSpark.getEncoder();
   }
 
   /**
@@ -51,11 +53,15 @@ public class DriveBase {
   }
 
   public void setSpeed(double leftSpeed, double rightSpeed) {
-    this.leftFrontSpark.set(leftSpeed * (Constants.RIGHT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
-    this.rightFrontSpark.set(rightSpeed * (Constants.LEFT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
+    this.leftFrontSpark.set(leftSpeed * (Constants.LEFT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
+    this.rightFrontSpark.set(rightSpeed * (Constants.RIGHT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
   }
 
-  public double getDistance() {
-    return this.leftEncoder.getPosition();
+  public double getLeftDistance() {
+    return this.leftEncoder.getPosition() * Constants.INCHES_PER_COUNT;
+  }
+
+  public double getRightDistance() {
+    return this.rightEncoder.getPosition() * Constants.INCHES_PER_COUNT * (Constants.RIGHT_DRIVE_MOTORS_INVERTED ? 1.0 : -1.0);
   }
 }

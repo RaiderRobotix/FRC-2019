@@ -36,8 +36,8 @@ final class Constants {
   /**
    * DRIVEBASE.
    */
-  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = true;
-  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = false;
+  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = false;
+  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = true;
   
   // Auto-Driving Constants (in degrees)
   public static final double TURN_TOLERANCE = 1.0;
@@ -49,13 +49,11 @@ final class Constants {
   public static final double DRIVE_STRAIGHT_SLOW_RANGE = 12.0;
 
   // Encoder distance calculations
-  private static final double TIRE_CIRCUMFERENCE = 29.898; //TODO
-  private static final double COUNTS_PER_REVOLUTION = 128;
+  private static final double TIRE_CIRCUMFERENCE = 28.375;
+  private static final double COUNTS_PER_REVOLUTION = 42;
 
-  // (Driver: Encoder
-  //  Gear, Driven: Wheel
-  //  Gear)
-  private static final double GEAR_RATIO = 0.0714286;
+  // (Gear ratio: 16 down to (42 : 18 transmission) to 144 wheel (down))
+  private static final double GEAR_RATIO = 0.047619; //0.0714286;
   private static final double INCHES_PER_REVOLUTION = GEAR_RATIO * TIRE_CIRCUMFERENCE;
   public static final double INCHES_PER_COUNT = INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
   public static final double ELEVATOR_INCHES_PER_REVOLUTION = 14.3567;
@@ -94,11 +92,4 @@ final class Constants {
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
   public static final double ELEVATOR_MIDDLE_PRESET = 50.0; // TODO
   public static final double ELEVATOR_HIGH_PRESET = 100.0; // TODOs
-
-   /**
-   * BALLARM
-   */
-  public static boolean TOP_ROLLER_INVERTED = false;
-  public static boolean BOTTOM_ROLLER_INVERTED = !TOP_ROLLER_INVERTED;
-
 }

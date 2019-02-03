@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,6 +23,8 @@ public class Robot extends TimedRobot {
   private final OperatorInterface oi;
   private final Compressor compressor;
 
+  private final DriveBase drives;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -32,10 +35,13 @@ public class Robot extends TimedRobot {
 
     this.compressor = new Compressor(Constants.PCM_CAN_ADDRESS);
     this.compressor.setClosedLoopControl(true);
+
+    this.drives = DriveBase.getInstance();
   }
 
   @Override
   public void robotInit() {
+    compressor.start();
   }
 
   /**
@@ -52,7 +58,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    compressor.start();
   }
 
   /**
@@ -84,6 +89,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     this.oi.teleop();
+
+    SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
+    SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());
   }
 
   /**

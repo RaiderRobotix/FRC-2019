@@ -89,7 +89,7 @@ public class OperatorInterface {
     }
 
     if (getOperatorTrigger()) {
-      ballArm.intake(0.5);
+      ballArm.intake(0.20);
     } else if (getOperatorButton(2)) {
       ballArm.eject(1.0);
     } else {
@@ -158,7 +158,7 @@ public class OperatorInterface {
    * @return
    */
   public double getOperatorY() {
-    
+
     return this.operatorStick.getY();
   }
 

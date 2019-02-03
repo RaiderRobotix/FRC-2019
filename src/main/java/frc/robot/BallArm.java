@@ -12,9 +12,9 @@ public class BallArm {
   private final CANSparkMax topRoller;
   private final CANSparkMax bottomRoller;
 
-  private DoubleSolenoid wrist = new DoubleSolenoid(1, 2);
+  private DoubleSolenoid wrist = new DoubleSolenoid(1, 5);
   private DoubleSolenoid mastTilt = new DoubleSolenoid(3, 4);
-  private DoubleSolenoid mastExtend = new DoubleSolenoid(5,6);
+  private DoubleSolenoid mastExtend = new DoubleSolenoid(2, 6);
 
   private BallArm() {
     topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
