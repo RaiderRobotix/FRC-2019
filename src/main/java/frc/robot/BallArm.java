@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+import java.util.ArrayList;
+
 public class BallArm {
 
   private static BallArm instance;
@@ -73,5 +75,12 @@ public class BallArm {
 
   public void tiltDown() {
     mastTilt.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public ArrayList<String[]> getCanIdFirmwarePairs() {
+    ArrayList<String[]> pairs = new ArrayList<String[]>();
+    pairs.add(new String[]{"Ball Top Roller CAN ID Left " + Constants.TOP_ROLLER_CAN_ID, this.topRoller.getFirmwareString()});
+    pairs.add(new String[]{"Ball Btm Roller CAN ID Right " + Constants.BOTTOM_ROLLER_CAN_ID, this.bottomRoller.getFirmwareString()});
+   return pairs;
   }
 }

@@ -11,6 +11,8 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import java.util.ArrayList;
+
 public class DriveBase {
 
   private static DriveBase m_instance;
@@ -29,6 +31,9 @@ public class DriveBase {
     this.rightFrontSpark 
       = new CANSparkMax(Constants.RIGHT_FRONT_DRIVE_CAN_ID, MotorType.kBrushless);
     this.rightBackSpark = new CANSparkMax(Constants.RIGHT_BACK_DRIVE_CAN_ID, MotorType.kBrushless);
+
+    this.leftFrontSpark.setInverted(Constants.LEFT_DRIVE_MOTORS_INVERTED);
+    this.rightFrontSpark.setInverted(Constants.RIGHT_DRIVE_MOTORS_INVERTED);
 
     leftBackSpark.follow(leftFrontSpark);
     rightBackSpark.follow(rightFrontSpark);
@@ -53,15 +58,24 @@ public class DriveBase {
   }
 
   public void setSpeed(double leftSpeed, double rightSpeed) {
-    this.leftFrontSpark.set(leftSpeed * (Constants.LEFT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
-    this.rightFrontSpark.set(rightSpeed * (Constants.RIGHT_DRIVE_MOTORS_INVERTED ? -1.0 : 1.0));
+    this.leftFrontSpark.set(leftSpeed);
+    this.rightFrontSpark.set(rightSpeed);
   }
 
   public double getLeftDistance() {
-    return this.leftEncoder.getPosition() * Constants.INCHES_PER_COUNT;
+    return this.leftEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION;
   }
 
   public double getRightDistance() {
-    return this.rightEncoder.getPosition() * Constants.INCHES_PER_COUNT * (Constants.RIGHT_DRIVE_MOTORS_INVERTED ? 1.0 : -1.0);
+    return this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION * -1.0;
+  }
+
+  public ArrayList<String[]> getCanIdFirmwarePairs() {
+    ArrayList<String[]> pairs = new ArrayList<String[]>();
+    pairs.add(new String[]{"Drive CAN ID Left Front " + Constants.LEFT_FRONT_DRIVE_CAN_ID, this.leftFrontSpark.getFirmwareString()});
+    pairs.add(new String[]{"Drive CAN ID Left Back  " + Constants.LEFT_BACK_DRIVE_CAN_ID, this.leftBackSpark.getFirmwareString()});
+    pairs.add(new String[]{"Drive CAN ID Right Front" + Constants.RIGHT_FRONT_DRIVE_CAN_ID, this.rightFrontSpark.getFirmwareString()});
+    pairs.add(new String[]{"Drive CAN ID Right Back " + Constants.RIGHT_BACK_DRIVE_CAN_ID, this.rightBackSpark.getFirmwareString()});
+    return pairs;
   }
 }

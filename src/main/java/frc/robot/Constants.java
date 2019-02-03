@@ -50,20 +50,20 @@ final class Constants {
 
   // Encoder distance calculations
   private static final double TIRE_CIRCUMFERENCE = 28.375;
-  private static final double COUNTS_PER_REVOLUTION = 42;
+  private static final double COUNTS_PER_REVOLUTION = 128;
 
   // (Gear ratio: 16 down to (42 : 18 transmission) to 144 wheel (down))
   private static final double GEAR_RATIO = 0.047619; //0.0714286;
-  private static final double INCHES_PER_REVOLUTION = GEAR_RATIO * TIRE_CIRCUMFERENCE;
-  public static final double INCHES_PER_COUNT = INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
-  public static final double ELEVATOR_INCHES_PER_REVOLUTION = 14.3567;
-  public static final double ELEVATOR_INCHES_PER_COUNT
-      = ELEVATOR_INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
+  public static final double INCHES_PER_REVOLUTION = GEAR_RATIO * TIRE_CIRCUMFERENCE;
+  //public static final double INCHES_PER_COUNT = INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
+  public static final double ELEVATOR_INCHES_PER_REVOLUTION = 29.125;
+   public static final double ELEVATOR_INCHES_PER_COUNT
+       = ELEVATOR_INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
 
   /**
    * ELEVATOR.
    */
-  public static boolean LEFT_ELEVATOR_INVERTED = false;
+  public static boolean LEFT_ELEVATOR_INVERTED = true;
   public static boolean RIGHT_ELEVATOR_INVERTED = !LEFT_ELEVATOR_INVERTED;
 
   // Elevator range and tolerance constants
@@ -83,9 +83,9 @@ final class Constants {
   public static final double ELEVATOR_DOUBLE_HEIGHT_THRESHOLD = 52.0; // TODO: update for trolley
   public static final double ELEVATOR_DOWN_PRESET = 1.0;
 
-  public static final int ELEVATOR_ENCODER_PWM_A = 4;
-  public static final int ELEVATOR_ENCODER_PWM_B = 5;
-  public static boolean ELEVATOR_ENCODER_INVERTED = true;
+  public static final int ELEVATOR_ENCODER_PWM_A = 0;
+  public static final int ELEVATOR_ENCODER_PWM_B = 1;
+  public static boolean ELEVATOR_ENCODER_INVERTED = false;
 
 
   // ELEVATOR PRESET HEIGHT POSITIONS

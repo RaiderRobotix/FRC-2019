@@ -59,10 +59,10 @@ public class OperatorInterface {
 
 
     // =========== HATCH GRABBER ===========    
-    if (rightStick.getRawButton(10)) {
+    if (getRightButton(10)) {
       grabber.grab(); 
     }
-    else if (rightStick.getRawButton(11)) {
+    else if (getRightButton(11)) {
       grabber.release();
     }
 
@@ -107,6 +107,10 @@ public class OperatorInterface {
     // Temporary Manual Control for testing until encoder values can be retrieved
     // so we can use the commented out logic below.
     this.elevator.setSpeed(getOperatorY());
+
+    if (rightStick.getRawButton(8)) {
+      this.elevator.resetEncoder();
+    }
     
     // if (this.getOperatorY() > Constants.JOYSTICK_DEADBAND 
     //     && (this.elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
@@ -118,13 +122,13 @@ public class OperatorInterface {
     //         || getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
     //   elevatorPresetDone = true;
     //   this.elevator.setSpeed(this.getOperatorY() * Constants.ELEVATOR_MANUAL_UP_RATE * -1.0);
-    // } else if (getOperatorButton(12)) { // Lower Rocket Height
+    // } else if (getOperatorButton(11)) { // Lower Rocket Height
     //   elevatorPresetDone = false;
     //   elevatorPresetHeight = Constants.ELEVATOR_LOW_PRESET;
-    // } else if (getOperatorButton(10)) { // Middle Rocket Height
+    // } else if (getOperatorButton(9)) { // Middle Rocket Height
     //   elevatorPresetDone = false;
     //   elevatorPresetHeight = Constants.ELEVATOR_MIDDLE_PRESET;
-    // } else if (getOperatorButton(8)) { // Top Rocket Height
+    // } else if (getOperatorButton(7)) { // Top Rocket Height
     //   elevatorPresetDone = false;
     //   elevatorPresetHeight = Constants.ELEVATOR_HIGH_PRESET;
     // } else if (!elevatorPresetDone) { // Moving Automatically
@@ -158,8 +162,11 @@ public class OperatorInterface {
    * @return
    */
   public double getOperatorY() {
-
     return this.operatorStick.getY();
+  }
+
+  public boolean getRightButton(int button) {
+    return this.rightStick.getRawButton(button);
   }
 
   public boolean getOperatorButton(int button) {
