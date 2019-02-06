@@ -9,7 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.util.ArrayList;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +25,10 @@ public class Robot extends TimedRobot {
   private final OperatorInterface oi;
   private final Compressor compressor;
 
+  // private final BallArm ballArm;
+  private final DriveBase drives;
+  private final Elevator elevator;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -33,10 +39,15 @@ public class Robot extends TimedRobot {
 
     this.compressor = new Compressor(Constants.PCM_CAN_ADDRESS);
     this.compressor.setClosedLoopControl(true);
+
+    //this.ballArm = BallArm.getInstance();
+    this.drives = DriveBase.getInstance();
+    this.elevator = Elevator.getInstance();
   }
 
   @Override
   public void robotInit() {
+    compressor.start();
   }
 
   /**
@@ -49,7 +60,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    Timer.delay(0.002);
+  }
+
+  @Override
+  public void disabledPeriodic() {
+
+    ArrayList<ArrayList<String[]>> subsystemCanIdFirmwarePairs = new ArrayList<ArrayList<String[]>>();
+    subsystemCanIdFirmwarePairs.add(this.drives.getCanIdFirmwarePairs());
+    subsystemCanIdFirmwarePairs.add(this.elevator.getCanIdFirmwarePairs());
+    // subsystemCanIdFirmwarePairs.add(this.ballArm.getCanIdFirmwarePairs());
+    
+    for (ArrayList<String[]> subsytem : subsystemCanIdFirmwarePairs) {
+      for (String[] pair : subsytem) {
+        SmartDashboard.putString(pair[0] + " ", pair[1]);
+      }
+    }
   }
 
   /**
@@ -81,6 +106,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     this.oi.teleop();
+
+    SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
+    SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());
+    SmartDashboard.putNumber("Elevator Encoder", this.elevator.getHeight());
   }
 
   /**
