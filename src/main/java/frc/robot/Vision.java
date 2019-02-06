@@ -27,11 +27,13 @@ public class Vision {
   private final int img_height = 360;
   private final int img_width = 540;
 
+  private final double inchesPerPixel = 1; //TODO
+  private final double distanceFromTarget = 1; //TODO
 
   /**
    * Thread that get contours from camera output and will perform some operation using them.
    */
-  VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
+  private final VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
     synchronized (pixelsOff) {
       if (!pipeline.filterContoursOutput().isEmpty()) {
         Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
@@ -44,7 +46,7 @@ public class Vision {
   /**
    * Thread that serves videostream
    */
-  private Thread imgupdate = new Thread(() -> {
+  private final Thread imgupdate = new Thread(() -> {
     CvSink cvSink = camserv.getVideo();
     CvSource outputStream = camserv.putVideo("VideoStream", img_width, img_height);
     Mat source = new Mat();
@@ -55,9 +57,7 @@ public class Vision {
   });
 
   private Vision() {
-    // contours.addEntryListener((table, key, entry, value, huh) -> {
-    // }, 0);
-    cam.setResolution(320, 240);
+    cam.setResolution(img_width, img_height);
     cam.setFPS(20);
     imgupdate.start();
     visio.start();
@@ -89,9 +89,7 @@ public class Vision {
   }
   */
 
-    private final double inchesPerPixel = 1; //TODO
-    private final double distanceFromTarget = 1; //TODO
-    /**
+  /**
    * 
    * @return The angle, in degrees, from a retroflective target
    */
