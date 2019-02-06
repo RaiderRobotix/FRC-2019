@@ -32,12 +32,13 @@ public class Vision {
    * Thread that get contours from camera output and will perform some operation using them.
    */
   VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
-    if (!pipeline.filterContoursOutput().isEmpty()) {
-       Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-       synchronized (pixelsOff) {
+    synchronized (pixelsOff) {
+      if (!pipeline.filterContoursOutput().isEmpty()) {
+        Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
         pixelsOff = r.x + (r.width / 2) - img_width/2;
+      } else 
+        pixelsOff = 0; // If no countours found, don't set something erroneous
       }
-    }
   });
 
   /**
@@ -47,10 +48,9 @@ public class Vision {
     CvSink cvSink = camserv.getVideo();
     CvSource outputStream = camserv.putVideo("VideoStream", img_width, img_height);
     Mat source = new Mat();
-    Mat output = new Mat();
     while (!Thread.interrupted()) {
       cvSink.grabFrame(source);
-      outputStream.putFrame(output);
+      outputStream.putFrame(source);
     }
   });
 
@@ -90,13 +90,13 @@ public class Vision {
   */
 
     private final double inchesPerPixel = 1; //TODO
-	  private final double distanceFromTarget = 1; //TODO
+    private final double distanceFromTarget = 1; //TODO
     /**
    * 
    * @return The angle, in degrees, from a retroflective target
    */
   public double turnCorrection() {
-	  synchronized (pixelsOff) {
+    synchronized (pixelsOff) {
       return -Math.atan(pixelsOff*inchesPerPixel/distanceFromTarget) * 180 / Math.PI;
     }
   }
