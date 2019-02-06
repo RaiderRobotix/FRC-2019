@@ -4,8 +4,8 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+// import edu.wpi.first.networktables.NetworkTable;
+// import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionThread;
 
 import org.opencv.core.Mat;
@@ -16,28 +16,36 @@ public class Vision {
 
   private static volatile Vision instance = null;
 
-  private final NetworkTableInstance table = NetworkTableInstance.getDefault();
-  private final NetworkTable contours = table.getTable("GRIP/contours");
+  // private final NetworkTableInstance table = NetworkTableInstance.getDefault();
+  // private final NetworkTable contours = table.getTable("GRIP/contours");
 
   private final CameraServer camserv = CameraServer.getInstance();
   private final UsbCamera cam = camserv.startAutomaticCapture();
+
+  private Integer pixelsOff = 0;
+
+  private final int img_height = 360;
+  private final int img_width = 540;
+
 
   /**
    * Thread that get contours from camera output and will perform some operation using them.
    */
   VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
     if (!pipeline.filterContoursOutput().isEmpty()) {
-      CvSource outputStream = camserv.putVideo("VideoStream", 540, 360);
        Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+       synchronized (pixelsOff) {
+        pixelsOff = r.x + (r.width / 2) - img_width/2;
+      }
     }
   });
 
   /**
-   * Thread that get contours from camera output, and will perform some operation using them.
+   * Thread that serves videostream
    */
   private Thread imgupdate = new Thread(() -> {
     CvSink cvSink = camserv.getVideo();
-    CvSource outputStream = camserv.putVideo("VideoStream", 540, 360);
+    CvSource outputStream = camserv.putVideo("VideoStream", img_width, img_height);
     Mat source = new Mat();
     Mat output = new Mat();
     while (!Thread.interrupted()) {
@@ -47,12 +55,12 @@ public class Vision {
   });
 
   private Vision() {
-    contours.addEntryListener((table, key, entry, value, huh) -> {
-    }, 0);
+    // contours.addEntryListener((table, key, entry, value, huh) -> {
+    // }, 0);
     cam.setResolution(320, 240);
     cam.setFPS(20);
     imgupdate.start();
-    //visio.start();
+    visio.start();
   }
 
   /**
@@ -72,10 +80,24 @@ public class Vision {
   /**
    * Update.
    */
+  /**
   public void update() {
     double[] areas = contours.getEntry("area").getDoubleArray(new double[0]);
     for (int i = 0; i < areas.length; i++) {
       System.out.println("areas " + i + " : " + areas[i]);
+    }
+  }
+  */
+
+    private final double inchesPerPixel = 1; //TODO
+	  private final double distanceFromTarget = 1; //TODO
+    /**
+   * 
+   * @return The angle, in degrees, from a retroflective target
+   */
+  public double turnCorrection() {
+	  synchronized (pixelsOff) {
+      return -Math.atan(pixelsOff*inchesPerPixel/distanceFromTarget) * 180 / Math.PI;
     }
   }
 }
