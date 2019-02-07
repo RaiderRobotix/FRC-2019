@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 // import edu.wpi.first.networktables.NetworkTable;
 // import edu.wpi.first.networktables.NetworkTableInstance;
@@ -26,6 +27,7 @@ public class Vision {
 
   private final int img_height = 360;
   private final int img_width = 540;
+  private final int fps = 20;
 
   private final double inchesPerPixel = 1; //TODO
   private final double distanceFromTarget = 1; //TODO
@@ -46,19 +48,22 @@ public class Vision {
   /**
    * Thread that serves videostream
    */
-  private final Thread imgupdate = new Thread(() -> {
+  private final Thread imgupdate = new Thread() {
     CvSink cvSink = camserv.getVideo();
-    CvSource outputStream = camserv.putVideo("VideoStream", img_width, img_height);
+    CvSource outputStream = new CvSource("VideoStream", PixelFormat.kMJPEG, img_width, img_height, fps);
     Mat source = new Mat();
-    while (!Thread.interrupted()) {
-      cvSink.grabFrame(source);
-      outputStream.putFrame(source);
+    public void run() {
+      while (!Thread.interrupted()) {
+        cvSink.grabFrame(source);
+        outputStream.putFrame(source);
+      }
+      outputStream.close();
     }
-  });
+  };
 
   private Vision() {
     cam.setResolution(img_width, img_height);
-    cam.setFPS(20);
+    cam.setFPS(fps);
     imgupdate.start();
     visio.start();
   }
