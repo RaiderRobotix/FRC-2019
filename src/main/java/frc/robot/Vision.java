@@ -5,8 +5,6 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
-// import edu.wpi.first.networktables.NetworkTable;
-// import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionThread;
 
 import org.opencv.core.Mat;
@@ -17,29 +15,28 @@ public class Vision {
 
   private static volatile Vision instance = null;
 
-  // private final NetworkTableInstance table = NetworkTableInstance.getDefault();
-  // private final NetworkTable contours = table.getTable("GRIP/contours");
-
   private final CameraServer camserv = CameraServer.getInstance();
-  private final UsbCamera cam = camserv.startAutomaticCapture();
-
-  private Integer pixelsOff = 0;
+  private final UsbCamera cam = camserv.startAutomaticCapture("FrontCam", 0);
 
   private final int img_height = 360;
   private final int img_width = 540;
   private final int fps = 20;
 
-  private final double inchesPerPixel = 1; //TODO
+  private final Object syncLock = new Object();
+
+  private int pixelsOff = 0;
+  private double inchesPerPixel = 1;
   private final double distanceFromTarget = 1; //TODO
 
   /**
    * Thread that get contours from camera output and will perform some operation using them.
    */
   private final VisionThread visio = new VisionThread(cam, new GripPipeline(), pipeline -> {
-    synchronized (pixelsOff) {
+    synchronized (syncLock) {
       if (!pipeline.filterContoursOutput().isEmpty()) {
         Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
         pixelsOff = r.x + (r.width / 2) - img_width/2;
+        inchesPerPixel = 4 / r.width;
       } else 
         pixelsOff = 0; // If no countours found, don't set something erroneous
       }
@@ -83,23 +80,11 @@ public class Vision {
   }
 
   /**
-   * Update.
-   */
-  /**
-  public void update() {
-    double[] areas = contours.getEntry("area").getDoubleArray(new double[0]);
-    for (int i = 0; i < areas.length; i++) {
-      System.out.println("areas " + i + " : " + areas[i]);
-    }
-  }
-  */
-
-  /**
    * 
    * @return The angle, in degrees, from a retroflective target
    */
   public double turnCorrection() {
-    synchronized (pixelsOff) {
+    synchronized (syncLock) {
       return -Math.atan(pixelsOff*inchesPerPixel/distanceFromTarget) * 180 / Math.PI;
     }
   }
