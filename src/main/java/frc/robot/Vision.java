@@ -27,6 +27,7 @@ public class Vision {
   private int pixelsOff = 0;
   private double inchesPerPixel = 1;
   private final double distanceFromTarget = 1; //TODO
+  private final double tapeRectWidth = 4.0;
 
   /**
    * Thread that get contours from camera output and will perform some operation using them.
@@ -36,7 +37,7 @@ public class Vision {
       if (!pipeline.filterContoursOutput().isEmpty()) {
         Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
         pixelsOff = r.x + (r.width / 2) - img_width/2;
-        inchesPerPixel = 4 / r.width;
+        inchesPerPixel = tapeRectWidth / r.width;
       } else 
         pixelsOff = 0; // If no countours found, don't set something erroneous
       }
@@ -61,7 +62,6 @@ public class Vision {
   private Vision() {
     cam.setResolution(img_width, img_height);
     cam.setFPS(fps);
-    imgupdate.start();
     visio.start();
   }
 
