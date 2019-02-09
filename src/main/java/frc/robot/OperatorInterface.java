@@ -81,10 +81,10 @@ public class OperatorInterface {
     }
 
     // if (getOperatorButton(6)) {
-    //   ballArm.wristDown();
+    //   ballArm.wristDown(1.0);
     // }
     // else if (getOperatorButton(4)) {
-    //   ballArm.wristUp();
+    //   ballArm.wristUp(1.0);
     // }
 
     if (getOperatorTrigger()) {
@@ -132,7 +132,7 @@ public class OperatorInterface {
     } else {
       this.elevator.setSpeed(0.0);
     }
-    
+
   }
 
   public double getLeftY() {

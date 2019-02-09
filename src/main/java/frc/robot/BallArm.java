@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Spark;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,21 @@ public class BallArm {
   private final CANSparkMax topRoller;
   private final CANSparkMax bottomRoller;
 
-  private DoubleSolenoid ballPopper = new DoubleSolenoid(1, 5);
-  private DoubleSolenoid mastTilt = new DoubleSolenoid(3, 4);
-  private DoubleSolenoid mastExtend = new DoubleSolenoid(2, 6);
+  private final Spark wrist;
+
+  private DoubleSolenoid ballPopper;
+  private DoubleSolenoid mastTilt;
+  private DoubleSolenoid mastExtend;
 
   private BallArm() {
     topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
     bottomRoller = new CANSparkMax(Constants.BOTTOM_ROLLER_CAN_ID, MotorType.kBrushless);
+
+    wrist = new Spark(Constants.WRIST_PWM);
+
+    ballPopper = new DoubleSolenoid(1, 5);
+    mastTilt = new DoubleSolenoid(3, 4);
+    mastExtend = new DoubleSolenoid(2, 6);
   }
 
   /**
@@ -56,6 +65,16 @@ public class BallArm {
 
   public void retractBallPopper() {
     ballPopper.set(DoubleSolenoid.Value.kReverse);
+  }
+
+  public void wristDown(double speed)
+  {
+    wrist.set(speed);
+  }
+
+  public void wristUp(double speed)
+  {
+    wrist.set(-speed);
   }
 
   public void extend() {

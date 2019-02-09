@@ -18,6 +18,8 @@ final class Constants {
   public static final int BOTTOM_ROLLER_CAN_ID = 7;
   public static final int TOP_ROLLER_CAN_ID = 8;
 
+  public static final int WRIST_PWM = 0;
+
   // Pneumatic Solenoid Ports
   public static final int ELEVATOR_TILT_SOLENOID = 0;
   public static final int HATCH_GRABBER_SOLENOID = 7;
