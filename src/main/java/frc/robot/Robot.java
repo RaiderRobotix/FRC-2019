@@ -9,6 +9,8 @@ package frc.robot;
 
 import frc.robot.subsystems.*;
 
+import edu.wpi.first.wpilibj.command.Scheduler;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,6 +68,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    Scheduler.getInstance().run();
 
     ArrayList<String[]> subsystemCanIdFirmwarePairs = new ArrayList<>();
     subsystemCanIdFirmwarePairs.addAll(this.drives.getCanIdFirmwarePairs());
@@ -98,6 +101,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
   }
 
   /**
@@ -105,7 +109,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    this.oi.teleop();
+    Scheduler.getInstance().run();
 
     SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
     SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());

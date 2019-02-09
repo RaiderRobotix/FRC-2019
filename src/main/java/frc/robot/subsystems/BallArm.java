@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
+import frc.robot.commands.BallArm.DefaultBallArmCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.revrobotics.CANSparkMax;
@@ -58,7 +58,7 @@ public class BallArm extends Subsystem {
     bottomRoller.set(speed);
   }
 
-  public void stop() {
+  public void stopRollers() {
     topRoller.set(0.0);
     bottomRoller.set(0.0);
   }
@@ -79,6 +79,17 @@ public class BallArm extends Subsystem {
   public void wristUp(double speed)
   {
     wrist.set(-speed);
+  }
+
+  public void stopWrist()
+  {
+    wrist.set(0.0);
+  }
+
+  public void stop()
+  {
+    stopRollers();
+    stopWrist();
   }
 
   public void extend() {
@@ -106,7 +117,6 @@ public class BallArm extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new DefaultBallArmCommand());
   }
 }
