@@ -34,6 +34,9 @@ public class BallArm extends Subsystem {
     ballPopper = new DoubleSolenoid(1, 5);
     mastTilt = new DoubleSolenoid(3, 4);
     mastExtend = new DoubleSolenoid(2, 6);
+
+    // Keep popper in out position by default
+    popBallOut();
   }
 
   /**
@@ -64,11 +67,11 @@ public class BallArm extends Subsystem {
   }
 
   public void popBallOut() {
-    ballPopper.set(DoubleSolenoid.Value.kForward);
+    ballPopper.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void retractBallPopper() {
-    ballPopper.set(DoubleSolenoid.Value.kReverse);
+    ballPopper.set(DoubleSolenoid.Value.kForward);
   }
 
   public void wristDown(double speed)
@@ -93,11 +96,11 @@ public class BallArm extends Subsystem {
   }
 
   public void extend() {
-    mastExtend.set(DoubleSolenoid.Value.kForward);
+    mastExtend.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void contract() {
-    mastExtend.set(DoubleSolenoid.Value.kReverse);
+    mastExtend.set(DoubleSolenoid.Value.kForward);
   }
 
   public void tiltUp() {

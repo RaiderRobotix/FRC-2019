@@ -32,6 +32,7 @@ public class OperatorInterface {
     operator10,
     operator11,
     operator12,
+    left6,
     right2,
     right3,
     right10,
@@ -43,6 +44,8 @@ public class OperatorInterface {
     this.rightStick = new Joystick(Constants.RIGHT_JOYSTICK_PORT);
     this.operatorStick = new Joystick(Constants.OPERATOR_JOYSTICK_PORT);
     
+    left6 = new JoystickButton(leftStick, 6);
+
     right2 = new JoystickButton(rightStick, 2);
     right3 = new JoystickButton(rightStick, 3);
     right10 = new JoystickButton(rightStick, 10);
@@ -55,6 +58,8 @@ public class OperatorInterface {
     operator10 = new JoystickButton(operatorStick, 10);
     operator11 = new JoystickButton(operatorStick, 11);
     operator12 = new JoystickButton(operatorStick, 12);
+
+    left6.whenPressed(new PopBallOut());
 
     right3.whenPressed(new TiltElevatorForward());
     right2.whenPressed(new TiltElevatorBack());

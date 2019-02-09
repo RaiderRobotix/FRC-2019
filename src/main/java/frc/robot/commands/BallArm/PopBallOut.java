@@ -7,59 +7,56 @@
 
 package frc.robot.commands.BallArm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OperatorInterface;
 import frc.robot.subsystems.BallArm;
 
-public class DefaultBallArmCommand extends Command {
+public class PopBallOut extends Command {
 
   private BallArm ballArm;
-  private OperatorInterface oi;
+  private Timer timer;
+  private boolean isDone;
 
-  public DefaultBallArmCommand() {
-    oi = OperatorInterface.getInstance();
+  public PopBallOut() {
+    timer = new Timer();
+
     ballArm = BallArm.getInstance();
-
     requires(ballArm);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    timer.start();
+    timer.reset();
+    isDone = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    if (oi.getOperatorButton(6)) {
-      ballArm.wristDown(0.7);
-    } else if (oi.getOperatorButton(4)) {
-      ballArm.wristUp(0.5);
-    } else {
-      ballArm.stopWrist();
+    ballArm.retractBallPopper();
+    if (timer.get() > 0.7) {
+      ballArm.eject(0.8);
     }
-
-    if (oi.getOperatorTrigger()) {
-      ballArm.intake(0.20);
-    } else if (oi.getOperatorButton(2) || oi.getOperatorButton(7)) {
-      ballArm.eject(1.0);
-    } else {
-      ballArm.stopRollers();
+    if (timer.get() > 1.5) {
+      ballArm.popBallOut();
+      isDone = true;
     }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isDone;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    ballArm.stop();
+    ballArm.stopRollers();
+    ballArm.popBallOut();
+    timer.stop();
   }
 
   // Called when another command which requires one or more of the same
