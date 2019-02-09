@@ -66,24 +66,24 @@ public class OperatorInterface {
     }
 
      // =========== BALL ARM =========== 
-     if (getOperatorButton(4)) {
+     if (getOperatorButton(10)) {
        ballArm.extend();
      }
-     else if (getOperatorButton(6)) {
+     else if (getOperatorButton(12)) {
        ballArm.contract();
      }
 
-    // if (getOperatorTrigger(10)) {
-    //   ballArm.tiltDown();
-    // }
-    // else if (getOperatorButton(2)) {
-    //   ballArm.tiltUp();
-    // }
+    if (getOperatorButton(5)) {
+      ballArm.tiltDown();
+    }
+    else if (getOperatorButton(3)) {
+      ballArm.tiltUp();
+    }
 
-    // if (getOperatorButton(4)) {
+    // if (getOperatorButton(6)) {
     //   ballArm.wristDown();
     // }
-    // else if (getOperatorButton(6)) {
+    // else if (getOperatorButton(4)) {
     //   ballArm.wristUp();
     // }
 
@@ -96,10 +96,10 @@ public class OperatorInterface {
     }
 
     // =========== ELEVATOR ==========
-    if (getOperatorButton(5)) {
+    if (getRightButton(3)) {
       elevator.tiltForward();
     } 
-    else if (getOperatorButton(3)) {
+    else if (getRightButton(2)) {
       elevator.tiltBack();
     }
 
@@ -132,6 +132,7 @@ public class OperatorInterface {
     } else {
       this.elevator.setSpeed(0.0);
     }
+    
   }
 
   public double getLeftY() {
