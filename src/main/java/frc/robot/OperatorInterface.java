@@ -66,6 +66,12 @@ public class OperatorInterface {
     }
 
      // =========== BALL ARM =========== 
+    if (getLeftButton(3)) {
+      ballArm.popBallOut();
+    } else if(getLeftButton(2)) {
+      ballArm.retractBallPopper();
+    }
+
      if (getOperatorButton(10)) {
        ballArm.extend();
      }
@@ -80,19 +86,21 @@ public class OperatorInterface {
       ballArm.tiltUp();
     }
 
-    // if (getOperatorButton(6)) {
-    //   ballArm.wristDown(1.0);
-    // }
-    // else if (getOperatorButton(4)) {
-    //   ballArm.wristUp(1.0);
-    // }
+    if (getOperatorButton(6)) {
+      ballArm.wristDown(0.25);
+    }
+    else if (getOperatorButton(4)) {
+      ballArm.wristUp(0.25);
+    } else {
+      ballArm.stopWrist();
+    }
 
     if (getOperatorTrigger()) {
       ballArm.intake(0.20);
     } else if (getOperatorButton(2)) {
       ballArm.eject(1.0);
     } else {
-      ballArm.stop();
+      ballArm.stopRollers();
     }
 
     // =========== ELEVATOR ==========

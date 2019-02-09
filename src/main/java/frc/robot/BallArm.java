@@ -54,17 +54,17 @@ public class BallArm {
     bottomRoller.set(speed);
   }
 
-  public void stop() {
+  public void stopRollers() {
     topRoller.set(0.0);
     bottomRoller.set(0.0);
   }
 
   public void popBallOut() {
-    ballPopper.set(DoubleSolenoid.Value.kForward);
+    ballPopper.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void retractBallPopper() {
-    ballPopper.set(DoubleSolenoid.Value.kReverse);
+    ballPopper.set(DoubleSolenoid.Value.kForward);
   }
 
   public void wristDown(double speed)
@@ -77,12 +77,21 @@ public class BallArm {
     wrist.set(-speed);
   }
 
+  public void stopWrist() {
+    wrist.set(0.0);
+  }
+
+  public void stop() {
+    stopRollers();
+    stopWrist();
+  }
+
   public void extend() {
-    mastExtend.set(DoubleSolenoid.Value.kForward);
+    mastExtend.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void contract() {
-    mastExtend.set(DoubleSolenoid.Value.kReverse);
+    mastExtend.set(DoubleSolenoid.Value.kForward);
   }
 
   public void tiltUp() {
