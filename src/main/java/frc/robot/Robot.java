@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

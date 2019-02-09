@@ -7,7 +7,10 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.*;
+
 import edu.wpi.first.wpilibj.Joystick;
+
 
 public class OperatorInterface {
 
