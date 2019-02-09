@@ -1,6 +1,6 @@
 package frc.robot;
 
-final class Constants {
+public final class Constants {
 
   /**
    * CAN IDs & PWM ports.
