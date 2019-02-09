@@ -34,8 +34,7 @@ public class DefaultBallArmCommand extends Command {
 
     if (oi.getOperatorButton(6)) {
       ballArm.wristDown(0.25);
-    }
-    else if (oi.getOperatorButton(4)) {
+    } else if (oi.getOperatorButton(4)) {
       ballArm.wristUp(0.25);
     } else {
       ballArm.stopWrist();
