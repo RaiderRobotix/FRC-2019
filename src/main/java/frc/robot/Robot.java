@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private final OperatorInterface oi;
   private final Compressor compressor;
 
-  // private final BallArm ballArm;
+  private final BallArm ballArm;
   private final DriveBase drives;
   private final Elevator elevator;
 
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     this.compressor = new Compressor(Constants.PCM_CAN_ADDRESS);
     this.compressor.setClosedLoopControl(true);
 
-    //this.ballArm = BallArm.getInstance();
+    this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
   }
@@ -65,15 +65,13 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
 
-    ArrayList<ArrayList<String[]>> subsystemCanIdFirmwarePairs = new ArrayList<ArrayList<String[]>>();
-    subsystemCanIdFirmwarePairs.add(this.drives.getCanIdFirmwarePairs());
-    subsystemCanIdFirmwarePairs.add(this.elevator.getCanIdFirmwarePairs());
-    // subsystemCanIdFirmwarePairs.add(this.ballArm.getCanIdFirmwarePairs());
+    ArrayList<String[]> subsystemCanIdFirmwarePairs = new ArrayList<>();
+    subsystemCanIdFirmwarePairs.addAll(this.drives.getCanIdFirmwarePairs());
+    subsystemCanIdFirmwarePairs.addAll(this.elevator.getCanIdFirmwarePairs());
+    subsystemCanIdFirmwarePairs.addAll(this.ballArm.getCanIdFirmwarePairs());
     
-    for (ArrayList<String[]> subsytem : subsystemCanIdFirmwarePairs) {
-      for (String[] pair : subsytem) {
+      for (String[] pair : subsystemCanIdFirmwarePairs) {
         SmartDashboard.putString(pair[0] + " ", pair[1]);
-      }
     }
   }
 

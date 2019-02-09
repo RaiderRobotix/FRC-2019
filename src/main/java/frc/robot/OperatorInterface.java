@@ -14,7 +14,7 @@ public class OperatorInterface {
   private static OperatorInterface m_instance;
 
   // Robot Subsystems
-  // private BallArm ballArm;
+  private BallArm ballArm;
   private DriveBase drives;
   private Elevator elevator;
   private HatchGrabber grabber;
@@ -29,7 +29,7 @@ public class OperatorInterface {
   private double elevatorPresetHeight;
 
   private OperatorInterface() {
-    // this.ballArm = BallArm.getInstance();
+    this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
     this.grabber = HatchGrabber.getInstance();
@@ -57,7 +57,6 @@ public class OperatorInterface {
     // =========== DRIVES ===========
     this.drives.setSpeed(this.getLeftY(), this.getRightY());
 
-
     // =========== HATCH GRABBER ===========    
     if (getRightButton(10)) {
       grabber.grab(); 
@@ -66,13 +65,13 @@ public class OperatorInterface {
       grabber.release();
     }
 
-    // =========== BALL ARM =========== 
-    // if (getOperatorButton(4)) {
-    //   ballArm.extend();
-    // }
-    // else if (getOperatorButton(6)) {
-    //   ballArm.contract();
-    // }
+     // =========== BALL ARM =========== 
+     if (getOperatorButton(4)) {
+       ballArm.extend();
+     }
+     else if (getOperatorButton(6)) {
+       ballArm.contract();
+     }
 
     // if (getOperatorTrigger(10)) {
     //   ballArm.tiltDown();
@@ -88,13 +87,13 @@ public class OperatorInterface {
     //   ballArm.wristUp();
     // }
 
-    // if (getLeftButton(7)) {
-    //   ballArm.intake(0.20);
-    // } else if (getLeftButton(6)) {
-    //   ballArm.eject(1.0);
-    // } else {
-    //   ballArm.stop();
-    // }
+    if (getOperatorTrigger()) {
+      ballArm.intake(0.20);
+    } else if (getOperatorButton(2)) {
+      ballArm.eject(1.0);
+    } else {
+      ballArm.stop();
+    }
 
     // =========== ELEVATOR ==========
     if (getOperatorButton(5)) {
@@ -162,7 +161,7 @@ public class OperatorInterface {
     return this.operatorStick.getY();
   }
 
-  public boolean getLeft(int button) {
+  public boolean getLeftButton(int button) {
     return this.leftStick.getRawButton(button);
   }
 

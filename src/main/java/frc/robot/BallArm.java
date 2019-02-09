@@ -14,16 +14,13 @@ public class BallArm {
   private final CANSparkMax topRoller;
   private final CANSparkMax bottomRoller;
 
-  private DoubleSolenoid wrist = new DoubleSolenoid(1, 5);
+  private DoubleSolenoid ballPopper = new DoubleSolenoid(1, 5);
   private DoubleSolenoid mastTilt = new DoubleSolenoid(3, 4);
   private DoubleSolenoid mastExtend = new DoubleSolenoid(2, 6);
 
   private BallArm() {
     topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
     bottomRoller = new CANSparkMax(Constants.BOTTOM_ROLLER_CAN_ID, MotorType.kBrushless);
-
-    // topRoller.setInverted(Constants.TOP_ROLLER_INVERTED);
-    // bottomRoller.setInverted(Constants.BOTTOM_ROLLER_INVERTED);
   }
 
   /**
@@ -53,12 +50,12 @@ public class BallArm {
     bottomRoller.set(0.0);
   }
 
-  public void wristUp() {
-    wrist.set(DoubleSolenoid.Value.kForward);
+  public void popBallOut() {
+    ballPopper.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void wristDown() {
-    wrist.set(DoubleSolenoid.Value.kReverse);
+  public void retractBallPopper() {
+    ballPopper.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void extend() {
