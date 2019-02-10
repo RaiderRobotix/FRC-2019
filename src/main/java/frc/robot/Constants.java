@@ -43,9 +43,9 @@ public final class Constants {
   
   // Auto-Driving Constants (in degrees)
   public static final double TURN_TOLERANCE = 1.0;
-  public static final double VEER_TOLERANCE = 1.0;
+  public static final double DRIVE_STRAIGHT_ANGLE_TOLERANCE = 1.0;
   public static final double DRIVE_SPEED_CORRECTION = 0.15;
-  public static final double DRIVE_TOLERANCE = 1.0;
+  public static final double DRIVE_STRAIGHT_DISTANCE_TOLERANCE = 1.0;
   public static final double SLOW_SPEED_WEAK = 0.12;
   public static final double SLOW_SPEED_STRONG = 0.18;
   public static final double DRIVE_STRAIGHT_SLOW_RANGE = 12.0;
