@@ -8,13 +8,12 @@
 package frc.robot.commands.Elevator;
 
 import frc.robot.subsystems.Elevator;
-import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RaiseElevatorToHeight extends Command {
   
-  private static final Elevator elevator = Elevator.getInstance();
+  private final Elevator elevator;
   
   private static final double UP_SCALED_RANGE_START = 20.0;
   private static final double UP_SCALED_RANGE_END
@@ -26,6 +25,8 @@ public class RaiseElevatorToHeight extends Command {
   private boolean isDone;
 
   public RaiseElevatorToHeight(double height) {
+
+		elevator = Elevator.getInstance();
     
     requires(elevator);
 
