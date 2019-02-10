@@ -72,21 +72,10 @@ public final class Constants {
   public static boolean LEFT_ELEVATOR_INVERTED = true;
   public static boolean RIGHT_ELEVATOR_INVERTED = !LEFT_ELEVATOR_INVERTED;
 
-  // Elevator range and tolerance constants
-  public static final double ELEVATOR_UP_SCALED_RANGE_START = 20.0;
-  public static final double ELEVATOR_UP_SCALED_RANGE_END
-      = 0.5 * ELEVATOR_UP_SCALED_RANGE_START;
-  public static final double ELEVATOR_SCALE_START_SPEED = 0.9;
-  public static final double ELEVATOR_SCALE_END_SPEED = 0.5;
+  public static final double ELEVATOR_MANUAL_DOWN_RATE = -0.5;
 
-  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.5;
-
-  public static final double ELEVATOR_DOWN_SPEED_NEAR_TARGET = -0.3;
-  public static final double ELEVATOR_DOWN_SPEED = -0.5;
-  
   public static final double ELEVATOR_LOWER_LIMIT = 0.0;
   public static final double ELEVATOR_UPPER_LIMIT = 100.0; // TODO
-  public static final double ALLOWED_ELEVATOR_DEVIATION = 1.0; // in inches
   
   public static final double ELEVATOR_DOUBLE_HEIGHT_THRESHOLD = 52.0; // TODO: update for trolley
 
