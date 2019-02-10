@@ -72,7 +72,7 @@ public final class Constants {
   public static boolean LEFT_ELEVATOR_INVERTED = true;
   public static boolean RIGHT_ELEVATOR_INVERTED = !LEFT_ELEVATOR_INVERTED;
 
-  public static final double ELEVATOR_MANUAL_DOWN_RATE = -0.5;
+  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.5;
 
   public static final double ELEVATOR_LOWER_LIMIT = 0.0;
   public static final double ELEVATOR_UPPER_LIMIT = 100.0; // TODO

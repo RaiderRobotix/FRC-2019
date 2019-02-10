@@ -26,7 +26,7 @@ public class RaiseElevatorToHeight extends Command {
 
   public RaiseElevatorToHeight(double height) {
 
-		elevator = Elevator.getInstance();
+    elevator = Elevator.getInstance();
     
     requires(elevator);
 
