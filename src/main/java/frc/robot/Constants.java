@@ -92,6 +92,6 @@ public final class Constants {
 
   // ELEVATOR PRESET HEIGHT POSITIONS
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
-  public static final double ELEVATOR_MIDDLE_PRESET = 64.0; // TODO
-  public static final double ELEVATOR_HIGH_PRESET = 95.0; // TODOs
+  public static final double ELEVATOR_MIDDLE_PRESET = 60.0; // TODO
+  public static final double ELEVATOR_HIGH_PRESET = 92.5; // TODOs
 }

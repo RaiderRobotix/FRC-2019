@@ -28,6 +28,9 @@ public class BallArm extends Subsystem {
 
   private Encoder wristEncoder;
 
+  private boolean tiltedDown = false;
+  private boolean extended = false;
+
   private BallArm() {
     topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
     bottomRoller = new CANSparkMax(Constants.BOTTOM_ROLLER_CAN_ID, MotorType.kBrushless);
@@ -102,18 +105,30 @@ public class BallArm extends Subsystem {
 
   public void extend() {
     mastExtend.set(DoubleSolenoid.Value.kReverse);
+    extended = true;
   }
 
   public void contract() {
     mastExtend.set(DoubleSolenoid.Value.kForward);
+    extended = false;
+  }
+
+  public boolean isExtended() {
+    return this.extended;
   }
 
   public void tiltUp() {
     mastTilt.set(DoubleSolenoid.Value.kReverse);
+    tiltedDown = false;
   }
 
   public void tiltDown() {
     mastTilt.set(DoubleSolenoid.Value.kForward);
+    tiltedDown = true;
+  }
+
+  public boolean isTiltedDown() {
+    return this.tiltedDown;
   }
 
   public double getWristEncoder() {
