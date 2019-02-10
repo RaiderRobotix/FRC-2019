@@ -1,20 +1,19 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+package frc.robot.subsystems;
 
-package frc.robot;
+import frc.robot.Constants;
+import frc.robot.commands.DriveBase.DriveWithJoysticks;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
 import java.util.ArrayList;
 
-public class DriveBase {
-
+public class DriveBase extends Subsystem {
+  
   private static DriveBase m_instance;
 
   private final CANSparkMax leftFrontSpark;
@@ -24,6 +23,8 @@ public class DriveBase {
 
   private final CANEncoder leftEncoder;
   private final CANEncoder rightEncoder;
+
+  private final AnalogInput ultrasonic;
 
   private DriveBase() {
     this.leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_DRIVE_CAN_ID, MotorType.kBrushless);
@@ -40,6 +41,8 @@ public class DriveBase {
 
     leftEncoder = leftFrontSpark.getEncoder();
     rightEncoder = rightFrontSpark.getEncoder();
+
+    ultrasonic = new AnalogInput(0);
   }
 
   /**
@@ -70,6 +73,10 @@ public class DriveBase {
     return this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION * -1.0;
   }
 
+  public double getUltrasonicDistance() {
+    return ultrasonic.getVoltage();
+  }
+
   public ArrayList<String[]> getCanIdFirmwarePairs() {
     ArrayList<String[]> pairs = new ArrayList<String[]>();
     pairs.add(new String[]{"Drive CAN ID Left Front " + Constants.LEFT_FRONT_DRIVE_CAN_ID, this.leftFrontSpark.getFirmwareString()});
@@ -77,5 +84,11 @@ public class DriveBase {
     pairs.add(new String[]{"Drive CAN ID Right Front" + Constants.RIGHT_FRONT_DRIVE_CAN_ID, this.rightFrontSpark.getFirmwareString()});
     pairs.add(new String[]{"Drive CAN ID Right Back " + Constants.RIGHT_BACK_DRIVE_CAN_ID, this.rightBackSpark.getFirmwareString()});
     return pairs;
+  }
+
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    setDefaultCommand(new DriveWithJoysticks());
   }
 }

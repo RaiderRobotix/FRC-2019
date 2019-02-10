@@ -1,6 +1,6 @@
 package frc.robot;
 
-final class Constants {
+public final class Constants {
 
   /**
    * CAN IDs & PWM ports.
@@ -92,6 +92,6 @@ final class Constants {
 
   // ELEVATOR PRESET HEIGHT POSITIONS
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
-  public static final double ELEVATOR_MIDDLE_PRESET = 55.0; // TODO
-  public static final double ELEVATOR_HIGH_PRESET = 40.0; // TODOs
+  public static final double ELEVATOR_MIDDLE_PRESET = 64.0; // TODO
+  public static final double ELEVATOR_HIGH_PRESET = 95.0; // TODOs
 }

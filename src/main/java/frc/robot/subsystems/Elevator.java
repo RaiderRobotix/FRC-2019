@@ -1,4 +1,8 @@
-package frc.robot;
+package frc.robot.subsystems;
+
+import frc.robot.Constants;
+import frc.robot.commands.Elevator.DriveWithJoystick;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -8,8 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 import java.util.ArrayList;
 
-public class Elevator {
-
+public class Elevator extends Subsystem {
   private enum ElevatorRange {
 		AT_TARGET, 
 		UP_FAR_FROM_TARGET, 
@@ -168,5 +171,10 @@ public class Elevator {
     pairs.add(new String[]{"Elevator CAN ID Left " + Constants.LEFT_ELEVATOR_CAN_ID, this.leftMotor.getFirmwareString()});
     pairs.add(new String[]{"Elevator CAN ID Right " + Constants.RIGHT_ELEVATOR_CAN_ID, this.rightMotor.getFirmwareString()});
    return pairs;
+  }
+
+  @Override
+  public void initDefaultCommand() {
+    setDefaultCommand(new DriveWithJoystick());
   }
 }

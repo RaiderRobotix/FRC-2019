@@ -1,9 +1,12 @@
-package frc.robot;
+package frc.robot.subsystems;
+
+import frc.robot.Constants;
+
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class HatchGrabber {
-
+public class HatchGrabber extends Subsystem {
   private static HatchGrabber m_instance;
 
   private Solenoid grabberSolenoid;
@@ -32,5 +35,11 @@ public class HatchGrabber {
 
   public void grab() {
     this.grabberSolenoid.set(true);
+  }
+
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
   }
 }
