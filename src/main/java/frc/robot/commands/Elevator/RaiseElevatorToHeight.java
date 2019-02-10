@@ -20,9 +20,8 @@ public class RaiseElevatorToHeight extends Command {
   private static final double UP_SCALED_RANGE_END
       = 0.5 * UP_SCALED_RANGE_START;
   private static final double ALLOWED_DEVIATION = 1.0; // in inches
-  private static final double LOWER_LIMIT = 0.0;
+	private static final double LOWER_LIMIT = 0.0;
 
-  
   private double targetHeight;
   private boolean isDone;
 
@@ -47,26 +46,37 @@ public class RaiseElevatorToHeight extends Command {
 			this.speed = speed;
 		}
 		
-		private static Range getRange(double delta) {
+		private static double getSpeed(double delta) {
 			Range range = Range.AT_TARGET;
 
-			if (delta < ALLOWED_DEVIATION ) {
+			if ( Math.abs(delta) > ALLOWED_DEVIATION ) {
 				if (delta > 0) {
-					if (delta > UP_SCALED_RANGE_START)
+					if (delta > UP_SCALED_RANGE_START) {
 						range = Range.UP_FAR;
-					else if (delta > UP_SCALED_RANGE_END)
+					}
+					else if (delta > UP_SCALED_RANGE_END) {
 						range = Range.UP_SCALED;
-					else
+					}
+					else {
 						range = Range.UP_NEAR;
+					}
 				} else
-					if (delta > -10.0)
+					if (delta > -10.0) {
 						range = Range.DOWN_NEAR;
-					else
+					}
+					else {
 						range = Range.DOWN_FAR;
-			} else
+					}
+			} else {
 				range = Range.AT_TARGET;
-			
-			return range;
+				}
+			double retSpeed  = range.speed;
+			if (range == Range.UP_SCALED) {
+				double speedDelta = Range.UP_FAR.speed - Range.UP_NEAR.speed;
+				retSpeed = Range.UP_NEAR.speed + (speedDelta * (delta - UP_SCALED_RANGE_END)
+						/ (UP_SCALED_RANGE_START - UP_SCALED_RANGE_END));
+			}
+			return retSpeed;
 		}
 	}
 
@@ -80,21 +90,13 @@ public class RaiseElevatorToHeight extends Command {
   protected void execute() {
     double currentHeight = elevator.getHeight();
 	double delta = targetHeight - currentHeight;
-	Range range = Range.getRange(delta);
-	double speed = range.speed;
+	double speed = Range.getSpeed(delta);
 	
 	if (currentHeight < LOWER_LIMIT + ALLOWED_DEVIATION) {
 		elevator.resetEncoder();
 	}
-	
-	if (range==Range.UP_SCALED) {
-		double speedDelta = Constants.ELEVATOR_SCALE_START_SPEED - Constants.ELEVATOR_SCALE_END_SPEED;
-		speed = Constants.ELEVATOR_SCALE_END_SPEED + (speedDelta * (delta - Constants.ELEVATOR_UP_SCALED_RANGE_END)
-				/ (Constants.ELEVATOR_UP_SCALED_RANGE_START - Constants.ELEVATOR_UP_SCALED_RANGE_END));
-	}
-	
 	elevator.setSpeed(speed);
-	isDone = range == Range.AT_TARGET;
+	isDone = speed == 0;
   }
 
   // Make this return true when this Command no longer needs to run execute()
