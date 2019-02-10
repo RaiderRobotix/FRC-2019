@@ -7,6 +7,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class DriveBase extends Subsystem {
   private final CANEncoder leftEncoder;
   private final CANEncoder rightEncoder;
 
+  private final AnalogInput ultrasonic;
+
   private DriveBase() {
     this.leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_DRIVE_CAN_ID, MotorType.kBrushless);
     this.leftBackSpark = new CANSparkMax(Constants.LEFT_BACK_DRIVE_CAN_ID, MotorType.kBrushless);
@@ -38,6 +41,8 @@ public class DriveBase extends Subsystem {
 
     leftEncoder = leftFrontSpark.getEncoder();
     rightEncoder = rightFrontSpark.getEncoder();
+
+    ultrasonic = new AnalogInput(0);
   }
 
   /**
@@ -66,6 +71,10 @@ public class DriveBase extends Subsystem {
 
   public double getRightDistance() {
     return this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION * -1.0;
+  }
+
+  public double getUltrasonicDistance() {
+    return ultrasonic.getVoltage();
   }
 
   public ArrayList<String[]> getCanIdFirmwarePairs() {
