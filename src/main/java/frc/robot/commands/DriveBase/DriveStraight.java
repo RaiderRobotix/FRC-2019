@@ -43,29 +43,29 @@ public class DriveStraight extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-			double leftSpeed = this.startSpeed;
-			double rightSpeed = this.startSpeed;
-      if (Math.abs(getDistanceTraveledSinceStart() - this.targetDistance) < 
-          Constants.DRIVE_STRAIGHT_DISTANCE_TOLERANCE) {
-				drives.setSpeed(0.0);
-        isDone = true;
-        return;
-			} else if (Math.abs(drives.getGyroAngle()) 
-					 > Constants.DRIVE_STRAIGHT_ANGLE_TOLERANCE) {
-					// Adjust speeds for in case of veering
-					if (drives.getGyroAngle() > 0) { // Too far clockwise
-						if (this.targetDistance > 0)
-							leftSpeed -= Constants.DRIVE_SPEED_CORRECTION;
-						else
-							rightSpeed += Constants.DRIVE_SPEED_CORRECTION;
-					} else { // Too far counterclockwise
-						if (this.targetDistance > 0)
-							rightSpeed -= Constants.DRIVE_SPEED_CORRECTION;
-						else
-							leftSpeed += Constants.DRIVE_SPEED_CORRECTION;
-					}
-				drives.setSpeed(leftSpeed, rightSpeed);
-			}
+    double leftSpeed = this.startSpeed;
+    double rightSpeed = this.startSpeed;
+    if (Math.abs(getDistanceTraveledSinceStart() - this.targetDistance) < 
+      Constants.DRIVE_STRAIGHT_DISTANCE_TOLERANCE) {
+      drives.setSpeed(0.0);
+      isDone = true;
+      return;
+    } else if (Math.abs(drives.getGyroAngle()) 
+      > Constants.DRIVE_STRAIGHT_ANGLE_TOLERANCE) {
+      // Adjust speeds for in case of veering
+      if (drives.getGyroAngle() > 0) { // Too far clockwise
+        if (this.targetDistance > 0)
+          leftSpeed -= Constants.DRIVE_SPEED_CORRECTION;
+        else
+          rightSpeed += Constants.DRIVE_SPEED_CORRECTION;
+      } else { // Too far counterclockwise
+        if (this.targetDistance > 0)
+          rightSpeed -= Constants.DRIVE_SPEED_CORRECTION;
+        else
+          leftSpeed += Constants.DRIVE_SPEED_CORRECTION;
+      }
+      drives.setSpeed(leftSpeed, rightSpeed);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
