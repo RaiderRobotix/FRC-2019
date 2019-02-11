@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
     SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());
     SmartDashboard.putNumber("Elevator Encoder", this.elevator.getHeight());
-    SmartDashboard.putNumber("Wrist Encoder", this.ballArm.getWristEncoder());
+    SmartDashboard.putNumber("Wrist Encoder", this.ballArm.getWristDistance());
     SmartDashboard.putNumber("Ultrasonic", this.drives.getUltrasonicDistance());
   }
 

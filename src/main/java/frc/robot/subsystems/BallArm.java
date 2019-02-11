@@ -131,7 +131,7 @@ public class BallArm extends Subsystem {
     return this.tiltedDown;
   }
 
-  public double getWristEncoder() {
+  public double getWristDistance() {
     return wristEncoder.getDistance();
   }
 
