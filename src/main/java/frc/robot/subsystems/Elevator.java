@@ -20,14 +20,14 @@ public class Elevator extends Subsystem {
 
   private static Elevator m_instance;
 
-	private final Spark motor;
+  private final Spark motor;
 
   private final Encoder encoder;
 
   private Solenoid tiltSolenoid;
 
   private Elevator() {
-		this.motor = new Spark(Constants.ELEVATOR_PWM);
+    this.motor = new Spark(Constants.ELEVATOR_PWM);
 		this.motor.setInverted(Constants.ELEVATOR_INVERTED);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
@@ -74,28 +74,28 @@ public class Elevator extends Subsystem {
 		// the target it is
 		boolean positionChange = !this.encoderValueWithinRange(targetHeight, Constants.ALLOWED_ELEVATOR_DEVIATION);
 		if (positionChange) {
-			if (movingUp) {
+		 	if (movingUp) {
 				positionDelta = targetHeight - currentHeight;
 
-				if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_START) {
+		 		if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_START) {
 					elevatorRange = ElevatorRange.UP_FAR_FROM_TARGET;
 				} else if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_END) {
 					elevatorRange = ElevatorRange.UP_SCALED_RANGE;
 				} else {
-					elevatorRange = ElevatorRange.UP_NEAR_TARGET;
-				}
-			} else if (movingDown) {
-				positionDelta = currentHeight - targetHeight;
+		 			elevatorRange = ElevatorRange.UP_NEAR_TARGET;
+		 		}
+		 	} else if (movingDown) {
+		 		positionDelta = currentHeight - targetHeight;
 
-				if (positionDelta < 10.0) {
-					elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
-				} else {
-					elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
+		 		if (positionDelta < 10.0) {
+		 			elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
+		 		} else {
+		 			elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
 				}
 			}
-		} else {
-			elevatorRange = ElevatorRange.AT_TARGET;
-		}
+		 } else {
+		 	elevatorRange = ElevatorRange.AT_TARGET;
+		 }
 
 		// Set the elevator speed based on its distance from target
 		if (elevatorRange == ElevatorRange.AT_TARGET

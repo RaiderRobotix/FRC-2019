@@ -36,10 +36,10 @@ public class PopBallOut extends Command {
   @Override
   protected void execute() {
     ballArm.retractBallPopper();
-    if (timer.get() > 0.7) {
+    if (timer.get() > 0.5) { // 0.7
       ballArm.eject(0.8);
     }
-    if (timer.get() > 1.5) {
+    if (timer.get() > 2.0) {  // 1.5
       ballArm.popBallOut();
       isDone = true;
     }

@@ -75,7 +75,7 @@ public final class Constants {
   public static final double ELEVATOR_UP_SCALED_RANGE_END
       = 0.5 * ELEVATOR_UP_SCALED_RANGE_START;
   public static final double ELEVATOR_SCALE_START_SPEED = 1.0;
-  public static final double ELEVATOR_SCALE_END_SPEED = 0.8;
+  public static final double ELEVATOR_SCALE_END_SPEED = 0.3;
 
   public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.5;
 
