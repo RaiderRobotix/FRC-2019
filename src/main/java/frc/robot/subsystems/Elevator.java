@@ -22,7 +22,7 @@ public class Elevator extends Subsystem {
   private static Elevator m_instance;
 
   private final CANSparkMax leftMotor;
-  private final CANSparkMax rightMotor;
+  // private final CANSparkMax rightMotor;
 
   private final Encoder encoder;
 
@@ -32,8 +32,8 @@ public class Elevator extends Subsystem {
     this.leftMotor = new CANSparkMax(Constants.ELEVATOR_CAN_ID, MotorType.kBrushless);
     this.leftMotor.setInverted(Constants.ELEVATOR_INVERTED);
     
-    this.rightMotor = new CANSparkMax(9, MotorType.kBrushless);
-    rightMotor.follow(leftMotor, true);
+    // this.rightMotor = new CANSparkMax(9, MotorType.kBrushless);
+    // rightMotor.follow(leftMotor, true);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
     this.tiltSolenoid.set(false);
