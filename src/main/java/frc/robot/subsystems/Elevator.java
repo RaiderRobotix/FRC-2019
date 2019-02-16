@@ -6,7 +6,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
+
+import java.util.ArrayList;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Elevator extends Subsystem {
   private enum ElevatorRange {
@@ -20,15 +24,18 @@ public class Elevator extends Subsystem {
 
   private static Elevator m_instance;
 
-	private final Spark motor;
+  private final CANSparkMax leftMotor;
+  private final CANSparkMax rightMotor;
 
   private final Encoder encoder;
 
   private Solenoid tiltSolenoid;
 
   private Elevator() {
-    this.motor = new Spark(Constants.ELEVATOR_PWM);
-	this.motor.setInverted(Constants.ELEVATOR_INVERTED);
+    this.leftMotor = new CANSparkMax(Constants.ELEVATOR_LEFT_CAN_ID, MotorType.kBrushless);    
+		this.rightMotor = new CANSparkMax(Constants.ELEVATOR_RIGHT_CAN_ID, MotorType.kBrushless);
+		
+    leftMotor.follow(rightMotor, true);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
     this.tiltSolenoid.set(false);
@@ -53,7 +60,7 @@ public class Elevator extends Subsystem {
   }
 
   public void setSpeed(double speed) {
-    this.motor.set(speed);
+    this.rightMotor.set(speed);
   }
 
   /**
@@ -149,6 +156,13 @@ public class Elevator extends Subsystem {
 
   public void resetEncoder() {
     this.encoder.reset();
+	}
+	
+  public ArrayList<String[]> getCanIdFirmwarePairs() {
+    ArrayList<String[]> pairs = new ArrayList<String[]>();
+    pairs.add(new String[]{"Elevator CAN ID Left " + Constants.ELEVATOR_LEFT_CAN_ID, this.leftMotor.getFirmwareString()});
+    pairs.add(new String[]{"Elevator CAN ID Right " + Constants.ELEVATOR_RIGHT_CAN_ID, this.rightMotor.getFirmwareString()});
+    return pairs;
   }
 
   @Override
