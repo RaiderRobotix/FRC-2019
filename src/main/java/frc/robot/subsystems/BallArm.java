@@ -135,6 +135,10 @@ public class BallArm extends Subsystem {
     return wristEncoder.getDistance();
   }
 
+  public void resetEncoder() {
+    wristEncoder.reset();
+  }
+
   public ArrayList<String[]> getCanIdFirmwarePairs() {
     ArrayList<String[]> pairs = new ArrayList<String[]>();
     pairs.add(new String[]{"Ball Top Roller CAN ID Left " + Constants.TOP_ROLLER_CAN_ID, this.topRoller.getFirmwareString()});

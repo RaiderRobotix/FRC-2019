@@ -8,6 +8,7 @@
 package frc.robot.commands.BallArm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.BallArm;
 
@@ -32,9 +33,15 @@ public class DefaultBallArmCommand extends Command {
   @Override
   protected void execute() {
 
-    if (oi.getOperatorButton(6)) {
+    if (oi.getRightButton(9)) {
+      ballArm.resetEncoder();
+    }
+
+    if (oi.getOperatorButton(6) && 
+        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON)) {
       ballArm.wristDown(0.7);
-    } else if (oi.getOperatorButton(4)) {
+    } else if (oi.getOperatorButton(4) && 
+        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON)) {
       ballArm.wristUp(0.5);
     } else {
       ballArm.stopWrist();
