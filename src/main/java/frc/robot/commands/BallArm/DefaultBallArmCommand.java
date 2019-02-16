@@ -42,7 +42,7 @@ public class DefaultBallArmCommand extends Command {
       ballArm.wristDown(0.7);
     } else if (oi.getOperatorButton(4) && 
         (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristUp(0.5);
+      ballArm.wristUp(0.7);
     } else {
       ballArm.stopWrist();
     }
