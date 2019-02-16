@@ -8,20 +8,11 @@
 package frc.robot.commands.BallArm;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Constants;
-import frc.robot.OperatorInterface;
-import frc.robot.subsystems.BallArm;
 
-public class DefaultBallArmCommand extends Command {
-
-  private BallArm ballArm;
-  private OperatorInterface oi;
-
-  public DefaultBallArmCommand() {
-    oi = OperatorInterface.getInstance();
-    ballArm = BallArm.getInstance();
-
-    requires(ballArm);
+public class GoToWristPosition extends Command {
+  public GoToWristPosition() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -32,29 +23,6 @@ public class DefaultBallArmCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    if (oi.getRightButton(9)) {
-      ballArm.resetEncoder();
-    }
-
-    if (oi.getOperatorButton(6) && 
-        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristDown(0.7);
-    } else if (oi.getOperatorButton(4) && 
-        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT + Constants.WRIST_TOLERANCE || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristUp(0.7);
-    } else {
-      ballArm.stopWrist();
-    }
-
-    if (oi.getOperatorTrigger()) {
-      ballArm.intake(0.20);
-    } else if (oi.getOperatorButton(2) || oi.getOperatorButton(7)) {
-      ballArm.eject(1.0);
-    } else {
-      ballArm.stopRollers();
-    }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -66,13 +34,11 @@ public class DefaultBallArmCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    ballArm.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }
