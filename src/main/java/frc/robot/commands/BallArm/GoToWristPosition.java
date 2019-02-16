@@ -7,12 +7,22 @@
 
 package frc.robot.commands.BallArm;
 
+import static org.junit.Assert.assertEquals;
+
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.BallArm;
 
 public class GoToWristPosition extends Command {
-  public GoToWristPosition() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+
+  private final BallArm ballArm;
+
+  private boolean isDone = false;
+  private final double target;
+
+  public GoToWristPosition(double targetPosition) {
+    ballArm = BallArm.getInstance();
+    this.target = targetPosition;
+    requires(ballArm);
   }
 
   // Called just before this Command runs the first time
@@ -23,22 +33,35 @@ public class GoToWristPosition extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (ballArm.encoderValueWithinRange(target)) {
+      isDone = true;
+      ballArm.stopWrist();
+    } else {
+      boolean goingForward = ballArm.getWristDistance() < target;
+      if (goingForward) {
+        ballArm.wristDown(0.7);
+      } else {
+        ballArm.wristUp(0.7);
+      }
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return isDone;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    ballArm.stopWrist();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
