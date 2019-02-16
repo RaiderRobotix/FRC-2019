@@ -7,14 +7,15 @@
 
 package frc.robot.commands.BallArm;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.subsystems.BallArm;
 
-public class TiltBallArmDown extends Command {
+public class TiltBallArmDown extends TimedCommand {
 
   private BallArm ballArm;
 
   public TiltBallArmDown() {
+    super(1.0);
     ballArm = BallArm.getInstance();
     requires(ballArm);
   }
@@ -30,12 +31,6 @@ public class TiltBallArmDown extends Command {
     if (!ballArm.isExtended()) {
       ballArm.tiltDown();
     }
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return true;
   }
 
   // Called once after isFinished returns true
