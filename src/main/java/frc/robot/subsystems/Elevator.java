@@ -84,7 +84,7 @@ public class Elevator extends Subsystem {
     pairs.add(new String[]{"Elevator CAN ID Left " + Constants.ELEVATOR_LEFT_CAN_ID, this.leftMotor.getFirmwareString()});
     pairs.add(new String[]{"Elevator CAN ID Right " + Constants.ELEVATOR_RIGHT_CAN_ID, this.rightMotor.getFirmwareString()});
     return pairs;
-  }
+	}
 
   @Override
   public void initDefaultCommand() {

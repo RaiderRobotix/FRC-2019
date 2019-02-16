@@ -32,6 +32,7 @@ public class RaiseElevatorToHeight extends Command {
 	// Called just before elevator Command runs the first time
 	@Override
 	protected void initialize() {
+		isDone = false;
 	}
 
 	// Called repeatedly when elevator Command is scheduled to run
@@ -71,7 +72,8 @@ public class RaiseElevatorToHeight extends Command {
 				elevator.resetEncoder();
 			}
 			isDone = true;
-		} else if (movingDown && (currentHeight > (targetHeight + Constants.ALLOWED_ELEVATOR_DEVIATION + 1.0))) {
+			return;
+		} else if (movingDown && (currentHeight > (targetHeight + Constants.ALLOWED_ELEVATOR_DEVIATION))) {
 			if (elevatorRange == ElevatorRange.DOWN_NEAR_TARGET) {
 				elevator.setSpeed(Constants.ELEVATOR_DOWN_SPEED_NEAR_TARGET);
 			} else if (elevatorRange == ElevatorRange.DOWN_FAR_FROM_TARGET) {
