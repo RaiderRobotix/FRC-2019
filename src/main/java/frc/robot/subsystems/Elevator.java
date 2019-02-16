@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
-//import edu.wpi.first.wpilibj.Spark;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -22,15 +21,19 @@ public class Elevator extends Subsystem {
 
   private static Elevator m_instance;
 
-	private final CANSparkMax motor;
+  private final CANSparkMax leftMotor;
+  private final CANSparkMax rightMotor;
 
   private final Encoder encoder;
 
   private Solenoid tiltSolenoid;
 
   private Elevator() {
-    this.motor = new CANSparkMax(Constants.ELEVATOR_CAN_ID, MotorType.kBrushless);
-		this.motor.setInverted(Constants.ELEVATOR_INVERTED);
+    this.leftMotor = new CANSparkMax(Constants.ELEVATOR_CAN_ID, MotorType.kBrushless);
+    this.leftMotor.setInverted(Constants.ELEVATOR_INVERTED);
+    
+    this.rightMotor = new CANSparkMax(9, MotorType.kBrushless);
+    rightMotor.follow(leftMotor, true);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
     this.tiltSolenoid.set(false);
@@ -55,7 +58,7 @@ public class Elevator extends Subsystem {
   }
 
   public void setSpeed(double speed) {
-    this.motor.set(speed);
+    this.leftMotor.set(speed);
   }
 
   /**
