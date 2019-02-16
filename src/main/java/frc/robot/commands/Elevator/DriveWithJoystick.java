@@ -39,12 +39,12 @@ public class DriveWithJoystick extends Command {
     }
 
     if (oi.getOperatorY() > Constants.JOYSTICK_DEADBAND
-        /*&& (elevator.getHeight() <= Constants.ELEVATOR_UPPER_LIMIT
-            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))*/) {
+        && (elevator.getHeight() <= Constants.ELEVATOR_UPPER_LIMIT
+            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
       elevator.setSpeed(oi.getOperatorY()); // manual up
     } else if (oi.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND
-        /*&& (elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
-            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))*/) {
+        && (elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
+            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
       elevator.setSpeed(oi.getOperatorY() * Constants.ELEVATOR_MANUAL_DOWN_RATE); // manual down
     } else {
       elevator.setSpeed(0.0);

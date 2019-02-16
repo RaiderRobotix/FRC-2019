@@ -33,7 +33,8 @@ public class Elevator extends Subsystem {
 
   private Elevator() {
     this.leftMotor = new CANSparkMax(Constants.ELEVATOR_LEFT_CAN_ID, MotorType.kBrushless);    
-    this.rightMotor = new CANSparkMax(Constants.ELEVATOR_RIGHT_CAN_ID, MotorType.kBrushless);
+		this.rightMotor = new CANSparkMax(Constants.ELEVATOR_RIGHT_CAN_ID, MotorType.kBrushless);
+		
     leftMotor.follow(rightMotor, true);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
@@ -59,7 +60,7 @@ public class Elevator extends Subsystem {
   }
 
   public void setSpeed(double speed) {
-    this.leftMotor.set(speed);
+    this.rightMotor.set(speed);
   }
 
   /**
