@@ -13,36 +13,31 @@ import frc.robot.Constants;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RaiseElevatorToHeight extends Command {
-  
-  private Elevator elevator;
-  private double targetHeight;
-  private boolean isDone;
 
-  private enum ElevatorRange {
-		AT_TARGET, 
-		UP_FAR_FROM_TARGET, 
-		UP_SCALED_RANGE, 
-		UP_NEAR_TARGET, 
-		DOWN_FAR_FROM_TARGET, 
-		DOWN_NEAR_TARGET
+	private Elevator elevator;
+	private double targetHeight;
+	private boolean isDone;
+
+	private enum ElevatorRange {
+		AT_TARGET, DOWN_FAR_FROM_TARGET, DOWN_NEAR_TARGET
 	}
 
-  public RaiseElevatorToHeight(double height) {
-    elevator = Elevator.getInstance();
-    requires(elevator);
+	public RaiseElevatorToHeight(double height) {
+		elevator = Elevator.getInstance();
+		requires(elevator);
 
-    targetHeight = height;
-  }
+		targetHeight = height;
+	}
 
-  // Called just before elevator Command runs the first time
-  @Override
-  protected void initialize() {
-  }
+	// Called just before elevator Command runs the first time
+	@Override
+	protected void initialize() {
+	}
 
-  // Called repeatedly when elevator Command is scheduled to run
-  @Override
-  protected void execute() {
-    double currentHeight = elevator.getHeight();
+	// Called repeatedly when elevator Command is scheduled to run
+	@Override
+	protected void execute() {
+		double currentHeight = elevator.getHeight();
 		boolean movingUp = currentHeight < targetHeight;
 		boolean movingDown = currentHeight > targetHeight;
 		double positionDelta = 0.0;
@@ -52,28 +47,20 @@ public class RaiseElevatorToHeight extends Command {
 		// the target it is
 		boolean positionChange = !elevator.encoderValueWithinRange(targetHeight, Constants.ALLOWED_ELEVATOR_DEVIATION);
 		if (positionChange) {
-		 	if (movingUp) {
+			if (movingUp) {
 				positionDelta = targetHeight - currentHeight;
+			} else if (movingDown) {
+				positionDelta = currentHeight - targetHeight;
 
-		 		if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_START) {
-					elevatorRange = ElevatorRange.UP_FAR_FROM_TARGET;
-				} else if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_END) {
-					elevatorRange = ElevatorRange.UP_SCALED_RANGE;
+				if (positionDelta < 10.0) {
+					elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
 				} else {
-		 			elevatorRange = ElevatorRange.UP_NEAR_TARGET;
-		 		}
-		 	} else if (movingDown) {
-		 		positionDelta = currentHeight - targetHeight;
-
-		 		if (positionDelta < 10.0) {
-		 			elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
-		 		} else {
-		 			elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
+					elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
 				}
 			}
-		 } else {
-		 	elevatorRange = ElevatorRange.AT_TARGET;
-		 }
+		} else {
+			elevatorRange = ElevatorRange.AT_TARGET;
+		}
 
 		// Set the elevator speed based on its distance from target
 		if (elevatorRange == ElevatorRange.AT_TARGET
@@ -91,37 +78,27 @@ public class RaiseElevatorToHeight extends Command {
 				elevator.setSpeed(Constants.ELEVATOR_DOWN_SPEED);
 			}
 		} else if (movingUp && (currentHeight < (targetHeight - Constants.ALLOWED_ELEVATOR_DEVIATION))) {
-			if (elevatorRange == ElevatorRange.UP_FAR_FROM_TARGET) {
-				elevator.setSpeed(Constants.ELEVATOR_SCALE_START_SPEED);
-			} else if (elevatorRange == ElevatorRange.UP_SCALED_RANGE) {
-				double speedDelta = Constants.ELEVATOR_SCALE_START_SPEED - Constants.ELEVATOR_SCALE_END_SPEED;
-				double scaledSpeed = Constants.ELEVATOR_SCALE_END_SPEED + (speedDelta * (positionDelta - Constants.ELEVATOR_UP_SCALED_RANGE_END)
-						/ (Constants.ELEVATOR_UP_SCALED_RANGE_START - Constants.ELEVATOR_UP_SCALED_RANGE_END));
-				elevator.setSpeed(scaledSpeed);
-			} else if (elevatorRange == ElevatorRange.UP_NEAR_TARGET) {
-				elevator.setSpeed(Constants.ELEVATOR_SCALE_END_SPEED);
-			}
+			elevator.setSpeed(0.9);
 		}
-		isDone = false;
+	}
 
-  }
+	// Make elevator isDone = true when elevator Command no longer needs to run
+	// execute()
+	@Override
+	protected boolean isFinished() {
+		return isDone;
+	}
 
-  // Make elevator isDone = true when elevator Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return isDone;
-  }
+	// Called once after isFinished isDone =s true
+	@Override
+	protected void end() {
+		elevator.setSpeed(0.0);
+	}
 
-  // Called once after isFinished isDone =s true
-  @Override
-  protected void end() {
-    elevator.setSpeed(0.0);
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-    end();
-  }
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	@Override
+	protected void interrupted() {
+		end();
+	}
 }
