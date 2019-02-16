@@ -38,10 +38,10 @@ public class DefaultBallArmCommand extends Command {
     }
 
     if (oi.getOperatorButton(6) && 
-        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON)) {
+        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
       ballArm.wristDown(0.7);
     } else if (oi.getOperatorButton(4) && 
-        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON)) {
+        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
       ballArm.wristUp(0.5);
     } else {
       ballArm.stopWrist();
