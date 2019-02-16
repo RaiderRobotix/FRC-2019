@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
+
+import java.util.ArrayList;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -152,6 +155,13 @@ public class Elevator extends Subsystem {
 
   public void resetEncoder() {
     this.encoder.reset();
+	}
+	
+  public ArrayList<String[]> getCanIdFirmwarePairs() {
+    ArrayList<String[]> pairs = new ArrayList<String[]>();
+    pairs.add(new String[]{"Elevator CAN ID Left " + Constants.ELEVATOR_LEFT_CAN_ID, this.leftMotor.getFirmwareString()});
+    pairs.add(new String[]{"Elevator CAN ID Right " + Constants.ELEVATOR_RIGHT_CAN_ID, this.rightMotor.getFirmwareString()});
+    return pairs;
   }
 
   @Override
