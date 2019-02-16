@@ -13,14 +13,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Elevator extends Subsystem {
-  private enum ElevatorRange {
-		AT_TARGET, 
-		UP_FAR_FROM_TARGET, 
-		UP_SCALED_RANGE, 
-		UP_NEAR_TARGET, 
-		DOWN_FAR_FROM_TARGET, 
-		DOWN_NEAR_TARGET
-	}
 
   private static Elevator m_instance;
 
@@ -61,77 +53,6 @@ public class Elevator extends Subsystem {
 
   public void setSpeed(double speed) {
     this.rightMotor.set(speed);
-  }
-
-  /**
-	 * Function to go to desired preset height based on 2011 mast code.
-	 * 
-	 * @param targetHeight - The target encoder value to go to, height in inches
-	 * 
-	 * @return true, when complete and stopped; false when mast is still moving
-	 */
-	public boolean goToHeight(double targetHeight) {
-		double currentHeight = this.getHeight();
-		boolean movingUp = currentHeight < targetHeight;
-		boolean movingDown = currentHeight > targetHeight;
-		double positionDelta = 0.0;
-		ElevatorRange elevatorRange = ElevatorRange.AT_TARGET;
-
-		// If the elevator needs to change heights, figure out how far away from
-		// the target it is
-		boolean positionChange = !this.encoderValueWithinRange(targetHeight, Constants.ALLOWED_ELEVATOR_DEVIATION);
-		if (positionChange) {
-		 	if (movingUp) {
-				positionDelta = targetHeight - currentHeight;
-
-		 		if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_START) {
-					elevatorRange = ElevatorRange.UP_FAR_FROM_TARGET;
-				} else if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_END) {
-					elevatorRange = ElevatorRange.UP_SCALED_RANGE;
-				} else {
-		 			elevatorRange = ElevatorRange.UP_NEAR_TARGET;
-		 		}
-		 	} else if (movingDown) {
-		 		positionDelta = currentHeight - targetHeight;
-
-		 		if (positionDelta < 10.0) {
-		 			elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
-		 		} else {
-		 			elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
-				}
-			}
-		 } else {
-		 	elevatorRange = ElevatorRange.AT_TARGET;
-		 }
-
-		// Set the elevator speed based on its distance from target
-		if (elevatorRange == ElevatorRange.AT_TARGET
-				|| (movingDown && currentHeight <= Constants.ELEVATOR_LOWER_LIMIT + 1.0)
-				|| (movingUp && currentHeight >= Constants.ELEVATOR_UPPER_LIMIT)) {
-			this.setSpeed(0.0);
-			if (this.getHeight() < Constants.ELEVATOR_LOWER_LIMIT + 1.0) {
-				this.resetEncoder();
-			}
-			return true;
-		} else if (movingDown && (currentHeight > (targetHeight + Constants.ALLOWED_ELEVATOR_DEVIATION + 1.0))) {
-			if (elevatorRange == ElevatorRange.DOWN_NEAR_TARGET) {
-				this.setSpeed(Constants.ELEVATOR_DOWN_SPEED_NEAR_TARGET);
-			} else if (elevatorRange == ElevatorRange.DOWN_FAR_FROM_TARGET) {
-				this.setSpeed(Constants.ELEVATOR_DOWN_SPEED);
-			}
-		} else if (movingUp && (currentHeight < (targetHeight - Constants.ALLOWED_ELEVATOR_DEVIATION))) {
-			if (elevatorRange == ElevatorRange.UP_FAR_FROM_TARGET) {
-				this.setSpeed(Constants.ELEVATOR_SCALE_START_SPEED);
-			} else if (elevatorRange == ElevatorRange.UP_SCALED_RANGE) {
-				double speedDelta = Constants.ELEVATOR_SCALE_START_SPEED - Constants.ELEVATOR_SCALE_END_SPEED;
-				double scaledSpeed = Constants.ELEVATOR_SCALE_END_SPEED + (speedDelta * (positionDelta - Constants.ELEVATOR_UP_SCALED_RANGE_END)
-						/ (Constants.ELEVATOR_UP_SCALED_RANGE_START - Constants.ELEVATOR_UP_SCALED_RANGE_END));
-				this.setSpeed(scaledSpeed);
-			} else if (elevatorRange == ElevatorRange.UP_NEAR_TARGET) {
-				this.setSpeed(Constants.ELEVATOR_SCALE_END_SPEED);
-			}
-		}
-		return false;
   }
   
   public boolean encoderValueWithinRange(double targetHeight, double allowedDeviation) {
