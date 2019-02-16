@@ -16,7 +16,7 @@ public class BallArmDefaultPosition extends CommandGroup {
    */
   public BallArmDefaultPosition() {
     addSequential(new ContractBallArm());
-    addSequential(new GoToWristPosition(Constants.WRIST_MID_SCORE_POSITION));
     addSequential(new TiltBallArmUp());
+    addSequential(new GoToWristPosition(Constants.WRIST_MID_SCORE_POSITION));
   }
 }

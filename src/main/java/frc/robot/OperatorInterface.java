@@ -74,8 +74,8 @@ public class OperatorInterface {
     operator3.whenPressed(new BallArmLowRocketPosition());
     operator5.whenPressed(new BallArmMidRocketPosition());
 
-    operator10.whenPressed(new BallArmDefaultPosition());
-    operator12.whenPressed(new BallArmPickUpPosition());
+    operator10.whenPressed(new TiltBallArmUp());
+    operator12.whenPressed(new TiltBallArmDown());
   }
 
   /**

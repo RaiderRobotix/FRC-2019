@@ -7,8 +7,6 @@
 
 package frc.robot.commands.BallArm;
 
-import static org.junit.Assert.assertEquals;
-
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.BallArm;
 
@@ -16,7 +14,7 @@ public class GoToWristPosition extends Command {
 
   private final BallArm ballArm;
 
-  private boolean isDone = false;
+  private boolean isDone;
   private final double target;
 
   public GoToWristPosition(double targetPosition) {
@@ -28,6 +26,7 @@ public class GoToWristPosition extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    isDone = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -41,7 +40,7 @@ public class GoToWristPosition extends Command {
       if (goingForward) {
         ballArm.wristDown(0.7);
       } else {
-        ballArm.wristUp(0.7);
+        ballArm.wristUp(0.8);
       }
     }
   }
