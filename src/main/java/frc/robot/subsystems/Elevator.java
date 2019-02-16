@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.Spark;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Elevator extends Subsystem {
   private enum ElevatorRange {
@@ -20,14 +22,14 @@ public class Elevator extends Subsystem {
 
   private static Elevator m_instance;
 
-  private final Spark motor;
+	private final CANSparkMax motor;
 
   private final Encoder encoder;
 
   private Solenoid tiltSolenoid;
 
   private Elevator() {
-    this.motor = new Spark(Constants.ELEVATOR_PWM);
+    this.motor = new CANSparkMax(Constants.ELEVATOR_CAN_ID, MotorType.kBrushless);
 		this.motor.setInverted(Constants.ELEVATOR_INVERTED);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
