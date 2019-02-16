@@ -12,7 +12,7 @@ public final class Constants {
 
   public static final int PCM_CAN_ADDRESS = 0;
 
-  public static final int ELEVATOR_CAN_ID = 10;
+  public static final int ELEVATOR_PWM = 1;
 
   public static final int BOTTOM_ROLLER_CAN_ID = 7;
   public static final int TOP_ROLLER_CAN_ID = 8;
