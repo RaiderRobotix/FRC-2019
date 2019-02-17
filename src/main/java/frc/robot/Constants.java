@@ -89,4 +89,16 @@ public final class Constants {
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
   public static final double ELEVATOR_MIDDLE_PRESET = 60.0; // TODO
   public static final double ELEVATOR_HIGH_PRESET = 92.5; // TODOs
+
+  // BALL ARM WRIST PRESET POSITIONS
+  public static final double WRIST_PICKUP_POSITION = 244;
+
+  public static final double WRIST_HP_CARGOSHIP_POSITION = 112;
+  public static final double WRIST_MID_ROCKET_POSITION = 80;
+  public static final double WRIST_LOW_SCORE_POSITION = 0;
+  public static final double WRIST_TOLERANCE = 5;
+  public static final double WRIST_LOWER_LIMIT = WRIST_LOW_SCORE_POSITION;
+  public static final double WRIST_UPPER_LIMIT = WRIST_PICKUP_POSITION;
+
+
 }
