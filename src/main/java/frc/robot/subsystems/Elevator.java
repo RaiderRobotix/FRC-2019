@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.commands.Elevator.DriveWithJoystick;
+import frc.robot.commands.Elevator.DefaultElevatorCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -167,6 +167,6 @@ public class Elevator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new DriveWithJoystick());
+    setDefaultCommand(new DefaultElevatorCommand());
   }
 }

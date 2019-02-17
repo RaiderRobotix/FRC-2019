@@ -5,23 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.DriveBase;
+package frc.robot.commands.Autonomous;
 
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OperatorInterface;
-import frc.robot.subsystems.DriveBase;
 
-public class DriveWithJoysticks extends Command {
+public class AddHatchReleaseTrigger extends Command {
 
-  private DriveBase drives;
-  private OperatorInterface oi;
+  private Trigger trigger;
+  private Command command;
 
-  public DriveWithJoysticks() {
-    // Use requires() here to declare subsystem dependencies
-    drives = DriveBase.getInstance();
-    oi = OperatorInterface.getInstance();
-
-    requires(drives);
+  public AddHatchReleaseTrigger(Command triggerActiveCommand) {
+    trigger = new AutonHatchReleaseButtonTrigger();
+    this.command = triggerActiveCommand;
   }
 
   // Called just before this Command runs the first time
@@ -32,25 +28,23 @@ public class DriveWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drives.setSpeed(oi.getLeftY(), oi.getRightY());
+    trigger.whenActive(this.command);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    drives.setSpeed(0.0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

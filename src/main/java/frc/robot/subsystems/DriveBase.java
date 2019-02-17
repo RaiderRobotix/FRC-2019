@@ -1,13 +1,15 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.commands.DriveBase.DriveWithJoysticks;
+import frc.robot.commands.DriveBase.DefaultDriveBaseCommand;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.ArrayList;
@@ -24,7 +26,13 @@ public class DriveBase extends Subsystem {
   private final CANEncoder leftEncoder;
   private final CANEncoder rightEncoder;
 
+  private double leftDistance;
+  private double rightDistance;
+
   private final AnalogInput ultrasonic;
+
+  private final AHRS navX;
+  private double headingYaw;
 
   private DriveBase() {
     this.leftFrontSpark = new CANSparkMax(Constants.LEFT_FRONT_DRIVE_CAN_ID, MotorType.kBrushless);
@@ -42,7 +50,13 @@ public class DriveBase extends Subsystem {
     leftEncoder = leftFrontSpark.getEncoder();
     rightEncoder = rightFrontSpark.getEncoder();
 
+    leftDistance = this.getLeftEncoder();
+    rightDistance = this.getRightEncoder();
+
     ultrasonic = new AnalogInput(0);
+
+    navX = new AHRS(Port.kUSB1);
+    headingYaw = 0.0;
   }
 
   /**
@@ -65,17 +79,42 @@ public class DriveBase extends Subsystem {
     this.rightFrontSpark.set(rightSpeed);
   }
 
+  private double getLeftEncoder() {
+    return (this.leftEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION);
+  }
+
+  private double getRightEncoder() {
+    return (this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION);
+  }
+
+  public double getAverageDistance() {
+    return (getLeftDistance() + getRightDistance()) / 2.0;
+  }
+
   public double getLeftDistance() {
-    return this.leftEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION;
+    return this.getLeftEncoder() - this.leftDistance;
   }
 
   public double getRightDistance() {
-    return this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION * -1.0;
+    return this.getRightEncoder() - this.rightDistance;
+  }
+
+  public void resetEncoders() {
+    this.leftDistance = this.getLeftEncoder();
+    this.rightDistance = this.getRightEncoder();
   }
 
   public double getUltrasonicDistance() {
     return ultrasonic.getVoltage();
   }
+
+  public double getGyroAngle() {
+		return navX.getAngle() - this.headingYaw;
+  }
+  
+  public void resetGyro() {
+		headingYaw = navX.getAngle();
+	}
 
   public ArrayList<String[]> getCanIdFirmwarePairs() {
     ArrayList<String[]> pairs = new ArrayList<String[]>();
@@ -89,6 +128,6 @@ public class DriveBase extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new DriveWithJoysticks());
+    setDefaultCommand(new DefaultDriveBaseCommand());
   }
 }

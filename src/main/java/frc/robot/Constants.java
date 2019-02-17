@@ -35,17 +35,20 @@ public final class Constants {
   public static final double JOYSTICK_DEADBAND = 0.15;
   public static final int OPERATOR_OVERRIDE_BUTTON = 8;
 
+  public static final int SENSOR_RESET_BUTTON = 9;
+  public static final int HATCH_RELEASE_BUTTON = 11;
+
   /**
    * DRIVEBASE.
    */
-  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = false;
-  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = true;
+  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = true;
+  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = false;
   
   // Auto-Driving Constants (in degrees)
   public static final double TURN_TOLERANCE = 1.0;
-  public static final double VEER_TOLERANCE = 1.0;
-  public static final double DRIVE_SPEED_CORRECTION = 0.15;
-  public static final double DRIVE_TOLERANCE = 1.0;
+  public static final double DRIVE_STRAIGHT_ANGLE_TOLERANCE = 1.0;
+  public static final double DRIVE_SPEED_CORRECTION = 0.10;
+  public static final double DRIVE_STRAIGHT_DISTANCE_TOLERANCE = 1.0;
   public static final double SLOW_SPEED_WEAK = 0.12;
   public static final double SLOW_SPEED_STRONG = 0.18;
   public static final double DRIVE_STRAIGHT_SLOW_RANGE = 12.0;

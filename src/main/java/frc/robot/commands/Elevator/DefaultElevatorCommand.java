@@ -5,23 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.BallArm;
+package frc.robot.commands.Elevator;
 
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
-import frc.robot.subsystems.BallArm;
+import frc.robot.subsystems.Elevator;
 
-public class DefaultBallArmCommand extends Command {
+import edu.wpi.first.wpilibj.command.Command;
 
-  private BallArm ballArm;
+public class DefaultElevatorCommand extends Command {
+
+  private Elevator elevator;
   private OperatorInterface oi;
 
-  public DefaultBallArmCommand() {
+  public DefaultElevatorCommand() {
+    elevator = Elevator.getInstance();
     oi = OperatorInterface.getInstance();
-    ballArm = BallArm.getInstance();
 
-    requires(ballArm);
+    requires(elevator);
   }
 
   // Called just before this Command runs the first time
@@ -34,31 +35,20 @@ public class DefaultBallArmCommand extends Command {
   protected void execute() {
 
     if (oi.getRightButton(Constants.SENSOR_RESET_BUTTON)) {
-      ballArm.resetEncoder();
+      elevator.resetEncoder();
     }
 
-    if (oi.getLeftButton(7)) {
-      ballArm.retractBallPopper();
-    }
-
-    if (oi.getOperatorButton(6) && 
-        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristDown(0.7);
-    } else if (oi.getOperatorButton(4) && 
-        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT + Constants.WRIST_TOLERANCE || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristUp(0.7);
+    if (oi.getOperatorY() > Constants.JOYSTICK_DEADBAND
+        && (elevator.getHeight() <= Constants.ELEVATOR_UPPER_LIMIT
+            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
+      elevator.setSpeed(oi.getOperatorY()); // manual up
+    } else if (oi.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND
+        && (elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
+            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
+      elevator.setSpeed(oi.getOperatorY() * Constants.ELEVATOR_MANUAL_DOWN_RATE); // manual down
     } else {
-      ballArm.stopWrist();
+      elevator.setSpeed(0.0);
     }
-
-    if (oi.getOperatorTrigger()) {
-      ballArm.intake(0.20);
-    } else if (oi.getOperatorButton(2) || oi.getOperatorButton(7)) {
-      ballArm.eject(1.0);
-    } else {
-      ballArm.stopRollers();
-    }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -70,7 +60,7 @@ public class DefaultBallArmCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    ballArm.stop();
+    elevator.setSpeed(0.0);
   }
 
   // Called when another command which requires one or more of the same

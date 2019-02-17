@@ -5,24 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Elevator;
-
-import frc.robot.Constants;
-import frc.robot.OperatorInterface;
-import frc.robot.subsystems.Elevator;
+package frc.robot.commands.HatchGrabber;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
+import frc.robot.OperatorInterface;
+import frc.robot.subsystems.HatchGrabber;
 
-public class DriveWithJoystick extends Command {
+public class DefaultHatchGrabberCommand extends Command {
 
-  private Elevator elevator;
+  private HatchGrabber hatchGrabber;
   private OperatorInterface oi;
 
-  public DriveWithJoystick() {
-    elevator = Elevator.getInstance();
+  public DefaultHatchGrabberCommand() {
     oi = OperatorInterface.getInstance();
-
-    requires(elevator);
+    hatchGrabber = HatchGrabber.getInstance();
+    requires(hatchGrabber);
   }
 
   // Called just before this Command runs the first time
@@ -33,21 +31,10 @@ public class DriveWithJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
-    if (oi.getRightButton(9)) {
-      elevator.resetEncoder();
-    }
-
-    if (oi.getOperatorY() > Constants.JOYSTICK_DEADBAND
-        && (elevator.getHeight() <= Constants.ELEVATOR_UPPER_LIMIT
-            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      elevator.setSpeed(oi.getOperatorY()); // manual up
-    } else if (oi.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND
-        && (elevator.getHeight() > Constants.ELEVATOR_LOWER_LIMIT
-            || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      elevator.setSpeed(oi.getOperatorY() * Constants.ELEVATOR_MANUAL_DOWN_RATE); // manual down
-    } else {
-      elevator.setSpeed(0.0);
+    if (oi.getRightButton(10)) {
+      hatchGrabber.grab();
+    } else if (oi.getRightButton(Constants.HATCH_RELEASE_BUTTON)) {
+      hatchGrabber.release();
     }
   }
 
@@ -60,13 +47,11 @@ public class DriveWithJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.setSpeed(0.0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

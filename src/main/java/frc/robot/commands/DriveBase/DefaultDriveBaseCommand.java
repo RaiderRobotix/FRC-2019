@@ -5,23 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.BallArm;
+package frc.robot.commands.DriveBase;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Constants;
 import frc.robot.OperatorInterface;
-import frc.robot.subsystems.BallArm;
+import frc.robot.subsystems.DriveBase;
 
-public class DefaultBallArmCommand extends Command {
+public class DefaultDriveBaseCommand extends Command {
 
-  private BallArm ballArm;
+  private DriveBase drives;
   private OperatorInterface oi;
 
-  public DefaultBallArmCommand() {
+  public DefaultDriveBaseCommand() {
+    // Use requires() here to declare subsystem dependencies
+    drives = DriveBase.getInstance();
     oi = OperatorInterface.getInstance();
-    ballArm = BallArm.getInstance();
 
-    requires(ballArm);
+    requires(drives);
   }
 
   // Called just before this Command runs the first time
@@ -32,33 +33,12 @@ public class DefaultBallArmCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    drives.setSpeed(-1.0 * oi.getLeftY(), -1.0 * oi.getRightY());
 
     if (oi.getRightButton(Constants.SENSOR_RESET_BUTTON)) {
-      ballArm.resetEncoder();
+      drives.resetGyro();
+      drives.resetEncoders();
     }
-
-    if (oi.getLeftButton(7)) {
-      ballArm.retractBallPopper();
-    }
-
-    if (oi.getOperatorButton(6) && 
-        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristDown(0.7);
-    } else if (oi.getOperatorButton(4) && 
-        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT + Constants.WRIST_TOLERANCE || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristUp(0.7);
-    } else {
-      ballArm.stopWrist();
-    }
-
-    if (oi.getOperatorTrigger()) {
-      ballArm.intake(0.20);
-    } else if (oi.getOperatorButton(2) || oi.getOperatorButton(7)) {
-      ballArm.eject(1.0);
-    } else {
-      ballArm.stopRollers();
-    }
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -70,7 +50,7 @@ public class DefaultBallArmCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    ballArm.stop();
+    drives.setSpeed(0.0);
   }
 
   // Called when another command which requires one or more of the same
