@@ -34,9 +34,7 @@ public class OperatorInterface {
     operator12,
     left6,
     right2,
-    right3,
-    right10,
-    right11;
+    right3;
 
 
   private OperatorInterface() {
@@ -49,8 +47,6 @@ public class OperatorInterface {
 
     right2 = new JoystickButton(rightStick, 2);
     right3 = new JoystickButton(rightStick, 3);
-    right10 = new JoystickButton(rightStick, 10);
-    right11 = new JoystickButton(rightStick, 11);
 
     operator3 = new JoystickButton(operatorStick, 3);
     operator5 = new JoystickButton(operatorStick, 5);
@@ -64,8 +60,6 @@ public class OperatorInterface {
 
     right3.whenPressed(new TiltElevatorForward());
     right2.whenPressed(new TiltElevatorBack());
-    right10.whenPressed(new GrabHatch());
-    right11.whenPressed(new ReleaseHatch());
   
     // operator7.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_HIGH_PRESET));
     // operator9.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_MIDDLE_PRESET));

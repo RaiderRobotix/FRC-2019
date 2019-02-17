@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-
+import frc.robot.commands.HatchGrabber.DefaultHatchGrabberCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -39,7 +39,6 @@ public class HatchGrabber extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new DefaultHatchGrabberCommand());
   }
 }
