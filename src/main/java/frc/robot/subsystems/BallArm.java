@@ -28,6 +28,9 @@ public class BallArm extends Subsystem {
 
   private Encoder wristEncoder;
 
+  private boolean tiltedDown = false;
+  private boolean extended = false;
+
   private BallArm() {
     topRoller = new CANSparkMax(Constants.TOP_ROLLER_CAN_ID, MotorType.kBrushless);
     bottomRoller = new CANSparkMax(Constants.BOTTOM_ROLLER_CAN_ID, MotorType.kBrushless);
@@ -102,22 +105,42 @@ public class BallArm extends Subsystem {
 
   public void extend() {
     mastExtend.set(DoubleSolenoid.Value.kReverse);
+    extended = true;
   }
 
   public void contract() {
     mastExtend.set(DoubleSolenoid.Value.kForward);
+    extended = false;
+  }
+
+  public boolean isExtended() {
+    return this.extended;
   }
 
   public void tiltUp() {
     mastTilt.set(DoubleSolenoid.Value.kReverse);
+    tiltedDown = false;
   }
 
   public void tiltDown() {
     mastTilt.set(DoubleSolenoid.Value.kForward);
+    tiltedDown = true;
   }
 
-  public double getWristEncoder() {
+  public boolean isTiltedDown() {
+    return this.tiltedDown;
+  }
+
+  public double getWristDistance() {
     return wristEncoder.getDistance();
+  }
+
+  public void resetEncoder() {
+    wristEncoder.reset();
+  }
+
+  public boolean encoderValueWithinRange(double position) {
+    return Math.abs(getWristDistance() - position) <= Constants.WRIST_TOLERANCE; 
   }
 
   public ArrayList<String[]> getCanIdFirmwarePairs() {

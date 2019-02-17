@@ -27,16 +27,17 @@ public class OperatorInterface {
   private final JoystickButton 
     operator3,
     operator5,
-    operator7,
-    operator9,
+    // operator7,
+    // operator9,
     operator10,
-    operator11,
+    // operator11,
     operator12,
     left6,
     right2,
     right3,
     right10,
     right11;
+
 
   private OperatorInterface() {
 
@@ -53,10 +54,10 @@ public class OperatorInterface {
 
     operator3 = new JoystickButton(operatorStick, 3);
     operator5 = new JoystickButton(operatorStick, 5);
-    operator7 = new JoystickButton(operatorStick, 7);
-    operator9 = new JoystickButton(operatorStick, 9);
+    // operator7 = new JoystickButton(operatorStick, 7);
+    // operator9 = new JoystickButton(operatorStick, 9);
     operator10 = new JoystickButton(operatorStick, 10);
-    operator11 = new JoystickButton(operatorStick, 11);
+    // operator11 = new JoystickButton(operatorStick, 11);
     operator12 = new JoystickButton(operatorStick, 12);
 
     left6.whenPressed(new PopBallOut());
@@ -65,16 +66,16 @@ public class OperatorInterface {
     right2.whenPressed(new TiltElevatorBack());
     right10.whenPressed(new GrabHatch());
     right11.whenPressed(new ReleaseHatch());
-
-    operator3.whenPressed(new TiltBallArmDown());
-    operator5.whenPressed(new TiltBallArmUp());
   
-    operator7.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_HIGH_PRESET));
-    operator9.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_MIDDLE_PRESET));
-    operator11.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_LOW_PRESET));
+    // operator7.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_HIGH_PRESET));
+    // operator9.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_MIDDLE_PRESET));
+    // operator11.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_LOW_PRESET));
+    
+    operator3.whenPressed(new BallArmLowRocketPosition());
+    operator5.whenPressed(new BallArmMidRocketPosition());
 
-    operator10.whenPressed(new ExtendBallArm());
-    operator12.whenPressed(new ContractBallArm());
+    operator10.whenPressed(new BallArmDefaultPosition());
+    operator12.whenPressed(new BallArmPickUpPosition());
   }
 
   /**

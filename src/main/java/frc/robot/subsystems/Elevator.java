@@ -4,13 +4,13 @@ import frc.robot.Constants;
 import frc.robot.commands.Elevator.DriveWithJoystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import java.util.ArrayList;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Elevator extends Subsystem {
   private enum ElevatorRange {
@@ -32,11 +32,10 @@ public class Elevator extends Subsystem {
   private Solenoid tiltSolenoid;
 
   private Elevator() {
-    this.leftMotor = new CANSparkMax(Constants.LEFT_ELEVATOR_CAN_ID, MotorType.kBrushless);
-    this.rightMotor = new CANSparkMax(Constants.RIGHT_ELEVATOR_CAN_ID, MotorType.kBrushless);
-
-    leftMotor.setInverted(Constants.LEFT_ELEVATOR_INVERTED);
-    rightMotor.setInverted(Constants.RIGHT_ELEVATOR_INVERTED);
+    this.leftMotor = new CANSparkMax(Constants.ELEVATOR_LEFT_CAN_ID, MotorType.kBrushless);    
+		this.rightMotor = new CANSparkMax(Constants.ELEVATOR_RIGHT_CAN_ID, MotorType.kBrushless);
+		
+    leftMotor.follow(rightMotor, true);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
     this.tiltSolenoid.set(false);
@@ -61,7 +60,6 @@ public class Elevator extends Subsystem {
   }
 
   public void setSpeed(double speed) {
-    this.leftMotor.set(speed);
     this.rightMotor.set(speed);
   }
 
@@ -83,28 +81,28 @@ public class Elevator extends Subsystem {
 		// the target it is
 		boolean positionChange = !this.encoderValueWithinRange(targetHeight, Constants.ALLOWED_ELEVATOR_DEVIATION);
 		if (positionChange) {
-			if (movingUp) {
+		 	if (movingUp) {
 				positionDelta = targetHeight - currentHeight;
 
-				if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_START) {
+		 		if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_START) {
 					elevatorRange = ElevatorRange.UP_FAR_FROM_TARGET;
 				} else if (positionDelta > Constants.ELEVATOR_UP_SCALED_RANGE_END) {
 					elevatorRange = ElevatorRange.UP_SCALED_RANGE;
 				} else {
-					elevatorRange = ElevatorRange.UP_NEAR_TARGET;
-				}
-			} else if (movingDown) {
-				positionDelta = currentHeight - targetHeight;
+		 			elevatorRange = ElevatorRange.UP_NEAR_TARGET;
+		 		}
+		 	} else if (movingDown) {
+		 		positionDelta = currentHeight - targetHeight;
 
-				if (positionDelta < 10.0) {
-					elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
-				} else {
-					elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
+		 		if (positionDelta < 10.0) {
+		 			elevatorRange = ElevatorRange.DOWN_NEAR_TARGET;
+		 		} else {
+		 			elevatorRange = ElevatorRange.DOWN_FAR_FROM_TARGET;
 				}
 			}
-		} else {
-			elevatorRange = ElevatorRange.AT_TARGET;
-		}
+		 } else {
+		 	elevatorRange = ElevatorRange.AT_TARGET;
+		 }
 
 		// Set the elevator speed based on its distance from target
 		if (elevatorRange == ElevatorRange.AT_TARGET
@@ -142,16 +140,10 @@ public class Elevator extends Subsystem {
 	}
 
   /**
-   * @return The elevator height, in encoder ticks, scaled appropriately to
-   *         account for the trolley section on the last stage.
+   * @return The elevator height, in inches
    */
   public double getHeight() {
     return this.encoder.getDistance();
-    // TODO: Update constants for new trolley position and use the below logic.
-    // return this.encoder.getPosition() >
-    // Constants.ELEVATOR_DOUBLE_HEIGHT_THRESHOLD
-    // ? 2 * this.encoder.getPosition() - Constants.ELEVATOR_DOUBLE_HEIGHT_THRESHOLD
-    // : this.encoder.getPosition();
   }
 
   public void tiltForward() {
@@ -164,13 +156,13 @@ public class Elevator extends Subsystem {
 
   public void resetEncoder() {
     this.encoder.reset();
-  }
-
+	}
+	
   public ArrayList<String[]> getCanIdFirmwarePairs() {
     ArrayList<String[]> pairs = new ArrayList<String[]>();
-    pairs.add(new String[]{"Elevator CAN ID Left " + Constants.LEFT_ELEVATOR_CAN_ID, this.leftMotor.getFirmwareString()});
-    pairs.add(new String[]{"Elevator CAN ID Right " + Constants.RIGHT_ELEVATOR_CAN_ID, this.rightMotor.getFirmwareString()});
-   return pairs;
+    pairs.add(new String[]{"Elevator CAN ID Left " + Constants.ELEVATOR_LEFT_CAN_ID, this.leftMotor.getFirmwareString()});
+    pairs.add(new String[]{"Elevator CAN ID Right " + Constants.ELEVATOR_RIGHT_CAN_ID, this.rightMotor.getFirmwareString()});
+    return pairs;
   }
 
   @Override

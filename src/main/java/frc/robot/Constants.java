@@ -12,8 +12,8 @@ public final class Constants {
 
   public static final int PCM_CAN_ADDRESS = 0;
 
-  public static final int LEFT_ELEVATOR_CAN_ID = 5;
-  public static final int RIGHT_ELEVATOR_CAN_ID = 6;
+  public static final int ELEVATOR_LEFT_CAN_ID = 9;
+  public static final int ELEVATOR_RIGHT_CAN_ID = 10;
 
   public static final int BOTTOM_ROLLER_CAN_ID = 7;
   public static final int TOP_ROLLER_CAN_ID = 8;
@@ -69,29 +69,36 @@ public final class Constants {
   public static final int ELEVATOR_ENCODER_DIO_B = 1;
   public static boolean ELEVATOR_ENCODER_INVERTED = false;
   
-  public static boolean LEFT_ELEVATOR_INVERTED = true;
-  public static boolean RIGHT_ELEVATOR_INVERTED = !LEFT_ELEVATOR_INVERTED;
-
   // Elevator range and tolerance constants
   public static final double ELEVATOR_UP_SCALED_RANGE_START = 20.0;
   public static final double ELEVATOR_UP_SCALED_RANGE_END
       = 0.5 * ELEVATOR_UP_SCALED_RANGE_START;
-  public static final double ELEVATOR_SCALE_START_SPEED = 0.9;
-  public static final double ELEVATOR_SCALE_END_SPEED = 0.5;
+  public static final double ELEVATOR_SCALE_START_SPEED = 1.0;
+  public static final double ELEVATOR_SCALE_END_SPEED = 0.8;
 
   public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.5;
 
-  public static final double ELEVATOR_DOWN_SPEED_NEAR_TARGET = -0.3;
-  public static final double ELEVATOR_DOWN_SPEED = -0.5;
+  public static final double ELEVATOR_DOWN_SPEED_NEAR_TARGET = -0.8;
+  public static final double ELEVATOR_DOWN_SPEED = -1.0;
   
   public static final double ELEVATOR_LOWER_LIMIT = 0.0;
-  public static final double ELEVATOR_UPPER_LIMIT = 100.0; // TODO
+  public static final double ELEVATOR_UPPER_LIMIT = 100.0; 
   public static final double ALLOWED_ELEVATOR_DEVIATION = 1.0; // in inches
   
-  public static final double ELEVATOR_DOUBLE_HEIGHT_THRESHOLD = 52.0; // TODO: update for trolley
-
   // ELEVATOR PRESET HEIGHT POSITIONS
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
-  public static final double ELEVATOR_MIDDLE_PRESET = 64.0; // TODO
-  public static final double ELEVATOR_HIGH_PRESET = 95.0; // TODOs
+  public static final double ELEVATOR_MIDDLE_PRESET = 60.0; // TODO
+  public static final double ELEVATOR_HIGH_PRESET = 92.5; // TODOs
+
+  // BALL ARM WRIST PRESET POSITIONS
+  public static final double WRIST_PICKUP_POSITION = 244;
+
+  public static final double WRIST_HP_CARGOSHIP_POSITION = 112;
+  public static final double WRIST_MID_ROCKET_POSITION = 80;
+  public static final double WRIST_LOW_SCORE_POSITION = 0;
+  public static final double WRIST_TOLERANCE = 5;
+  public static final double WRIST_LOWER_LIMIT = WRIST_LOW_SCORE_POSITION;
+  public static final double WRIST_UPPER_LIMIT = WRIST_PICKUP_POSITION;
+
+
 }

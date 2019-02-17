@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   private final BallArm ballArm;
   private final DriveBase drives;
   private final Elevator elevator;
+  private final Vision vision;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
     this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
+    this.vision = Vision.getInstance();
   }
 
   @Override
@@ -72,8 +74,8 @@ public class Robot extends TimedRobot {
 
     ArrayList<String[]> subsystemCanIdFirmwarePairs = new ArrayList<>();
     subsystemCanIdFirmwarePairs.addAll(this.drives.getCanIdFirmwarePairs());
-    subsystemCanIdFirmwarePairs.addAll(this.elevator.getCanIdFirmwarePairs());
     subsystemCanIdFirmwarePairs.addAll(this.ballArm.getCanIdFirmwarePairs());
+    subsystemCanIdFirmwarePairs.addAll(this.elevator.getCanIdFirmwarePairs());
     
       for (String[] pair : subsystemCanIdFirmwarePairs) {
         SmartDashboard.putString(pair[0] + " ", pair[1]);
@@ -114,7 +116,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
     SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());
     SmartDashboard.putNumber("Elevator Encoder", this.elevator.getHeight());
-    SmartDashboard.putNumber("Wrist Encoder", this.ballArm.getWristEncoder());
+    SmartDashboard.putNumber("Wrist Encoder", this.ballArm.getWristDistance());
     SmartDashboard.putNumber("Ultrasonic", this.drives.getUltrasonicDistance());
     SmartDashboard.putNumber("Gyro Angle", this.drives.getGyroAngle());
   }
