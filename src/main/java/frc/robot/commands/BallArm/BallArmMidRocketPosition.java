@@ -15,7 +15,7 @@ public class BallArmMidRocketPosition extends CommandGroup {
    * Add your docs here.
    */
   public BallArmMidRocketPosition() {
-    addSequential(new GoToWristPosition(Constants.WRIST_PICKUP_POSITION));
+    addSequential(new GoToWristPosition(Constants.WRIST_MID_ROCKET_POSITION));
     addSequential(new TiltBallArmUp());
     addSequential(new ExtendBallArm());
   }

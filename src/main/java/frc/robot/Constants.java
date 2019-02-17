@@ -92,7 +92,9 @@ public final class Constants {
 
   // BALL ARM WRIST PRESET POSITIONS
   public static final double WRIST_PICKUP_POSITION = 244;
-  public static final double WRIST_MID_SCORE_POSITION = 112;
+
+  public static final double WRIST_HP_CARGOSHIP_POSITION = 112;
+  public static final double WRIST_MID_ROCKET_POSITION = 80;
   public static final double WRIST_LOW_SCORE_POSITION = 0;
   public static final double WRIST_TOLERANCE = 5;
   public static final double WRIST_LOWER_LIMIT = WRIST_LOW_SCORE_POSITION;

@@ -16,7 +16,7 @@ public class BallArmLowRocketPosition extends CommandGroup {
    */
   public BallArmLowRocketPosition() {
     addSequential(new ContractBallArm());
-    addSequential(new TiltBallArmDown());
     addSequential(new GoToWristPosition(Constants.WRIST_LOW_SCORE_POSITION));
+    addSequential(new TiltBallArmDown());
   }
 }
