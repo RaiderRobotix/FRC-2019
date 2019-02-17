@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.robot.commands.Autonomous.CrossHabLineFromLevel1;
 import frc.robot.commands.Autonomous.DoNothing;
+import frc.robot.commands.Autonomous.Level1FrontCargoShip;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
   private final BallArm ballArm;
   private final DriveBase drives;
   private final Elevator elevator;
-  // private final Vision vision;
+  private final Vision vision;
 
   private SendableChooser<Command> autonomousChooser;
   private Command autonomousCommand;
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot {
     this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
-    // this.vision = Vision.getInstance();
+    this.vision = Vision.getInstance();
   }
 
   @Override
@@ -64,6 +65,7 @@ public class Robot extends TimedRobot {
     autonomousChooser = new SendableChooser<Command>();
     autonomousChooser.setDefaultOption("Do Nothing", new DoNothing());
     autonomousChooser.addOption("Cross HAB Level 1", new CrossHabLineFromLevel1());
+    autonomousChooser.addOption("Level 1 Front Cargo Ship", new Level1FrontCargoShip());
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
   }
 
