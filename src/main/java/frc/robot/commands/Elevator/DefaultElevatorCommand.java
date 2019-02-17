@@ -13,12 +13,12 @@ import frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveWithJoystick extends Command {
+public class DefaultElevatorCommand extends Command {
 
   private Elevator elevator;
   private OperatorInterface oi;
 
-  public DriveWithJoystick() {
+  public DefaultElevatorCommand() {
     elevator = Elevator.getInstance();
     oi = OperatorInterface.getInstance();
 

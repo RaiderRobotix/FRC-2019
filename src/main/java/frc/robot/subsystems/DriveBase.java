@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.commands.DriveBase.DriveWithJoysticks;
+import frc.robot.commands.DriveBase.DefaultDriveBaseCommand;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
@@ -128,6 +128,6 @@ public class DriveBase extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new DriveWithJoysticks());
+    setDefaultCommand(new DefaultDriveBaseCommand());
   }
 }
