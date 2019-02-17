@@ -49,7 +49,7 @@ public class DriveBase extends Subsystem {
 
     ultrasonic = new AnalogInput(0);
 
-    navX = new AHRS(Port.kMXP);
+    navX = new AHRS(Port.kUSB1);
     headingYaw = 0.0;
   }
 

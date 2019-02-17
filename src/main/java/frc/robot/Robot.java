@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   private final BallArm ballArm;
   private final DriveBase drives;
   private final Elevator elevator;
-  private final Vision vision;
+  // private final Vision vision;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
     this.ballArm = BallArm.getInstance();
     this.drives = DriveBase.getInstance();
     this.elevator = Elevator.getInstance();
-    this.vision = Vision.getInstance();
+    // this.vision = Vision.getInstance();
   }
 
   @Override
