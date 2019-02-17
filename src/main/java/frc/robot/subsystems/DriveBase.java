@@ -93,7 +93,7 @@ public class DriveBase extends Subsystem {
 		return navX.getAngle() - this.headingYaw;
   }
   
-  public void resetSensors() {
+  public void resetGyro() {
 		headingYaw = navX.getAngle();
 	}
 

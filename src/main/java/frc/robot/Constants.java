@@ -35,6 +35,8 @@ public final class Constants {
   public static final double JOYSTICK_DEADBAND = 0.15;
   public static final int OPERATOR_OVERRIDE_BUTTON = 8;
 
+  public static final int SENSOR_RESET_BUTTON = 9;
+
   /**
    * DRIVEBASE.
    */

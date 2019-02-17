@@ -34,7 +34,7 @@ public class DriveWithJoystick extends Command {
   @Override
   protected void execute() {
 
-    if (oi.getRightButton(9)) {
+    if (oi.getRightButton(Constants.SENSOR_RESET_BUTTON)) {
       elevator.resetEncoder();
     }
 

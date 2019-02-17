@@ -8,6 +8,7 @@
 package frc.robot.commands.DriveBase;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveBase;
 
@@ -33,6 +34,10 @@ public class DriveWithJoysticks extends Command {
   @Override
   protected void execute() {
     drives.setSpeed(oi.getLeftY(), oi.getRightY());
+
+    if (oi.getRightButton(Constants.SENSOR_RESET_BUTTON)) {
+      drives.resetGyro();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
