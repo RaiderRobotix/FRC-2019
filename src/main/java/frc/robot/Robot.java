@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
     ArrayList<String[]> subsystemCanIdFirmwarePairs = new ArrayList<>();
     subsystemCanIdFirmwarePairs.addAll(this.drives.getCanIdFirmwarePairs());
     subsystemCanIdFirmwarePairs.addAll(this.ballArm.getCanIdFirmwarePairs());
+    subsystemCanIdFirmwarePairs.addAll(this.elevator.getCanIdFirmwarePairs());
     
       for (String[] pair : subsystemCanIdFirmwarePairs) {
         SmartDashboard.putString(pair[0] + " ", pair[1]);

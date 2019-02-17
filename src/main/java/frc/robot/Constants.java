@@ -12,7 +12,8 @@ public final class Constants {
 
   public static final int PCM_CAN_ADDRESS = 0;
 
-  public static final int ELEVATOR_PWM = 1;
+  public static final int ELEVATOR_LEFT_CAN_ID = 9;
+  public static final int ELEVATOR_RIGHT_CAN_ID = 10;
 
   public static final int BOTTOM_ROLLER_CAN_ID = 7;
   public static final int TOP_ROLLER_CAN_ID = 8;
@@ -68,8 +69,6 @@ public final class Constants {
   public static final int ELEVATOR_ENCODER_DIO_B = 1;
   public static boolean ELEVATOR_ENCODER_INVERTED = false;
   
-  public static boolean ELEVATOR_INVERTED = false;
-
   // Elevator range and tolerance constants
   public static final double ELEVATOR_UP_SCALED_RANGE_START = 20.0;
   public static final double ELEVATOR_UP_SCALED_RANGE_END
@@ -77,7 +76,7 @@ public final class Constants {
   public static final double ELEVATOR_SCALE_START_SPEED = 1.0;
   public static final double ELEVATOR_SCALE_END_SPEED = 0.8;
 
-  public static final double ELEVATOR_MANUAL_DOWN_RATE = 1.0;
+  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.5;
 
   public static final double ELEVATOR_DOWN_SPEED_NEAR_TARGET = -0.8;
   public static final double ELEVATOR_DOWN_SPEED = -1.0;
