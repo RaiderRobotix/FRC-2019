@@ -17,7 +17,7 @@ public class LeftRocketToHP extends CommandGroup {
    */
   public LeftRocketToHP() {
     addSequential(new DriveStraight(-20, 0.5));
-    addSequential(new Turn(-145, 0.4));
+    addSequential(new Turn(-135, 0.4));
     addSequential(new DriveStraight(120, 0.5));
   }
 }
