@@ -9,10 +9,6 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.DriveBase.DriveStraight;
-import frc.robot.commands.DriveBase.Turn;
-import frc.robot.commands.Elevator.TiltElevatorForward;
-import frc.robot.commands.HatchGrabber.GrabHatch;
 
 public class Level1ToLeftRocketToHP extends CommandGroup {
 
