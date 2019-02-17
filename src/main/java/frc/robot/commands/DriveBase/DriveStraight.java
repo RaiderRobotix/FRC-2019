@@ -36,6 +36,7 @@ public class DriveStraight extends Command {
   protected void initialize() {
     this.isDone = false;
     this.drives.resetEncoders();
+    this.drives.resetGyro();
   }
 
   private double getDistanceTraveledSinceStart() {

@@ -15,6 +15,7 @@ public class Turn extends Command {
 
   private final DriveBase drives;
   private boolean isDone;
+  private boolean turningClockwise;
   double targetAngle;
   double speed;
 
@@ -25,6 +26,7 @@ public class Turn extends Command {
     isDone = false;
     this.targetAngle = angle;
     this.speed = Math.copySign(speed, angle);
+    this.turningClockwise = angle > 0;
   }
 
   // Called just before this Command runs the first time
@@ -37,11 +39,14 @@ public class Turn extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drives.setSpeed(speed, -speed);
-    if (Math.abs(drives.getGyroAngle() - targetAngle) < Constants.TURN_TOLERANCE) {
+    if ((turningClockwise && drives.getGyroAngle() > targetAngle)
+      || (!turningClockwise && drives.getGyroAngle() < targetAngle)
+      || (Math.abs(drives.getGyroAngle() - targetAngle) < Constants.TURN_TOLERANCE)) {
       isDone = true;
       drives.setSpeed(0.0);
       return;
+    } else {
+      drives.setSpeed(speed, -speed);
     }
   }
 
