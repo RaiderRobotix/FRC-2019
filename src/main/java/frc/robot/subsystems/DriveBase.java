@@ -26,6 +26,9 @@ public class DriveBase extends Subsystem {
   private final CANEncoder leftEncoder;
   private final CANEncoder rightEncoder;
 
+  private double leftDistance;
+  private double rightDistance;
+
   private final AnalogInput ultrasonic;
 
   private final AHRS navX;
@@ -46,6 +49,9 @@ public class DriveBase extends Subsystem {
 
     leftEncoder = leftFrontSpark.getEncoder();
     rightEncoder = rightFrontSpark.getEncoder();
+
+    leftDistance = this.getLeftEncoder();
+    rightDistance = this.getRightEncoder();
 
     ultrasonic = new AnalogInput(0);
 
@@ -73,16 +79,29 @@ public class DriveBase extends Subsystem {
     this.rightFrontSpark.set(rightSpeed);
   }
 
+  private double getLeftEncoder() {
+    return (this.leftEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION);
+  }
+
+  private double getRightEncoder() {
+    return (this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION);
+  }
+
+  public double getAverageDistance() {
+    return (getLeftDistance() + getRightDistance()) / 2.0;
+  }
+
   public double getLeftDistance() {
-    return this.leftEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION;
+    return this.getLeftEncoder() - this.leftDistance;
   }
 
   public double getRightDistance() {
-    return this.rightEncoder.getPosition() * Constants.INCHES_PER_REVOLUTION * -1.0;
+    return this.getRightEncoder() - this.rightDistance;
   }
 
-  public double getAverageEncoderDistance() {
-    return (getLeftDistance() + getRightDistance()) / 2.0;
+  public void resetEncoders() {
+    this.leftDistance = this.getLeftEncoder();
+    this.rightDistance = this.getRightEncoder();
   }
 
   public double getUltrasonicDistance() {

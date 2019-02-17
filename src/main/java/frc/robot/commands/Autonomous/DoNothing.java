@@ -5,24 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.DriveBase;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Constants;
-import frc.robot.OperatorInterface;
-import frc.robot.subsystems.DriveBase;
 
-public class DriveWithJoysticks extends Command {
-
-  private DriveBase drives;
-  private OperatorInterface oi;
-
-  public DriveWithJoysticks() {
+public class DoNothing extends Command {
+  public DoNothing() {
     // Use requires() here to declare subsystem dependencies
-    drives = DriveBase.getInstance();
-    oi = OperatorInterface.getInstance();
-
-    requires(drives);
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -33,12 +23,6 @@ public class DriveWithJoysticks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drives.setSpeed(-1.0 * oi.getLeftY(), -1.0 * oi.getRightY());
-
-    if (oi.getRightButton(Constants.SENSOR_RESET_BUTTON)) {
-      drives.resetGyro();
-      drives.resetEncoders();
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,13 +34,11 @@ public class DriveWithJoysticks extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    drives.setSpeed(0.0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

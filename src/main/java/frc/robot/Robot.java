@@ -7,12 +7,15 @@
 
 package frc.robot;
 
+import frc.robot.commands.Autonomous.CrossHabLineFromLevel1;
+import frc.robot.commands.Autonomous.DoNothing;
 import frc.robot.subsystems.*;
-
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.ArrayList;
@@ -34,6 +37,9 @@ public class Robot extends TimedRobot {
   private final Elevator elevator;
   // private final Vision vision;
 
+  private SendableChooser<Command> autonomousChooser;
+  private Command autonomousCommand;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -54,6 +60,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     compressor.start();
+
+    autonomousChooser = new SendableChooser<Command>();
+    autonomousChooser.setDefaultOption("Do Nothing", new DoNothing());
+    autonomousChooser.addOption("Cross HAB Level 1", new CrossHabLineFromLevel1());
+    SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
   }
 
   /**
@@ -66,6 +77,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
+    SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());
+    SmartDashboard.putNumber("Gyro Angle", this.drives.getGyroAngle());
   }
 
   @Override
@@ -96,6 +110,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     super.autonomousInit();
+
+    autonomousCommand = autonomousChooser.getSelected();
+    autonomousCommand.start();
   }
 
   /**
@@ -113,12 +130,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
 
-    SmartDashboard.putNumber("Left Encoder", this.drives.getLeftDistance());
-    SmartDashboard.putNumber("Right Encoder", this.drives.getRightDistance());
     SmartDashboard.putNumber("Elevator Encoder", this.elevator.getHeight());
     SmartDashboard.putNumber("Wrist Encoder", this.ballArm.getWristDistance());
     SmartDashboard.putNumber("Ultrasonic", this.drives.getUltrasonicDistance());
-    SmartDashboard.putNumber("Gyro Angle", this.drives.getGyroAngle());
   }
 
   /**

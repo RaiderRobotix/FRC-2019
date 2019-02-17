@@ -15,15 +15,17 @@ import frc.robot.subsystems.DriveBase;
 public class DriveStraight extends Command {
 
   private DriveBase drives;
+  private boolean goingForward;
   private boolean isDone;
   private double targetDistance;
   private double startSpeed;
-  private double startDistance;
 
   public DriveStraight(double distance, double speed) {
 
     this.targetDistance = distance;
     this.startSpeed = Math.copySign(speed, targetDistance);
+
+    goingForward = targetDistance > 0;
 
     drives = DriveBase.getInstance();
     requires(drives);
@@ -32,12 +34,12 @@ public class DriveStraight extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    this.startDistance = drives.getAverageEncoderDistance();
     this.isDone = false;
+    this.drives.resetEncoders();
   }
 
   private double getDistanceTraveledSinceStart() {
-    return drives.getAverageEncoderDistance() - this.startDistance;
+    return drives.getLeftDistance();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -45,8 +47,10 @@ public class DriveStraight extends Command {
   protected void execute() {
     double leftSpeed = this.startSpeed;
     double rightSpeed = this.startSpeed;
-    if (Math.abs(getDistanceTraveledSinceStart() - this.targetDistance) < 
-      Constants.DRIVE_STRAIGHT_DISTANCE_TOLERANCE) {
+
+    if ((goingForward && (getDistanceTraveledSinceStart() > this.targetDistance)
+      || (!goingForward && (getDistanceTraveledSinceStart() < this.targetDistance))
+      || (Math.abs(getDistanceTraveledSinceStart() - this.targetDistance) < Constants.DRIVE_STRAIGHT_DISTANCE_TOLERANCE))) {
       drives.setSpeed(0.0);
       isDone = true;
       return;
@@ -64,8 +68,12 @@ public class DriveStraight extends Command {
         else
           leftSpeed += Constants.DRIVE_SPEED_CORRECTION;
       }
+
+      drives.setSpeed(leftSpeed, rightSpeed);
+    } else {
       drives.setSpeed(leftSpeed, rightSpeed);
     }
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()

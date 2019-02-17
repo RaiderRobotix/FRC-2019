@@ -31,6 +31,7 @@ public class Turn extends Command {
   @Override
   protected void initialize() {
     isDone = false;
+    drives.resetGyro();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -40,6 +41,7 @@ public class Turn extends Command {
     if (Math.abs(drives.getGyroAngle() - targetAngle) < Constants.TURN_TOLERANCE) {
       isDone = true;
       drives.setSpeed(0.0);
+      return;
     }
   }
 

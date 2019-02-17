@@ -40,13 +40,13 @@ public final class Constants {
   /**
    * DRIVEBASE.
    */
-  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = false;
-  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = true;
+  public static final boolean RIGHT_DRIVE_MOTORS_INVERTED = true;
+  public static final boolean LEFT_DRIVE_MOTORS_INVERTED = false;
   
   // Auto-Driving Constants (in degrees)
   public static final double TURN_TOLERANCE = 1.0;
   public static final double DRIVE_STRAIGHT_ANGLE_TOLERANCE = 1.0;
-  public static final double DRIVE_SPEED_CORRECTION = 0.15;
+  public static final double DRIVE_SPEED_CORRECTION = 0.10;
   public static final double DRIVE_STRAIGHT_DISTANCE_TOLERANCE = 1.0;
   public static final double SLOW_SPEED_WEAK = 0.12;
   public static final double SLOW_SPEED_STRONG = 0.18;
