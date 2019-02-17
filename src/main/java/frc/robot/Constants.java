@@ -36,6 +36,7 @@ public final class Constants {
   public static final int OPERATOR_OVERRIDE_BUTTON = 8;
 
   public static final int SENSOR_RESET_BUTTON = 9;
+  public static final int HATCH_RELEASE_BUTTON = 11;
 
   /**
    * DRIVEBASE.

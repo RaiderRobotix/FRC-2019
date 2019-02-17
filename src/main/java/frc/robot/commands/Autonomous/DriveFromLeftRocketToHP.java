@@ -5,22 +5,22 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.HatchGrabber;
+package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Constants;
 import frc.robot.OperatorInterface;
-import frc.robot.subsystems.HatchGrabber;
+import frc.robot.subsystems.DriveBase;
 
-public class DefaultHatchGrabberCommand extends Command {
+public class DriveFromLeftRocketToHP extends Command {
 
-  private HatchGrabber hatchGrabber;
+  private DriveBase drives;
   private OperatorInterface oi;
 
-  public DefaultHatchGrabberCommand() {
+  public DriveFromLeftRocketToHP() {
     oi = OperatorInterface.getInstance();
-    hatchGrabber = HatchGrabber.getInstance();
-    requires(hatchGrabber);
+    drives = DriveBase.getInstance();
+
+    requires(drives);
   }
 
   // Called just before this Command runs the first time
@@ -31,11 +31,7 @@ public class DefaultHatchGrabberCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (oi.getRightButton(10)) {
-      hatchGrabber.grab();
-    } else if (oi.getRightButton(Constants.HATCH_RELEASE_BUTTON)) {
-      hatchGrabber.release();
-    }
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()

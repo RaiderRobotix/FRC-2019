@@ -10,22 +10,14 @@ package frc.robot.commands.Autonomous;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.DriveBase.DriveStraight;
 import frc.robot.commands.DriveBase.Turn;
-import frc.robot.commands.Elevator.TiltElevatorForward;
-import frc.robot.commands.HatchGrabber.GrabHatch;
 
-public class Level1ToLeftRocket extends CommandGroup {
+public class LeftRocketToHP extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public Level1ToLeftRocket() {
-    addSequential(new NotifyDriver("Wait..."));
-    addSequential(new GrabHatch());
-    addSequential(new TiltElevatorForward());
-    addSequential(new DriveStraight(60.0, 0.5));
-    addSequential(new Turn(-90.0, 0.4));
-    addSequential(new DriveStraight(80.0, 0.5));
-    addSequential(new Turn(60.0, 0.4));
-    addSequential(new DriveStraight(55.0, 0.5));
-    addSequential(new NotifyDriver("DRIVE NOW"));
+  public LeftRocketToHP() {
+    addSequential(new DriveStraight(-20, 0.5));
+    addSequential(new Turn(-145, 0.4));
+    addSequential(new DriveStraight(120, 0.5));
   }
 }
