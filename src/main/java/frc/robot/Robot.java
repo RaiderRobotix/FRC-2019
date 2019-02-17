@@ -7,11 +7,7 @@
 
 package frc.robot;
 
-import frc.robot.commands.Autonomous.CrossHabLineFromLevel1;
-import frc.robot.commands.Autonomous.DoNothing;
-import frc.robot.commands.Autonomous.Level1FrontCargoShip;
-import frc.robot.commands.Autonomous.Level1ToLeftRocket;
-import frc.robot.commands.Autonomous.Level1ToLeftRocketToHP;
+import frc.robot.commands.Autonomous.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -70,6 +66,8 @@ public class Robot extends TimedRobot {
     autonomousChooser.addOption("Level 1 Front Cargo Ship", new Level1FrontCargoShip());
     autonomousChooser.addOption("Level 1 to Left Rocket", new Level1ToLeftRocket());
     autonomousChooser.addOption("Level 1 to Left Rocket to HP", new Level1ToLeftRocketToHP());
+    autonomousChooser.addOption("Level 2 to Left Rocket", new Level2ToLeftRocket());
+    
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
   }
 

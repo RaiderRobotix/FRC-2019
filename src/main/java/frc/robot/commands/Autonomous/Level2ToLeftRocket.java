@@ -7,21 +7,27 @@
 
 package frc.robot.commands.Autonomous;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import frc.robot.commands.DriveBase.DriveStraight;
 import frc.robot.commands.DriveBase.Turn;
 import frc.robot.commands.Elevator.TiltElevatorForward;
 import frc.robot.commands.HatchGrabber.GrabHatch;
 
-public class Level1ToLeftRocketToHP extends CommandGroup {
-
-  private Trigger trigger;
+public class Level2ToLeftRocket extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public Level1ToLeftRocketToHP() {
-    addSequential(new Level1ToLeftRocket());
-    addSequential(new AddHatchReleaseTrigger(new LeftRocketToHP()));
+  public Level2ToLeftRocket() {
+    addSequential(new NotifyDriver("Wait..."));
+    addSequential(new GrabHatch());
+    addSequential(new TimedCommand("Wait", 0.25));
+    addSequential(new TiltElevatorForward());
+    addSequential(new DriveStraight(100.0, 0.75));
+    addSequential(new Turn(-90.0, 0.4));
+    addSequential(new DriveStraight(80.0, 0.5));
+    addSequential(new Turn(60.0, 0.4));
+    addSequential(new DriveStraight(55.0, 0.5));
+    addSequential(new NotifyDriver("DRIVE NOW"));
   }
 }

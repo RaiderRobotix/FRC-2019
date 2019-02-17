@@ -9,6 +9,7 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.DriveBase.DriveStraight;
+import frc.robot.commands.DriveBase.ResetDriveSensors;
 import frc.robot.commands.DriveBase.Turn;
 
 public class LeftRocketToHP extends CommandGroup {
@@ -16,8 +17,9 @@ public class LeftRocketToHP extends CommandGroup {
    * Add your docs here.
    */
   public LeftRocketToHP() {
+    addSequential(new ResetDriveSensors());
     addSequential(new DriveStraight(-20, 0.5));
-    addSequential(new Turn(-135, 0.4));
+    addSequential(new Turn(-155, 0.4));
     addSequential(new DriveStraight(120, 0.5));
   }
 }
