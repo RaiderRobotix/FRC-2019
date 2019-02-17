@@ -17,8 +17,10 @@ public class Level1FrontCargoShip extends CommandGroup {
    * Add your docs here.
    */
   public Level1FrontCargoShip() {
+    addSequential(new NotifyDriver("Wait..."));
     addSequential(new GrabHatch());
     addSequential(new TiltElevatorForward());
-    addSequential(new DriveStraight(127.0, 0.5));
+    addSequential(new DriveStraight(125.0, 0.5));
+    addSequential(new NotifyDriver("DRIVE NOW"));
   }
 }

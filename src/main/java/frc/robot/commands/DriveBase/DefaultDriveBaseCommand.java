@@ -12,12 +12,12 @@ import frc.robot.Constants;
 import frc.robot.OperatorInterface;
 import frc.robot.subsystems.DriveBase;
 
-public class DriveWithJoysticks extends Command {
+public class DefaultDriveBaseCommand extends Command {
 
   private DriveBase drives;
   private OperatorInterface oi;
 
-  public DriveWithJoysticks() {
+  public DefaultDriveBaseCommand() {
     // Use requires() here to declare subsystem dependencies
     drives = DriveBase.getInstance();
     oi = OperatorInterface.getInstance();
