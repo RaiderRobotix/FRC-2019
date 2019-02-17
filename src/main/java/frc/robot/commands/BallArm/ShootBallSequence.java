@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.BallArm;
 
-public class PopBallOut extends Command {
+public class ShootBallSequence extends Command {
 
   private BallArm ballArm;
   private Timer timer;
   private boolean isDone;
 
-  public PopBallOut() {
+  public ShootBallSequence() {
     timer = new Timer();
 
     ballArm = BallArm.getInstance();

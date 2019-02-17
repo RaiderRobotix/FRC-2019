@@ -64,9 +64,19 @@ public class BallArm extends Subsystem {
     bottomRoller.set(-speed);
   }
 
+  public void intake(double topSpeed, double bottomSpeed) {
+    topRoller.set(-topSpeed);
+    bottomRoller.set(bottomSpeed);
+  }
+
   public void eject(double speed) {
     topRoller.set(-speed);
     bottomRoller.set(speed);
+  }
+
+  public void eject(double topSpeed, double bottomSpeed) {
+    topRoller.set(-topSpeed);
+    bottomRoller.set(bottomSpeed);
   }
 
   public void stopRollers() {
