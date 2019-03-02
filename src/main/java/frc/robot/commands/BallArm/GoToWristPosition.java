@@ -7,32 +7,40 @@
 
 package frc.robot.commands.BallArm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.BallArm;
 
 public class GoToWristPosition extends Command {
 
   private final BallArm ballArm;
+  private final Timer timer;
 
   private boolean isDone;
   private final double target;
 
+  private final double TIMEOUT = 1.0;
+
   public GoToWristPosition(double targetPosition) {
     ballArm = BallArm.getInstance();
-    this.target = targetPosition;
     requires(ballArm);
+
+    timer = new Timer();
+    this.target = targetPosition;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     isDone = false;
+    timer.start();
+    timer.reset();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (ballArm.encoderValueWithinRange(target)) {
+    if (timer.get() > TIMEOUT || ballArm.encoderValueWithinRange(target)) {
       isDone = true;
       ballArm.stopWrist();
     } else {
@@ -55,6 +63,7 @@ public class GoToWristPosition extends Command {
   @Override
   protected void end() {
     ballArm.stopWrist();
+    timer.stop();
   }
 
   // Called when another command which requires one or more of the same
