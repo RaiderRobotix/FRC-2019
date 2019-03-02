@@ -64,11 +64,11 @@ public class OperatorInterface {
     // operator9.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_MIDDLE_PRESET));
     // operator11.whenPressed(new RaiseElevatorToHeight(Constants.ELEVATOR_LOW_PRESET));
     
-    operator3.whenPressed(new BallArmLowRocketPosition());
-    operator5.whenPressed(new BallArmMidRocketPosition());
+    operator3.whenPressed(new ContractBallArm());
+    operator5.whenPressed(new ExtendBallArm());
 
-    operator10.whenPressed(new BallArmDefaultPosition());
-    operator12.whenPressed(new BallArmPickUpPosition());
+    operator10.whenPressed(new TiltBallArmUp());
+    operator12.whenPressed(new TiltBallArmDown());
   }
 
   /**
