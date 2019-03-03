@@ -41,12 +41,10 @@ public class DefaultBallArmCommand extends Command {
       ballArm.retractBallPopper();
     }
 
-    if (oi.getOperatorButton(6) && 
-        (ballArm.getWristDistance() < Constants.WRIST_UPPER_LIMIT || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristDown(0.7);
-    } else if (oi.getOperatorButton(4) && 
-        (ballArm.getWristDistance() > Constants.WRIST_LOWER_LIMIT + Constants.WRIST_TOLERANCE || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
-      ballArm.wristUp(0.7);
+    if (oi.getOperatorButton(6)) {
+      ballArm.wristDown(0.8);
+    } else if (oi.getOperatorButton(4)) {
+      ballArm.wristUp(1.0);
     } else {
       ballArm.stopWrist();
     }
@@ -54,7 +52,7 @@ public class DefaultBallArmCommand extends Command {
     if (oi.getOperatorTrigger()) {
       ballArm.intake(0.20);
     } else if (oi.getOperatorButton(2) || oi.getOperatorButton(7)) {
-      ballArm.eject(1.0);
+      ballArm.eject(0.2);
     } else {
       ballArm.stopRollers();
     }

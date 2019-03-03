@@ -120,16 +120,7 @@ public class Elevator extends Subsystem {
 				this.setSpeed(Constants.ELEVATOR_DOWN_SPEED);
 			}
 		} else if (movingUp && (currentHeight < (targetHeight - Constants.ALLOWED_ELEVATOR_DEVIATION))) {
-			if (elevatorRange == ElevatorRange.UP_FAR_FROM_TARGET) {
-				this.setSpeed(Constants.ELEVATOR_SCALE_START_SPEED);
-			} else if (elevatorRange == ElevatorRange.UP_SCALED_RANGE) {
-				double speedDelta = Constants.ELEVATOR_SCALE_START_SPEED - Constants.ELEVATOR_SCALE_END_SPEED;
-				double scaledSpeed = Constants.ELEVATOR_SCALE_END_SPEED + (speedDelta * (positionDelta - Constants.ELEVATOR_UP_SCALED_RANGE_END)
-						/ (Constants.ELEVATOR_UP_SCALED_RANGE_START - Constants.ELEVATOR_UP_SCALED_RANGE_END));
-				this.setSpeed(scaledSpeed);
-			} else if (elevatorRange == ElevatorRange.UP_NEAR_TARGET) {
-				this.setSpeed(Constants.ELEVATOR_SCALE_END_SPEED);
-			}
+			this.setSpeed(1.0);
 		}
 		return false;
   }

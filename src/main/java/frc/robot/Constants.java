@@ -68,8 +68,8 @@ public final class Constants {
   /**
    * ELEVATOR.
    */
-  public static final int ELEVATOR_ENCODER_DIO_A = 0;
-  public static final int ELEVATOR_ENCODER_DIO_B = 1;
+  public static final int ELEVATOR_ENCODER_DIO_A = 4;
+  public static final int ELEVATOR_ENCODER_DIO_B = 5;
   public static boolean ELEVATOR_ENCODER_INVERTED = false;
   
   // Elevator range and tolerance constants
@@ -85,13 +85,13 @@ public final class Constants {
   public static final double ELEVATOR_DOWN_SPEED = -1.0;
   
   public static final double ELEVATOR_LOWER_LIMIT = 0.0;
-  public static final double ELEVATOR_UPPER_LIMIT = 100.0; 
+  public static final double ELEVATOR_UPPER_LIMIT = 96.0; 
   public static final double ALLOWED_ELEVATOR_DEVIATION = 1.0; // in inches
   
   // ELEVATOR PRESET HEIGHT POSITIONS
   public static final double ELEVATOR_LOW_PRESET = 1.0; // TODO
-  public static final double ELEVATOR_MIDDLE_PRESET = 60.0; // TODO
-  public static final double ELEVATOR_HIGH_PRESET = 92.5; // TODOs
+  public static final double ELEVATOR_MIDDLE_PRESET = 56.0; // TODO
+  public static final double ELEVATOR_HIGH_PRESET = 84; // TODOs
 
   // BALL ARM WRIST PRESET POSITIONS
   public static final double WRIST_PICKUP_POSITION = 244;
