@@ -20,7 +20,7 @@ public class RaiseElevatorToHeight extends Command {
   private double targetHeight;
   private boolean isDone;
 
-  private final double TIMEOUT = 3.0;
+  private final double TIMEOUT = 2.0;
 
   public RaiseElevatorToHeight(double height) {
     elevator = Elevator.getInstance();
