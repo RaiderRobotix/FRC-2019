@@ -38,8 +38,16 @@ public class DefaultElevatorCommand extends Command {
       elevator.resetEncoder();
     }
 
+    if (oi.getOperatorButton(9)) {
+      elevator.setUpperLimit(Constants.ELEVATOR_MIDDLE_PRESET);
+    } else if (oi.getOperatorButton(7)) {
+      elevator.setUpperLimit(Constants.ELEVATOR_HIGH_PRESET);
+    } else {
+      elevator.setUpperLimit(Constants.ELEVATOR_UPPER_LIMIT);
+    }
+
     if (oi.getOperatorY() > Constants.JOYSTICK_DEADBAND
-        && (elevator.getHeight() <= Constants.ELEVATOR_UPPER_LIMIT
+        && (elevator.getHeight() <= elevator.getUpperLimit()
             || oi.getOperatorButton(Constants.OPERATOR_OVERRIDE_BUTTON))) {
       elevator.setSpeed(oi.getOperatorY()); // manual up
     } else if (oi.getOperatorY() < -1.0 * Constants.JOYSTICK_DEADBAND

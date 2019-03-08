@@ -29,7 +29,9 @@ public class Elevator extends Subsystem {
 
   private final Encoder encoder;
 
-  private Solenoid tiltSolenoid;
+	private Solenoid tiltSolenoid;
+	
+	private double upperLimit;
 
   private Elevator() {
     this.leftMotor = new CANSparkMax(Constants.ELEVATOR_LEFT_CAN_ID, MotorType.kBrushless);    
@@ -38,7 +40,9 @@ public class Elevator extends Subsystem {
     leftMotor.follow(rightMotor, true);
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
-    this.tiltSolenoid.set(false);
+		this.tiltSolenoid.set(false);
+		
+		this.upperLimit = Constants.ELEVATOR_UPPER_LIMIT;
 
     encoder = new Encoder(
       Constants.ELEVATOR_ENCODER_DIO_A, 
@@ -61,7 +65,17 @@ public class Elevator extends Subsystem {
 
   public void setSpeed(double speed) {
     this.rightMotor.set(speed);
-  }
+	}
+	
+	public double getUpperLimit()
+	{
+		return this.upperLimit;
+	}
+
+	public void setUpperLimit(double height) 
+	{
+		this.upperLimit = height;
+	}
 
   /**
 	 * Function to go to desired preset height based on 2011 mast code.
