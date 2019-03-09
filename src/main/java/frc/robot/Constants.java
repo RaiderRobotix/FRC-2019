@@ -68,8 +68,8 @@ public final class Constants {
   /**
    * ELEVATOR.
    */
-  public static final int ELEVATOR_ENCODER_DIO_A = 4;
-  public static final int ELEVATOR_ENCODER_DIO_B = 5;
+  public static final int ELEVATOR_ENCODER_DIO_A = 0;
+  public static final int ELEVATOR_ENCODER_DIO_B = 1;
   public static boolean ELEVATOR_ENCODER_INVERTED = false;
   
   // Elevator range and tolerance constants
@@ -79,7 +79,7 @@ public final class Constants {
   public static final double ELEVATOR_SCALE_START_SPEED = 1.0;
   public static final double ELEVATOR_SCALE_END_SPEED = 0.8;
 
-  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.5;
+  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.65;
 
   public static final double ELEVATOR_DOWN_SPEED_NEAR_TARGET = -0.8;
   public static final double ELEVATOR_DOWN_SPEED = -1.0;
