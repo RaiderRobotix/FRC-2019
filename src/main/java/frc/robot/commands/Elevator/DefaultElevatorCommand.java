@@ -38,9 +38,9 @@ public class DefaultElevatorCommand extends Command {
       elevator.resetEncoder();
     }
 
-    if (oi.getOperatorButton(9)) {
+    if (oi.getOperatorButton(11)) {
       elevator.setUpperLimit(Constants.ELEVATOR_MIDDLE_PRESET);
-    } else if (oi.getOperatorButton(7)) {
+    } else if (oi.getOperatorButton(9)) {
       elevator.setUpperLimit(Constants.ELEVATOR_HIGH_PRESET);
     } else {
       elevator.setUpperLimit(Constants.ELEVATOR_UPPER_LIMIT);

@@ -51,7 +51,7 @@ public class DefaultBallArmCommand extends Command {
 
     if (oi.getOperatorTrigger()) {
       ballArm.intake(0.20);
-    } else if (oi.getOperatorButton(2) || oi.getOperatorButton(7)) {
+    } else if (oi.getOperatorButton(2)) {
       ballArm.eject(0.2);
     } else {
       ballArm.stopRollers();
