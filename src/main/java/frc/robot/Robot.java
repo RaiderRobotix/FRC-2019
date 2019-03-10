@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
     autonomousChooser.addOption("Level 1 to Left Rocket", new Level1ToLeftRocket());
     autonomousChooser.addOption("Level 1 to Left Rocket to HP", new Level1ToLeftRocketToHP());
     autonomousChooser.addOption("Level 2 to Left Rocket", new Level2ToLeftRocket());
+    autonomousChooser.addOption("Level 2 to Center", new Level2ToCenter());
     
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
   }
