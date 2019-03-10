@@ -79,7 +79,7 @@ public final class Constants {
   public static final double ELEVATOR_SCALE_START_SPEED = 1.0;
   public static final double ELEVATOR_SCALE_END_SPEED = 0.8;
 
-  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.65;
+  public static final double ELEVATOR_MANUAL_DOWN_RATE = 0.40;
 
   public static final double ELEVATOR_DOWN_SPEED_NEAR_TARGET = -0.8;
   public static final double ELEVATOR_DOWN_SPEED = -1.0;

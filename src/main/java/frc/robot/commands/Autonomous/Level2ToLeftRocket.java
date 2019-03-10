@@ -22,8 +22,10 @@ public class Level2ToLeftRocket extends CommandGroup {
     addSequential(new NotifyDriver("Wait..."));
     addSequential(new GrabHatch());
     addSequential(new TimedCommand("Wait", 0.25));
-    addSequential(new TiltElevatorForward());
     addSequential(new DriveStraight(100.0, 0.75));
+    addSequential(new TimedCommand("Wait", 0.50));
+    addSequential(new TiltElevatorForward());
+    addSequential(new TimedCommand("Wait", 1.0));
     addSequential(new Turn(-90.0, 0.4));
     addSequential(new DriveStraight(80.0, 0.5));
     addSequential(new Turn(60.0, 0.4));
