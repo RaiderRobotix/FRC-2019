@@ -61,9 +61,6 @@ public final class Constants {
   private static final double GEAR_RATIO = 0.047619; //0.0714286;
   public static final double INCHES_PER_REVOLUTION = GEAR_RATIO * TIRE_CIRCUMFERENCE;
   //public static final double INCHES_PER_COUNT = INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
-  public static final double ELEVATOR_INCHES_PER_REVOLUTION = 29.125;
-   public static final double ELEVATOR_INCHES_PER_COUNT
-       = ELEVATOR_INCHES_PER_REVOLUTION / COUNTS_PER_REVOLUTION;
 
   /**
    * ELEVATOR.
