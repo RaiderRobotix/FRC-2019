@@ -30,14 +30,13 @@ public class Elevator extends Subsystem {
   private final CANSparkMax leftMotor;
   private final CANSparkMax rightMotor;
   
-  private final CANEncoder leftEncoder;
   private final CANEncoder rightEncoder;
 
   private Solenoid tiltSolenoid;
 
   private Elevator() {
     this.leftMotor = new CANSparkMax(Constants.ELEVATOR_LEFT_CAN_ID, MotorType.kBrushless);    
-		this.rightMotor = new CANSparkMax(Constants.ELEVATOR_RIGHT_CAN_ID, MotorType.kBrushless);
+    this.rightMotor = new CANSparkMax(Constants.ELEVATOR_RIGHT_CAN_ID, MotorType.kBrushless);
 		
     leftMotor.follow(rightMotor, true);
 
@@ -45,10 +44,8 @@ public class Elevator extends Subsystem {
     this.tiltSolenoid.set(false);
     
     rightEncoder = rightMotor.getEncoder();
-    leftEncoder = leftMotor.getEncoder();
     
     rightEncoder.setPositionConversionFactor(INCHES_PER_REVOLUTION);
-    leftEncoder.setPositionConversionFactor(INCHES_PER_REVOLUTION);    
   }
 
   /**
@@ -137,7 +134,7 @@ public class Elevator extends Subsystem {
    * @return The elevator height, in inches
    */
   public double getHeight() {
-    return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
+    return rightEncoder.getPosition();
   }
 
   public void tiltForward() {
@@ -150,7 +147,6 @@ public class Elevator extends Subsystem {
 
   public void resetEncoder() {
 	rightEncoder.setPosition(0);
-	leftEncoder.setPosition(0);
   }
 	
   public ArrayList<String[]> getCanIdFirmwarePairs() {
