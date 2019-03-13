@@ -4,15 +4,18 @@ import frc.robot.Constants;
 import frc.robot.commands.Elevator.DefaultElevatorCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 
 import java.util.ArrayList;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Elevator extends Subsystem {
+	
+  private final double INCHES_PER_REVOLUTION = 29.125; // TODO
+  
   private enum ElevatorRange {
 		AT_TARGET, 
 		UP_FAR_FROM_TARGET, 
@@ -26,8 +29,9 @@ public class Elevator extends Subsystem {
 
   private final CANSparkMax leftMotor;
   private final CANSparkMax rightMotor;
-
-  private final Encoder encoder;
+  
+  private final CANEncoder leftEncoder;
+  private final CANEncoder rightEncoder;
 
   private Solenoid tiltSolenoid;
 
@@ -39,13 +43,12 @@ public class Elevator extends Subsystem {
 
     this.tiltSolenoid = new Solenoid(Constants.PCM_CAN_ADDRESS, Constants.ELEVATOR_TILT_SOLENOID);
     this.tiltSolenoid.set(false);
-
-    encoder = new Encoder(
-      Constants.ELEVATOR_ENCODER_DIO_A, 
-      Constants.ELEVATOR_ENCODER_DIO_B, 
-      Constants.ELEVATOR_ENCODER_INVERTED
-      );
-    encoder.setDistancePerPulse(Constants.ELEVATOR_INCHES_PER_COUNT);
+    
+    rightEncoder = rightMotor.getEncoder();
+    leftEncoder = leftMotor.getEncoder();
+    
+    rightEncoder.setPositionConversionFactor(INCHES_PER_REVOLUTION);
+    leftEncoder.setPositionConversionFactor(INCHES_PER_REVOLUTION);    
   }
 
   /**
@@ -134,7 +137,7 @@ public class Elevator extends Subsystem {
    * @return The elevator height, in inches
    */
   public double getHeight() {
-    return this.encoder.getDistance();
+    return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
   }
 
   public void tiltForward() {
@@ -146,8 +149,9 @@ public class Elevator extends Subsystem {
   }
 
   public void resetEncoder() {
-    this.encoder.reset();
-	}
+	rightEncoder.setPosition(0);
+	leftEncoder.setPosition(0);
+  }
 	
   public ArrayList<String[]> getCanIdFirmwarePairs() {
     ArrayList<String[]> pairs = new ArrayList<String[]>();
