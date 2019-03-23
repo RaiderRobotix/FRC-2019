@@ -94,12 +94,12 @@ public class BallArm extends Subsystem {
 
   public void wristDown(double speed)
   {
-    wrist.set(-speed);
+    wrist.set(speed);
   }
 
   public void wristUp(double speed)
   {
-    wrist.set(speed);
+    wrist.set(-speed);
   }
 
   public void stopWrist()
